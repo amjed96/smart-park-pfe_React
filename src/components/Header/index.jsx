@@ -11,6 +11,8 @@ import profil from '../../assets/profil.jpg'
 const StyledHeader = styled.div`
     display: flex;
     margin: 0px;
+    position: relative;
+    z-index: 1;
 `
 
 const Logo = styled.div`
