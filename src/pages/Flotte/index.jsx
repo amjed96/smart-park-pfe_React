@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import AjoutFlotte from '../../components/AddFlotteForm'
+import { useState } from 'react'
 
 const Title = styled.span`
     color: #000;
@@ -110,6 +112,12 @@ const TableCont = styled.div`
     text-align: left;
     border-collapse: collapse;
     table-layout: auto;
+  }
+
+  tr:not(:first-of-type) {
+    &:hover {
+      background-color: #E5E5E5;
+    }
   }
 
   th {
@@ -247,6 +255,8 @@ div {
 `
 
 function Flotte() {
+    const [ btnPopup, setBtnPopup ] = useState(false)
+
     return (
       <Container>
         <Header>
@@ -284,7 +294,7 @@ function Flotte() {
         </CardCont>
         <TableCont>
             <caption>Liste des véhicules</caption><br/>
-            <AddBtn>+ Ajouter</AddBtn>
+            <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
             <SearchInput placeholder='Rechercher ...'/>
             <br/>
             <br/>
@@ -314,7 +324,7 @@ function Flotte() {
                 <td className='action-btns'>
                   {/* <span className='details'>Détails</span> */}
                   <ActionButtonEdit>
-                    <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
+                    <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
                   </ActionButtonEdit>
                   <ActionButtonDelete>
                     <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
@@ -377,6 +387,7 @@ function Flotte() {
             </div>
           </Pagination>
         </TableCont>
+        <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
       </Container>
     )
   }
