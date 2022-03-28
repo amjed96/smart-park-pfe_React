@@ -301,6 +301,7 @@ function Flotte() {
             <table>
               <tbody>
               <tr>
+                <th></th>
                 <th>#</th>
                 <th>Kilométrage</th>
                 <th>Engin</th>
@@ -313,6 +314,9 @@ function Flotte() {
               </tr>
 
               <tr>
+                <td>
+                  <input type='checkbox' />
+                </td>
                 <td>1</td>
                 <td>120532</td>
                 <td>Essence</td>
@@ -333,6 +337,9 @@ function Flotte() {
               </tr>
 
               <tr>
+                <td>
+                  <input type='checkbox' />
+                </td>
                 <td>1</td>
                 <td>120532</td>
                 <td>Essence</td>
@@ -353,6 +360,9 @@ function Flotte() {
               </tr>
 
               <tr>
+                <td>
+                  <input type='checkbox' />
+                </td>
                 <td>1</td>
                 <td>120532</td>
                 <td>Essence</td>

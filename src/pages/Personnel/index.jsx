@@ -46,7 +46,7 @@ const Header = styled.div`
 const TableCont = styled.div`
   box-sizing: border-box;
   background-color: #FFF;
-  width: 60%;
+  width: 69%;
   padding: 15px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
   font-family: 'Montserrat', sans-serif;
@@ -66,6 +66,7 @@ const TableCont = styled.div`
     text-align: left;
     border-collapse: collapse;
     table-layout: auto;
+    font-size: 14px;
   }
 
   tr:not(:first-of-type) {
@@ -174,44 +175,44 @@ background-color: #f12559;
 `
 
 const Pagination = styled.div`
-display: flex;
-justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 
-div {
-display: flex;
-justify-content: center;
-align-items: center;
-font-weight: bold;
-color: #6D52ED;
-border-radius: 10px;
-width: 25%;
-padding: 5px;
-margin: 5px;
+  div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #6D52ED;
+  border-radius: 10px;
+  width: 25%;
+  padding: 5px;
+  margin: 5px;
 
-span {
-display: inline-block;
-text-align: center;
-height: 20px;
-width: 20px;
-margin: 5px;
-border-radius: 2px;
-  &:hover {
+  span {
+  display: inline-block;
+  text-align: center;
+  height: 20px;
+  width: 20px;
+  margin: 5px;
+  border-radius: 2px;
+    &:hover {
+      background-color: #6D52ED;
+      color: #FFF;
+    }
+  }
+
+.selected,.ext {
     background-color: #6D52ED;
     color: #FFF;
   }
-}
-
-.selected,.ext {
-background-color: #6D52ED;
-color: #FFF;
-}
 }
 `
 
 const RecentActivity = styled.div`
   box-sizing: border-box;
   background-color: #FFF;
-  width: 39%;
+  width: 30%;
   padding: 0px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
   font-family: 'Montserrat', sans-serif;
@@ -269,20 +270,26 @@ function Personnel() {
                 <th>#</th>
                 <th>Nom</th>
                 <th>Prénom</th>
+                <th>Date naissance</th>
+                <th>Téléphone</th>
                 <th>CIN</th>
-                <th>Poste</th>
+                <th>Qualification</th>
                 <th>Salaire</th>
+                <th>Type permis</th>
                 <th>Actions</th>
               </tr>
 
               <tr>
                 <td><input type='checkbox' /></td>
                 <td>1</td>
-                <td>120532</td>
-                <td>Essence</td>
+                <td>Mohamed</td>
+                <td>Bouallegui</td>
+                <td>10/10/1996</td>
+                <td>92350393</td>
+                <td>12121212</td>
+                <td>Mécanicien</td>
                 <td>10.000</td>
-                <td>10.000</td>
-                <td>3</td>
+                <td>C</td>
                 <td className='action-btns'>
                   {/* <span className='details'>Détails</span> */}
                   <ActionButtonEdit>
