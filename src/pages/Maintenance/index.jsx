@@ -1,8 +1,18 @@
+import styled from 'styled-components'
+
+const Contenu = styled.div`
+  color: red;
+  background-color: white;
+`
+
 function Maintenance() {
+
+
+
     return (
-      <div>
+      <Contenu>
         Maintenance
-      </div>
+      </Contenu>
     );
   }
   

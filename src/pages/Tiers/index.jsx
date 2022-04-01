@@ -1,9 +1,17 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
-import AjoutFlotte from '../../components/AddFlotteForm'
+import {faArrowUpRightFromSquare, faPenToSquare} from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
+import AjoutClient from '../../components/AddClientForm'
 import {Link, useRouteMatch} from "react-router-dom";
+
+const Title = styled.span`
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px; 
+    font-weight: bolder;
+`
 
 const Container = styled.div`
   margin: 0px;
@@ -24,56 +32,63 @@ const AddBtn = styled.button`
   cursor: pointer;
 `
 
-const CardCont = styled.div`
+const Header = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin: 20px 0;
-  box-sizing: border-box;
+  margin: 15px 0;
 `
 
-const Card = styled.div`
-  box-sizing: border-box;
-  flex-basis: 23%;
-  background-color: #FFF;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
-  padding: 20px;
-  /*font-family: 'Montserrat', sans-serif;*/
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
-  border-bottom: 2px solid #373B54;
-  /*font-weight: bold;*/
+// const CardCont = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   width: 100%;
+//   margin: 20px 0;
+//   box-sizing: border-box;
+// `
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 25px;
-  }
+// const Card = styled.div`
+//   box-sizing: border-box;
+//   flex-basis: 23%;
+//   background-color: #FFF;
+//   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
+//   padding: 20px;
+//   /*font-family: 'Montserrat', sans-serif;*/
+//   font-family: 'Bebas Neue';
+//   font-size: 18px;
+//   border-bottom: 2px solid #373B54;
+//   /*font-weight: bold;*/
 
-  .title {
-    color: #C4C4C4;
-  }
+//   .header {
+//     display: flex;
+//     justify-content: space-between;
+//     margin-bottom: 25px;
+//   }
 
-  .ratio-total {
-    color: #000;
-  }
+//   .title {
+//     color: #C4C4C4;
+//   }
 
-  .ratio-occ {
-    color: #6D52ED;
-  }
+//   .ratio-total {
+//     color: #000;
+//   }
 
-  .ratio-dispo {
-    color: #4BF2B5;
-  }
+//   .ratio-occ {
+//     color: #6D52ED;
+//   }
 
-  .ratio-panne {
-    color: #F12559;
-  }
+//   .ratio-dispo {
+//     color: #4BF2B5;
+//   }
 
-  .value {
-    color: #000;
-  }
-`
+//   .ratio-panne {
+//     color: #F12559;
+//   }
+
+//   .value {
+//     color: #000;
+//   }
+// `
 
 const TableCont = styled.div`
   box-sizing: border-box;
@@ -82,6 +97,7 @@ const TableCont = styled.div`
   padding: 15px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
   font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
   position: relative;
   border-bottom: 2px solid #373B54;
 
@@ -99,23 +115,23 @@ const TableCont = styled.div`
     border-collapse: collapse;
     table-layout: auto;
   }
+
+  tr:not(:first-of-type) {
+    &:hover {
+      background-color: #E5E5E5;
+    }
+  }
   
   tr:nth-child(odd) {
     background-color: #E5E5E5;
   }
 
-  tr:not(:first-of-type) {
-    &:hover {
-      background-color: #C4C4C4;
-    }
-  }
-
   th {
     color: #FFF;
+    background-color: #00F;
     padding: 10px 0;
     border-bottom:1px solid #E3F1D5;
     font-weight: bolder;
-    background-color: #00F;
   }
 
   td {
@@ -124,17 +140,13 @@ const TableCont = styled.div`
     padding: 7px 5px;
     border-bottom:1px solid #E3F1D5;
   }
-  
-  td .details-icon {
-    color: #6D52ED;
-  }
 
   .etat {
     padding: 5px 10px;
     border-radius: 15px;
   }
 
-  .dispo {
+  .client {
     background-color: #e5fdf4;
     color: #00ed96;
   }
@@ -144,7 +156,7 @@ const TableCont = styled.div`
     color: #f12559;
   }
 
-  .occupe {
+  .fournisseur {
     background-color: #fdf8e9;
     color: #f1be25;
   }
@@ -248,112 +260,55 @@ div {
   }
 }
 `
-/* TO REMOVE */
-/*let Vehicule = {
-    id: 1,
-    nom: "a"
-}*/
-/* END TO REMOVE */
 
-function Flotte() {
+function Clients() {
+
     const [ btnPopup, setBtnPopup ] = useState(false)
     const { url } = useRouteMatch()
-    let id = 1, id1 = 2, id2 = 3;
+    let id = 1;
 
     return (
       <Container>
-        <CardCont>
-          <Card>
-            <div className='header'>
-              <span className='title'>Nombre total</span>
-              <span className='ratio-total'>100%</span>
-            </div>
-            <span className='value'>50</span>
-          </Card>
-          <Card>
-            <div className='header'>
-              <span className='title'>Occupées</span>
-              <span className='ratio-occ'>70%</span>
-            </div>
-            <span className='value'>35</span>
-          </Card>
-          <Card>
-            <div className='header'>
-              <span className='title'>Disponible</span>
-              <span className='ratio-dispo'>20%</span>
-            </div>
-            <span className='value'>10</span>
-          </Card>
-          <Card>
-            <div className='header'>
-              <span className='title'>En panne</span>
-              <span className='ratio-panne'>10%</span>
-            </div>
-            <span className='value'>5</span>
-          </Card>
-        </CardCont>
+        <Header>
+          <Title>Clients</Title>
+        </Header>
         <TableCont>
-            <caption>Liste des véhicules</caption><br/>
+            <caption>Liste des clients</caption><br/>
             <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
             <SearchInput placeholder='Rechercher ...'/>
             <br/>
             <br/>
             <table>
               <tbody>
-                <tr>
-                    <th></th>
-                    <th>#</th>
-                    <th>Matricule</th>
-                    <th>N° de série</th>
-                    <th>Kilométrage</th>
-                    <th>Engin</th>
-                    <th>Consommation</th>
-                    <th>Entretien</th>
-                    <th>Etat</th>
-                    <th>Details</th>
-                    <th>Actions</th>
-                </tr>
-
-                <tr>
-
-                  <td>
-                      <input type='checkbox' />
-                      </td>
-                      <td>1</td>
-                      <td>120TUN5320</td>
-                      <td>00123520</td>
-                      <td>125360</td>
-                      <td>Essence</td>
-                      <td>10.000</td>
-                      <td>3</td>
-                      <td><span className='etat dispo'>Disponible</span></td>
-                      <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                      <td className='action-btns'>
-                    <ActionButtonEdit>
-                      <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                    </ActionButtonEdit>
-                    <ActionButtonDelete>
-                      <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                    </ActionButtonDelete>
-                  </td>
+              <tr>
+                <th></th>
+                <th>Compte</th>
+                <th>Intitulé</th>
+                <th>Abrégé</th>
+                <th>Compte collectif</th>
+                <th>Qualité</th>
+                <th>Interlocuteur</th>
+                <th>Commentaire</th>
+                <th>Détails</th>
+                <th>Actions</th>
               </tr>
 
               <tr>
                 <td>
                   <input type='checkbox' />
                 </td>
-                <td>2</td>
-                <td>120TUN5320</td>
-                <td>00123520</td>
-                <td>125360</td>
-                <td>Essence</td>
-                <td>10.000</td>
-                <td>3</td>
-                <td><span className='etat panne'>En panne</span></td>
-                <td><Link to={`${url}/${id1}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
+                <td>CL00003</td>
+                <td>SATEM</td>
+                <td>SATEM</td>
+                <td>411000</td>
+                <td>(N.D)</td>
+                <td>Mohamed Ben Ali</td>
+                <td>//</td>
+                <td><Link to={`${url}/clients/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                 <td className='action-btns'>
+                  {/* <span className='details'>Détails</span> */}
                   <ActionButtonEdit>
-                    <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
+                    <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
                   </ActionButtonEdit>
                   <ActionButtonDelete>
                     <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
@@ -365,16 +320,16 @@ function Flotte() {
                 <td>
                   <input type='checkbox' />
                 </td>
-                <td>3</td>
-                <td>120TUN5320</td>
-                <td>00123520</td>
-                <td>125360</td>
-                <td>Essence</td>
-                <td>10.000</td>
-                <td>3</td>
-                <td><span className='etat occupe'>Occupé</span></td>
-                <td><Link to={`${url}/${id2}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
+                <td>CL00004</td>
+                <td>DEV-FUTURE</td>
+                <td>DEV-FUTURE</td>
+                <td>411001</td>
+                <td>(N.D)</td>
+                <td>Ouays Bouallegui</td>
+                <td>//</td>
+                <td><Link to={`${url}/clients/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                 <td className='action-btns'>
+                  {/* <span className='details'>Détails</span> */}
                   <ActionButtonEdit>
                     <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
                   </ActionButtonEdit>
@@ -399,9 +354,9 @@ function Flotte() {
             </div>
           </Pagination>
         </TableCont>
-        <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+        <AjoutClient trigger={btnPopup} setTrigger={setBtnPopup} />
       </Container>
     )
   }
   
-  export default Flotte
+  export default Clients

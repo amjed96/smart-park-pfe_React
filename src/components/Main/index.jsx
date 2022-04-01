@@ -5,12 +5,14 @@ import styled from 'styled-components';
 import AchatStock from '../../pages/AchatStock';
 import Dashboard from '../../pages/Dashboard';
 import Finance from '../../pages/Finance';
-import Flotte from '../../pages/Flotte';
 import Garage from '../../pages/Garage';
 import Location from '../../pages/Location';
 import Maintenance from '../../pages/Maintenance';
 import Personnel from '../../pages/Personnel';
 import Transport from '../../pages/Transport';
+import FlotteNav from "../../pages/Flotte/navigation";
+import TiersNav from "../../pages/Tiers/navigation";
+import PersonnelNav from "../../pages/Personnel/navigation";
 
 const MainContent = styled.div`
     flex: 1;
@@ -27,10 +29,10 @@ function Main() {
                     <Dashboard />
                 </Route>
                 <Route path={'/flotte'}>
-                    <Flotte />
+                    <FlotteNav />
                 </Route>
                 <Route path={'/personnel'}>
-                    <Personnel />
+                    <PersonnelNav />
                 </Route>
                 <Route path={'/maintenance'}>
                     <Maintenance />
@@ -49,6 +51,12 @@ function Main() {
                 </Route>
                 <Route path={'/garage'}>
                     <Garage />
+                </Route>
+                <Route path={'/tiers'}>
+                    <TiersNav />
+                </Route>
+                <Route>
+                    ERROR
                 </Route>
             </Switch>
         </MainContent>

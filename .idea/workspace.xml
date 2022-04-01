@@ -2,8 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7418be41-3252-4d95-b138-a5712551f476" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboard/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboard/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AddClientForm/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AddContactForm/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AddFournisseurForm/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Personnel/details.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Personnel/navigation.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Tiers/contacts.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Tiers/detailsClient.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Tiers/detailsContact.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Tiers/detailsFournisseur.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Tiers/fournisseurs.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Tiers/navigation.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navigation/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AchatStock/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AchatStock/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Flotte/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Flotte/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Maintenance/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Maintenance/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Personnel/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Personnel/index.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -13,6 +28,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -25,7 +48,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -35,7 +61,34 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1648397159162</updated>
+      <workItem from="1648734728656" duration="10857000" />
+      <workItem from="1648754826297" duration="16181000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/pages/Flotte/navigation.jsx</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

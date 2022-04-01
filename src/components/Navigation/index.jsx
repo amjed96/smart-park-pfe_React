@@ -11,6 +11,7 @@ import { faCubes } from '@fortawesome/free-solid-svg-icons';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
 import { faWarehouse } from '@fortawesome/free-solid-svg-icons';
+import { faHandshake } from '@fortawesome/free-solid-svg-icons';
 
 const NavMenu = styled.div`
     background-color: #373B54;
@@ -83,7 +84,7 @@ function Navigation() {
     return(
         <NavMenu>
             <ul>
-                <StyledLink to={'/'} class="selected">{/* REMOVE */}<FontAwesomeIcon icon={faGauge} /><span class="link">Tableau de bord</span></StyledLink>
+                <StyledLink to={'/'}><FontAwesomeIcon icon={faGauge} /><span class="link">Tableau de bord</span></StyledLink>
                 <StyledLink to={'/flotte'}><FontAwesomeIcon icon={faTruck} /><span class="link">Flotte</span></StyledLink>
                 <StyledLink to={'/personnel'}><FontAwesomeIcon icon={faUser} /><span class="link">Personnel</span></StyledLink>
                 <StyledLink to={'/maintenance'}><FontAwesomeIcon icon={faWrench} /><span class="link">Maintenance</span></StyledLink>
@@ -92,6 +93,7 @@ function Navigation() {
                 <StyledLink to={'/finance'}><FontAwesomeIcon icon={faCoins} /><span class="link">Finance</span></StyledLink>
                 <StyledLink to={'/location'}><FontAwesomeIcon icon={faKey} /><span class="link">Location</span></StyledLink>
                 <StyledLink to={'/garage'}><FontAwesomeIcon icon={faWarehouse} /><span class="link">Garage</span></StyledLink>
+                <StyledLink to={'/tiers'}><FontAwesomeIcon icon={faHandshake} /><span class="link">Tiers</span></StyledLink>
             </ul>
         </NavMenu>
     );

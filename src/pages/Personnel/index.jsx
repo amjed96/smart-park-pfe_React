@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUpRightFromSquare, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import AjoutPersonne from '../../components/AddPersonnelForm'
 import { useState } from 'react'
+import {Link, useRouteMatch} from "react-router-dom";
 
 const Title = styled.span`
   color: #000;
@@ -66,7 +67,7 @@ const TableCont = styled.div`
     text-align: left;
     border-collapse: collapse;
     table-layout: auto;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   tr:not(:first-of-type) {
@@ -76,7 +77,8 @@ const TableCont = styled.div`
   }
 
   th {
-    color: #C4C4C4;
+    color: #FFF;
+    background-color: #00F;
     padding: 10px 0;
     border-bottom:1px solid #E3F1D5;
     font-weight: bolder;
@@ -87,6 +89,10 @@ const TableCont = styled.div`
     font-family: 'Bebas Neue';
     padding: 7px 5px;
     border-bottom:1px solid #E3F1D5;
+  }
+
+  td .details-icon {
+    color: #6D52ED;
   }
 
   .etat {
@@ -250,12 +256,11 @@ const RecentActivity = styled.div`
 
 function Personnel() {
   const [ btnPopup, setBtnPopup ] = useState(false)
+  const { url } = useRouteMatch()
+  let id = 1
 
   return (
     <Container>
-      <Header>
-        <Title>Personnel</Title>
-      </Header>
       <div className='tab-act-cont'>
         <TableCont>
             <caption>Liste du personnel</caption><br/>
@@ -276,6 +281,7 @@ function Personnel() {
                 <th>Qualification</th>
                 <th>Salaire</th>
                 <th>Type permis</th>
+                <th>Détails</th>
                 <th>Actions</th>
               </tr>
 
@@ -290,8 +296,8 @@ function Personnel() {
                 <td>Mécanicien</td>
                 <td>10.000</td>
                 <td>C</td>
+                <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                 <td className='action-btns'>
-                  {/* <span className='details'>Détails</span> */}
                   <ActionButtonEdit>
                     <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
                   </ActionButtonEdit>
