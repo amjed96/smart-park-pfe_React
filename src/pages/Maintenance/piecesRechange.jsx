@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
-import AjoutFlotte from '../../components/AddFlotteForm'
-import { useState } from 'react'
+import {useState} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import AjoutPieceRechange from "../../components/AddPieceRechange";
 
 const Container = styled.div`
   margin: 0px;
@@ -98,6 +98,7 @@ const TableCont = styled.div`
     text-align: left;
     border-collapse: collapse;
     table-layout: auto;
+    font-size: 16px;
   }
   
   tr:nth-child(odd) {
@@ -127,6 +128,18 @@ const TableCont = styled.div`
   
   td .details-icon {
     color: #6D52ED;
+  }
+  
+  td .matricule {
+    color: cornflowerblue;
+  }
+  
+  td .preventive {
+    color: #00ed96;
+  }
+
+  td .curative {
+    color: #f12559;
   }
 
   .etat {
@@ -249,14 +262,15 @@ div {
 }
 `
 
-function Location() {
+function PiecesRechange() {
+
     const [ btnPopup, setBtnPopup ] = useState(false)
     const { url } = useRouteMatch()
     let id = 1, id1 = 2, id2 = 3;
 
     return (
         <Container>
-            <CardCont>
+            {/*<CardCont>
                 <Card>
                     <div className='header'>
                         <span className='title'>Nombre total</span>
@@ -285,9 +299,9 @@ function Location() {
                     </div>
                     <span className='value'>5</span>
                 </Card>
-            </CardCont>
+            </CardCont>*/}
             <TableCont>
-                <caption>Liste des véhicules à louer</caption><br/>
+                <caption>Liste des pièces de rechange</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
                 <br/>
@@ -296,15 +310,15 @@ function Location() {
                     <tbody>
                     <tr>
                         <th></th>
-                        <th>#</th>
-                        <th>Matricule</th>
-                        <th>N° de série</th>
-                        <th>Kilométrage</th>
-                        <th>Engin</th>
-                        <th>Consommation</th>
-                        <th>Entretien</th>
-                        <th>Etat</th>
-                        <th>Details</th>
+                        <th>Code</th>
+                        <th>Nom</th>
+                        <th>Code Casier</th>
+                        <th>Famille</th>
+                        <th>Catégorie</th>
+                        <th>Unité</th>
+                        <th>Prix</th>
+                        <th>Nombre</th>
+                        <th>Détails</th>
                         <th>Actions</th>
                     </tr>
 
@@ -313,64 +327,18 @@ function Location() {
                         <td>
                             <input type='checkbox' />
                         </td>
-                        <td>1</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat dispo'>Disponible</span></td>
+                        <td>LS867B</td>
+                        <td>Filtre à air</td>
+                        <td>CS002013</td>
+                        <td>Mécanique</td>
+                        <td>Filtres</td>
+                        <td>Pièce</td>
+                        <td>65 D.T</td>
+                        <td>2</td>
                         <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
                                 <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>2</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat panne'>En panne</span></td>
-                        <td><Link to={`${url}/${id1}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>3</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat occupe'>Occupé</span></td>
-                        <td><Link to={`${url}/${id2}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
                             </ActionButtonEdit>
                             <ActionButtonDelete>
                                 <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
@@ -393,9 +361,9 @@ function Location() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutPieceRechange trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
-    )
+    );
 }
 
-export default Location
+export default PiecesRechange

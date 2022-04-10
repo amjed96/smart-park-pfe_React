@@ -113,7 +113,7 @@ const TableCont = styled.div`
     text-align: left;
     border-collapse: collapse;
     table-layout: auto;
-    font-size: 11px;
+    font-size: 14px;
   }
 
   tr:not(:first-of-type) {
@@ -273,7 +273,7 @@ div {
 }
 `
 
-function Transport() {
+function Designation() {
 
     const [ btnPopup, setBtnPopup ] = useState(false)
     const { url } = useRouteMatch()
@@ -282,7 +282,7 @@ function Transport() {
     return (
         <Container>
             <TableCont>
-                <caption>Liste des dossiers de voyage</caption><br/>
+                <caption>Liste des fiches de trajet</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
                 <br/>
@@ -291,19 +291,18 @@ function Transport() {
                     <tbody>
                     <tr>
                         <th></th>
-                        <th>Code</th>
-                        <th>Num°</th>
-                        <th>Réf Aller</th>
-                        <th>Date création</th>
-                        <th>Chauffeur</th>
-                        <th>Véhicule</th>
-                        <th>Remorque</th>
+                        <th>#</th>
+                        <th>Nom</th>
                         <th>Client</th>
-                        <th>Voyage</th>
-                        <th>Date chargement</th>
-                        <th>Date déchargement</th>
-                        <th>Montant HT</th>
-                        <th>Etat</th>
+                        <th>Marchandise</th>
+                        <th>Trajet</th>
+                        <th>Unité</th>
+                        <th>Type prestation</th>
+                        <th>Catégorie</th>
+                        <th>Date début</th>
+                        <th>Date fin</th>
+                        <th>Prix</th>
+                        <th>Prix retour</th>
                         <th>Détails</th>
                         <th>Actions</th>
                     </tr>
@@ -312,48 +311,18 @@ function Transport() {
                         <td>
                             <input type='checkbox' />
                         </td>
-                        <td>VY00002</td>
-                        <td>124450</td>
-                        <td>AL005236</td>
-                        <td>03/04/2022</td>
-                        <td>Jihed Hajlaoui</td>
-                        <td>156TUN2036</td>
-                        <td>172TUN1022</td>
-                        <td>Mohamed Ben Ali</td>
+                        <td>TR00002</td>
+                        <td>Amjed Bouallegui</td>
+                        <td>Ouays Bouallegui</td>
+                        <td>Semoule</td>
                         <td><span className={'blue'}>Tunis-Bizerte</span></td>
+                        <td>Tonne</td>
+                        <td>Transport</td>
+                        <td>Fourgon</td>
                         <td>05/04/2022</td>
                         <td>06/04/2022</td>
-                        <td>400 D.T</td>
-                        <td><span className={'red'}>En cours</span></td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            {/* <span className='details'>Détails</span> */}
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>VY00002</td>
-                        <td>124450</td>
-                        <td>AL005236</td>
-                        <td>03/04/2022</td>
-                        <td>Jihed Hajlaoui</td>
-                        <td>156TUN2036</td>
-                        <td>172TUN1022</td>
-                        <td>Mohamed Ben Ali</td>
-                        <td><span className={'blue'}>Tunis-Bizerte</span></td>
-                        <td>05/04/2022</td>
-                        <td>06/04/2022</td>
-                        <td>400 D.T</td>
-                        <td><span className={'green'}>Facturé</span></td>
+                        <td>5.000 D.T</td>
+                        <td>1.000 D.T</td>
                         <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             {/* <span className='details'>Détails</span> */}
@@ -384,6 +353,6 @@ function Transport() {
             <AjoutFournisseur trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
     );
-  }
-  
-  export default Transport
+}
+
+export default Designation

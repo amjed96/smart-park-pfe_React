@@ -2,17 +2,18 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { Switch } from 'react-router-dom';
 import styled from 'styled-components';
-import AchatStock from '../../pages/AchatStock';
 import Dashboard from '../../pages/Dashboard';
 import Finance from '../../pages/Finance';
 import Garage from '../../pages/Garage';
 import Location from '../../pages/Location';
-import Maintenance from '../../pages/Maintenance';
-import Personnel from '../../pages/Personnel';
-import Transport from '../../pages/Transport';
 import FlotteNav from "../../pages/Flotte/navigation";
 import TiersNav from "../../pages/Tiers/navigation";
 import PersonnelNav from "../../pages/Personnel/navigation";
+import AchatStockNav from "../../pages/AchatStock/navigation";
+import MaintenanceNav from "../../pages/Maintenance/navigation";
+import TransportNav from "../../pages/Transport/navigation";
+import LocationNav from "../../pages/Location/navigation";
+import FinanceNav from "../../pages/Finance/navigation";
 
 const MainContent = styled.div`
     flex: 1;
@@ -35,23 +36,23 @@ function Main() {
                     <PersonnelNav />
                 </Route>
                 <Route path={'/maintenance'}>
-                    <Maintenance />
+                    <MaintenanceNav />
                 </Route>
                 <Route path={'/transport'}>
-                    <Transport />
+                    <TransportNav />
                 </Route>
                 <Route path={'/achat-stock'}>
-                    <AchatStock />
+                    <AchatStockNav />
                 </Route>
                 <Route path={'/finance'}>
-                    <Finance />
+                    <FinanceNav />
                 </Route>
                 <Route path={'/location'}>
-                    <Location />
+                    <LocationNav />
                 </Route>
-                <Route path={'/garage'}>
+                {/*<Route path={'/garage'}>
                     <Garage />
-                </Route>
+                </Route>*/}
                 <Route path={'/tiers'}>
                     <TiersNav />
                 </Route>

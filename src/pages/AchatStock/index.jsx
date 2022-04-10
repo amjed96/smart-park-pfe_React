@@ -121,7 +121,8 @@ const TableCont = styled.div`
   }
 
   th {
-    color: #C4C4C4;
+    color: #FFF;
+    background-color: blue;
     padding: 10px 0;
     border-bottom:1px solid #E3F1D5;
     font-weight: bolder;

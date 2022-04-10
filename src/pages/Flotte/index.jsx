@@ -248,12 +248,6 @@ div {
   }
 }
 `
-/* TO REMOVE */
-/*let Vehicule = {
-    id: 1,
-    nom: "a"
-}*/
-/* END TO REMOVE */
 
 function Flotte() {
     const [ btnPopup, setBtnPopup ] = useState(false)

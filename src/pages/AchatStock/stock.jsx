@@ -1,9 +1,17 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
-import AjoutFlotte from '../../components/AddFlotteForm'
+import {faArrowUpRightFromSquare, faPenToSquare} from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
+import AjoutDocument from '../../components/AddDocumentForm'
 import {Link, useRouteMatch} from "react-router-dom";
+
+const Title = styled.span`
+  color: #000;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: bolder;
+`
 
 const Container = styled.div`
   margin: 0px;
@@ -24,6 +32,13 @@ const AddBtn = styled.button`
   cursor: pointer;
 `
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 15px 0;
+`
+
 const CardCont = styled.div`
   display: flex;
   justify-content: space-between;
@@ -39,7 +54,7 @@ const Card = styled.div`
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
   padding: 20px;
   /*font-family: 'Montserrat', sans-serif;*/
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Bebas Neue';
   font-size: 18px;
   border-bottom: 2px solid #373B54;
   /*font-weight: bold;*/
@@ -58,15 +73,15 @@ const Card = styled.div`
     color: #000;
   }
 
-  .ratio-occ {
+  .ratio-ventes {
     color: #6D52ED;
   }
 
-  .ratio-dispo {
+  .ratio-achats {
     color: #4BF2B5;
   }
 
-  .ratio-panne {
+  .ratio-attente {
     color: #F12559;
   }
 
@@ -99,34 +114,34 @@ const TableCont = styled.div`
     border-collapse: collapse;
     table-layout: auto;
   }
-  
-  tr:nth-child(odd) {
-    background-color: #E5E5E5;
-  }
 
   tr:not(:first-of-type) {
     &:hover {
-      background-color: #C4C4C4;
+      background-color: #E5E5E5;
     }
   }
 
   th {
     color: #FFF;
+    background-color: blue;
     padding: 10px 0;
     border-bottom:1px solid #E3F1D5;
     font-weight: bolder;
-    background-color: #00F;
   }
 
   td {
     color: #000;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Bebas Neue';
     padding: 7px 5px;
     border-bottom:1px solid #E3F1D5;
   }
-  
-  td .details-icon {
-    color: #6D52ED;
+
+  td .green {
+    color: #00ed96;
+  }
+
+  td .red {
+    color: #f12559;
   }
 
   .etat {
@@ -151,7 +166,7 @@ const TableCont = styled.div`
 
   .action-btns {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start;
   }
 
   .details {
@@ -183,6 +198,7 @@ const SearchInput = styled.input`
 const ActionButtonEdit = styled.button`
   width: 30px;
   height: 30px;
+  margin-right: 10px;
   border: 1px solid #2cd2f6;
   background-color: #e9fafe;
   cursor: pointer;
@@ -215,48 +231,48 @@ const ActionButtonDelete = styled.button`
 `
 
 const Pagination = styled.div`
-display: flex;
-justify-content: flex-end;
-
-div {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  color: #6D52ED;
-  border-radius: 10px;
-  width: 25%;
-  padding: 5px;
-  margin: 5px;
+  justify-content: flex-end;
 
-  span {
-    display: inline-block;
-    text-align: center;
-    height: 20px;
-    width: 20px;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #6D52ED;
+    border-radius: 10px;
+    width: 25%;
+    padding: 5px;
     margin: 5px;
-    border-radius: 2px;
-    &:hover {
+
+    span {
+      display: inline-block;
+      text-align: center;
+      height: 20px;
+      width: 20px;
+      margin: 5px;
+      border-radius: 2px;
+      &:hover {
+        background-color: #6D52ED;
+        color: #FFF;
+      }
+    }
+
+    .selected,.ext {
       background-color: #6D52ED;
       color: #FFF;
     }
   }
-
-  .selected,.ext {
-    background-color: #6D52ED;
-    color: #FFF;
-  }
-}
 `
 
-function Location() {
+function Stock() {
     const [ btnPopup, setBtnPopup ] = useState(false)
     const { url } = useRouteMatch()
     let id = 1, id1 = 2, id2 = 3;
 
     return (
         <Container>
-            <CardCont>
+            {/*<CardCont>
                 <Card>
                     <div className='header'>
                         <span className='title'>Nombre total</span>
@@ -266,28 +282,28 @@ function Location() {
                 </Card>
                 <Card>
                     <div className='header'>
-                        <span className='title'>Occupées</span>
-                        <span className='ratio-occ'>70%</span>
+                        <span className='title'>Ventes</span>
+                        <span className='ratio-ventes'>70%</span>
                     </div>
                     <span className='value'>35</span>
                 </Card>
                 <Card>
                     <div className='header'>
-                        <span className='title'>Disponible</span>
-                        <span className='ratio-dispo'>20%</span>
+                        <span className='title'>Achats</span>
+                        <span className='ratio-achats'>20%</span>
                     </div>
                     <span className='value'>10</span>
                 </Card>
                 <Card>
                     <div className='header'>
-                        <span className='title'>En panne</span>
-                        <span className='ratio-panne'>10%</span>
+                        <span className='title'>En attente</span>
+                        <span className='ratio-attente'>10%</span>
                     </div>
                     <span className='value'>5</span>
                 </Card>
-            </CardCont>
+            </CardCont>*/}
             <TableCont>
-                <caption>Liste des véhicules à louer</caption><br/>
+                <caption>Liste de stock</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
                 <br/>
@@ -296,81 +312,32 @@ function Location() {
                     <tbody>
                     <tr>
                         <th></th>
-                        <th>#</th>
-                        <th>Matricule</th>
-                        <th>N° de série</th>
-                        <th>Kilométrage</th>
-                        <th>Engin</th>
-                        <th>Consommation</th>
-                        <th>Entretien</th>
-                        <th>Etat</th>
-                        <th>Details</th>
+                        <th>Réf</th>
+                        <th>Article</th>
+                        <th>Code casier</th>
+                        <th>Catégorie</th>
+                        <th>Date d'achat</th>
+                        <th>Quantité</th>
+                        <th>Unité</th>
+                        <th>Détails</th>
                         <th>Actions</th>
                     </tr>
 
                     <tr>
-
                         <td>
                             <input type='checkbox' />
                         </td>
-                        <td>1</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat dispo'>Disponible</span></td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>2</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat panne'>En panne</span></td>
+                        <td>AR001235</td>
+                        <td>Bougie</td>
+                        <td>CS002456</td>
+                        <td>Mécanique</td>
+                        <td>02-04-2022</td>
+                        <td>10</td>
+                        <td>Pièce</td>
                         <td><Link to={`${url}/${id1}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
-                                <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>3</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat occupe'>Occupé</span></td>
-                        <td><Link to={`${url}/${id2}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
+                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
                             </ActionButtonEdit>
                             <ActionButtonDelete>
                                 <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
@@ -393,9 +360,9 @@ function Location() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutDocument trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
     )
 }
 
-export default Location
+export default Stock

@@ -1,9 +1,9 @@
-import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
-import AjoutFlotte from '../../components/AddFlotteForm'
-import { useState } from 'react'
+import styled from "styled-components";
+import {useState} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import AjoutFlotte from "../../components/AddFlotteForm";
 
 const Container = styled.div`
   margin: 0px;
@@ -80,6 +80,7 @@ const TableCont = styled.div`
   background-color: #FFF;
   width: 100%;
   padding: 15px;
+  margin: 10px 0;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
   font-family: 'Montserrat', sans-serif;
   position: relative;
@@ -127,6 +128,10 @@ const TableCont = styled.div`
   
   td .details-icon {
     color: #6D52ED;
+  }
+  
+  .blue {
+    color: cornflowerblue;
   }
 
   .etat {
@@ -249,14 +254,14 @@ div {
 }
 `
 
-function Location() {
+function ContratsFlotte() {
     const [ btnPopup, setBtnPopup ] = useState(false)
     const { url } = useRouteMatch()
     let id = 1, id1 = 2, id2 = 3;
 
     return (
         <Container>
-            <CardCont>
+            {/*<CardCont>
                 <Card>
                     <div className='header'>
                         <span className='title'>Nombre total</span>
@@ -285,9 +290,9 @@ function Location() {
                     </div>
                     <span className='value'>5</span>
                 </Card>
-            </CardCont>
+            </CardCont>*/}
             <TableCont>
-                <caption>Liste des véhicules à louer</caption><br/>
+                <caption>Contrats de vente</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
                 <br/>
@@ -297,13 +302,14 @@ function Location() {
                     <tr>
                         <th></th>
                         <th>#</th>
+                        <th>Date</th>
+                        <th>Vendeur</th>
                         <th>Matricule</th>
-                        <th>N° de série</th>
-                        <th>Kilométrage</th>
-                        <th>Engin</th>
-                        <th>Consommation</th>
-                        <th>Entretien</th>
-                        <th>Etat</th>
+                        <th>Marque</th>
+                        <th>Modèle</th>
+                        <th>Chassis</th>
+                        <th>Moteur</th>
+                        <th>Prix</th>
                         <th>Details</th>
                         <th>Actions</th>
                     </tr>
@@ -314,13 +320,14 @@ function Location() {
                             <input type='checkbox' />
                         </td>
                         <td>1</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
+                        <td>15-04-2022</td>
+                        <td>Peugeot</td>
+                        <td><span className={'blue'}>120TUN5320</span></td>
+                        <td>Peugeot</td>
+                        <td>Partner</td>
+                        <td>WAUZZZ8V6FA032176</td>
                         <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat dispo'>Disponible</span></td>
+                        <td>16.000 DT</td>
                         <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
@@ -332,45 +339,59 @@ function Location() {
                         </td>
                     </tr>
 
+                    </tbody>
+                </table>
+                <Pagination>
+                    <div>
+                        <span className='ext'>&lt;</span>
+                        <span className='selected'>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>...</span>
+                        <span>5</span>
+                        <span className='ext'>&gt;</span>
+                    </div>
+                </Pagination>
+            </TableCont>
+
+            <TableCont>
+                <caption>Contrats de location</caption><br/>
+                <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
+                <SearchInput placeholder='Rechercher ...'/>
+                <br/>
+                <br/>
+                <table>
+                    <tbody>
                     <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>2</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat panne'>En panne</span></td>
-                        <td><Link to={`${url}/${id1}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
+                        <th></th>
+                        <th>#</th>
+                        <th>Matricule</th>
+                        <th>Date début</th>
+                        <th>Date fin</th>
+                        <th>Marque</th>
+                        <th>Modèle</th>
+                        <th>Prix</th>
+                        <th>Details</th>
+                        <th>Actions</th>
                     </tr>
 
                     <tr>
+
                         <td>
                             <input type='checkbox' />
                         </td>
-                        <td>3</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat occupe'>Occupé</span></td>
-                        <td><Link to={`${url}/${id2}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
+                        <td>1</td>
+                        <td><span className={'blue'}>120TUN5320</span></td>
+                        <td>15-04-2022</td>
+                        <td>15-10-2022</td>
+                        <td>Peugeot</td>
+                        <td>Partner</td>
+                        <td>1.500 DT</td>
+                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
-                                <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
+                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
                             </ActionButtonEdit>
                             <ActionButtonDelete>
                                 <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
@@ -398,4 +419,4 @@ function Location() {
     )
 }
 
-export default Location
+export default ContratsFlotte

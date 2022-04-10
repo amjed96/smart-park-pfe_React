@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import {Link, Route, Switch, useRouteMatch} from "react-router-dom";
-import Flotte from "../Flotte";
-import Details from "../Flotte/details";
 import Personnel from "./index";
 import PersonnelDetails from "./details";
+import Permis from "./permis";
+import Passeports from "./passeports";
+import VisitesMedicales from "./visites";
 
 const Title = styled.span`
     color: #000;
@@ -53,6 +54,18 @@ function PersonnelNav() {
                 <StyledLink to={`${url}`}>
                     <li>Personnel</li>
                 </StyledLink>
+
+                <StyledLink to={`${url}/permis`}>
+                    <li>Permis</li>
+                </StyledLink>
+
+                <StyledLink to={`${url}/passeports`}>
+                    <li>Passeports</li>
+                </StyledLink>
+
+                <StyledLink to={`${url}/visites-médicales`}>
+                    <li>Visites médicales</li>
+                </StyledLink>
             </LinksCont>
 
             <Switch>
@@ -60,9 +73,21 @@ function PersonnelNav() {
                     <Personnel />
                 </Route>
 
-                <Route path={`${path}/:personnelId`}>
-                    <PersonnelDetails />
+                <Route path={`${path}/permis`}>
+                    <Permis />
                 </Route>
+
+                <Route path={`${path}/passeports`}>
+                    <Passeports />
+                </Route>
+
+                <Route path={`${path}/visites-médicales`}>
+                    <VisitesMedicales />
+                </Route>
+
+                {/*<Route path={`${path}/:personnelId`}>
+                    <PersonnelDetails />
+                </Route>*/}
             </Switch>
         </div>
     )

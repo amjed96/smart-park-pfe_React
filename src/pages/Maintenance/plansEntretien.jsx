@@ -1,9 +1,10 @@
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
-import AjoutFlotte from '../../components/AddFlotteForm'
-import { useState } from 'react'
+import {useState} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import AjoutDemande from "../../components/AddDemandeInterventionForm";
+import AjoutPlanEntretien from "../../components/AddPlanEntretien";
 
 const Container = styled.div`
   margin: 0px;
@@ -98,6 +99,7 @@ const TableCont = styled.div`
     text-align: left;
     border-collapse: collapse;
     table-layout: auto;
+    font-size: 16px;
   }
   
   tr:nth-child(odd) {
@@ -127,6 +129,18 @@ const TableCont = styled.div`
   
   td .details-icon {
     color: #6D52ED;
+  }
+  
+  td .matricule {
+    color: cornflowerblue;
+  }
+  
+  td .preventive {
+    color: #00ed96;
+  }
+
+  td .curative {
+    color: #f12559;
   }
 
   .etat {
@@ -249,14 +263,15 @@ div {
 }
 `
 
-function Location() {
+function PlansIntervention() {
+
     const [ btnPopup, setBtnPopup ] = useState(false)
     const { url } = useRouteMatch()
     let id = 1, id1 = 2, id2 = 3;
 
     return (
         <Container>
-            <CardCont>
+            {/*<CardCont>
                 <Card>
                     <div className='header'>
                         <span className='title'>Nombre total</span>
@@ -285,9 +300,9 @@ function Location() {
                     </div>
                     <span className='value'>5</span>
                 </Card>
-            </CardCont>
+            </CardCont>*/}
             <TableCont>
-                <caption>Liste des véhicules à louer</caption><br/>
+                <caption>Liste des plans d'entretien</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
                 <br/>
@@ -297,14 +312,12 @@ function Location() {
                     <tr>
                         <th></th>
                         <th>#</th>
+                        <th>Opération</th>
                         <th>Matricule</th>
-                        <th>N° de série</th>
-                        <th>Kilométrage</th>
-                        <th>Engin</th>
-                        <th>Consommation</th>
-                        <th>Entretien</th>
-                        <th>Etat</th>
-                        <th>Details</th>
+                        <th>Type</th>
+                        <th>Fréquence</th>
+                        <th>Unité</th>
+                        <th>Détails</th>
                         <th>Actions</th>
                     </tr>
 
@@ -313,14 +326,12 @@ function Location() {
                         <td>
                             <input type='checkbox' />
                         </td>
-                        <td>1</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
+                        <td>ET0001</td>
+                        <td>Vidange</td>
+                        <td><span className='matricule'>120TUN5320</span></td>
+                        <td>Vidange</td>
                         <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat dispo'>Disponible</span></td>
+                        <td>Km</td>
                         <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
@@ -336,14 +347,12 @@ function Location() {
                         <td>
                             <input type='checkbox' />
                         </td>
-                        <td>2</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat panne'>En panne</span></td>
+                        <td>ET0002</td>
+                        <td>équilibrage/parallélisme</td>
+                        <td><span className='matricule'>120TUN5320</span></td>
+                        <td>Révision</td>
+                        <td>180</td>
+                        <td>Jour</td>
                         <td><Link to={`${url}/${id1}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
@@ -359,14 +368,12 @@ function Location() {
                         <td>
                             <input type='checkbox' />
                         </td>
-                        <td>3</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat occupe'>Occupé</span></td>
+                        <td>ET0003</td>
+                        <td>Diagnostique moteur</td>
+                        <td><span className='matricule'>120TUN5320</span></td>
+                        <td>Révision</td>
+                        <td>12-01-2023</td>
+                        <td>Date</td>
                         <td><Link to={`${url}/${id2}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
@@ -393,9 +400,9 @@ function Location() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutPlanEntretien trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
-    )
+    );
 }
 
-export default Location
+export default PlansIntervention

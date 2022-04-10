@@ -1,10 +1,8 @@
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
-import Flotte from "./index";
 import styled from "styled-components";
-import AffectationsFlotte from "./affectations";
-import ConsommationFlotte from "./consommation";
-import ContratsFlotte from "./contratsFlotte";
-import FlotteDetails from "./details";
+import Finance from "./index";
+import Encaissements from "./encaissements";
+import PaiementsFournisseur from "./paiementsFournisseur";
 
 const Title = styled.span`
     color: #000;
@@ -40,56 +38,48 @@ const StyledLink = styled(Link)`
   border-bottom: 2px solid #373B54;
 `
 
-function FlotteNav() {
+function FinanceNav() {
 
     const { path, url } = useRouteMatch()
 
     return (
         <div>
             <Header>
-                <Title>Flotte</Title>
+                <Title>Finance</Title>
             </Header>
             <LinksCont>
                 <StyledLink to={`${url}`}>
-                    <li>Flotte</li>
+                    <li>Caisse</li>
                 </StyledLink>
 
-                <StyledLink to={`${url}/affectations`}>
-                    <li>َAffectations</li>
+                <StyledLink to={`${url}/encaiss-client`}>
+                    <li>Encaissements Client</li>
                 </StyledLink>
 
-                <StyledLink to={`${url}/carburant`}>
-                    <li>Consommation</li>
-                </StyledLink>
-
-                <StyledLink to={`${url}/contrats`}>
-                    <li>Contrats</li>
+                <StyledLink to={`${url}/paiement-fournisseur`}>
+                    <li>Paiement Fournisseur</li>
                 </StyledLink>
             </LinksCont>
 
             <Switch>
-                <Route exact path={path}>
-                    <Flotte />
+                <Route exact path={`${path}`}>
+                    <Finance />
                 </Route>
 
-                <Route path={`${url}/affectations`}>
-                    <AffectationsFlotte />
+                <Route path={`${path}/encaiss-client`}>
+                    <Encaissements />
                 </Route>
 
-                <Route path={`${url}/carburant`}>
-                    <ConsommationFlotte />
+                <Route path={`${path}/paiement-fournisseur`}>
+                    <PaiementsFournisseur />
                 </Route>
 
-                <Route path={`${url}/contrats`}>
-                    <ContratsFlotte />
-                </Route>
-
-                <Route exact path={`${path}/:id`}>
-                    <FlotteDetails />
-                </Route>
+                {/*<Route exact path={`${path}/details`}>
+                    <Details />
+                </Route>*/}
             </Switch>
         </div>
     )
 }
 
-export default FlotteNav
+export default FinanceNav

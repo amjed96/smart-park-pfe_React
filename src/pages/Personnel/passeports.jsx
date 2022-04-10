@@ -98,6 +98,7 @@ const TableCont = styled.div`
     text-align: left;
     border-collapse: collapse;
     table-layout: auto;
+    font-size: 12.5px;
   }
   
   tr:nth-child(odd) {
@@ -249,14 +250,14 @@ div {
 }
 `
 
-function Location() {
+function Passeports() {
     const [ btnPopup, setBtnPopup ] = useState(false)
     const { url } = useRouteMatch()
     let id = 1, id1 = 2, id2 = 3;
 
     return (
         <Container>
-            <CardCont>
+            {/*<CardCont>
                 <Card>
                     <div className='header'>
                         <span className='title'>Nombre total</span>
@@ -285,9 +286,9 @@ function Location() {
                     </div>
                     <span className='value'>5</span>
                 </Card>
-            </CardCont>
+            </CardCont>*/}
             <TableCont>
-                <caption>Liste des véhicules à louer</caption><br/>
+                <caption>Liste des permis</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
                 <br/>
@@ -296,14 +297,19 @@ function Location() {
                     <tbody>
                     <tr>
                         <th></th>
-                        <th>#</th>
-                        <th>Matricule</th>
-                        <th>N° de série</th>
-                        <th>Kilométrage</th>
-                        <th>Engin</th>
-                        <th>Consommation</th>
-                        <th>Entretien</th>
-                        <th>Etat</th>
+                        <th>Num°</th>
+                        <th>Type</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Nationalité</th>
+                        <th>Date naissance</th>
+                        <th>AdresseNaissance</th>
+                        <th>Profession</th>
+                        <th>N° national</th>
+                        <th>Sexe</th>
+                        <th>Authorité</th>
+                        <th>Date édition</th>
+                        <th>Date expiration</th>
                         <th>Details</th>
                         <th>Actions</th>
                     </tr>
@@ -313,64 +319,23 @@ function Location() {
                         <td>
                             <input type='checkbox' />
                         </td>
-                        <td>1</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat dispo'>Disponible</span></td>
+                        <td>12CF1235</td>
+                        <td>/</td>
+                        <td>Foulen</td>
+                        <td>Ben Foulen</td>
+                        <td>Tunisienne</td>
+                        <td>12-12-2012</td>
+                        <td>Tunis</td>
+                        <td>Ingénieur</td>
+                        <td>12675540</td>
+                        <td>M</td>
+                        <td>Ministère de l'intérieur</td>
+                        <td>12-03-2015</td>
+                        <td>12-03-2020</td>
                         <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
                                 <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>2</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat panne'>En panne</span></td>
-                        <td><Link to={`${url}/${id1}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>3</td>
-                        <td>120TUN5320</td>
-                        <td>00123520</td>
-                        <td>125360</td>
-                        <td>Essence</td>
-                        <td>10.000</td>
-                        <td>3</td>
-                        <td><span className='etat occupe'>Occupé</span></td>
-                        <td><Link to={`${url}/${id2}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
                             </ActionButtonEdit>
                             <ActionButtonDelete>
                                 <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
@@ -398,4 +363,4 @@ function Location() {
     )
 }
 
-export default Location
+export default Passeports
