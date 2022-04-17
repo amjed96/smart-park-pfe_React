@@ -4,6 +4,7 @@ import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesom
 import AjoutFlotte from '../../components/AddFlotteForm'
 import { useState } from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
+import AjoutPasseport from "../../components/AddPasseportForm";
 
 const Container = styled.div`
   margin: 0px;
@@ -358,7 +359,7 @@ function Passeports() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutPasseport trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
     )
 }

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
-import AjoutFlotte from '../../components/AddFlotteForm'
+import AjoutPermis from '../../components/AddPermisForm'
 import { useState } from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
 
@@ -339,7 +339,7 @@ function Permis() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutPermis trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
     )
 }

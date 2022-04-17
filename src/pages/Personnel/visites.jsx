@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
-import AjoutFlotte from '../../components/AddFlotteForm'
 import { useState } from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
+import AjoutVisiteMedicale from "../../components/AddVisiteMedicaleForm";
 
 const Container = styled.div`
   margin: 0px;
@@ -341,7 +341,7 @@ function VisitesMedicales() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutVisiteMedicale trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
     )
 }

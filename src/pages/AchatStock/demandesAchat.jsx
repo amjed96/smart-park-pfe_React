@@ -5,6 +5,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import AjoutDocument from '../../components/AddDocumentForm'
 import {Link, useRouteMatch} from "react-router-dom";
+import AjoutDemandeAchat from "../../components/AddDemandeAchatForm";
 
 const Title = styled.span`
     color: #000;
@@ -382,7 +383,7 @@ function DemandesAchat() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutDocument trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutDemandeAchat trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
     )
 }

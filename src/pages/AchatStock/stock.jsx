@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowUpRightFromSquare, faPenToSquare} from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
-import AjoutDocument from '../../components/AddDocumentForm'
+import AjoutStock from '../../components/AddStockForm';
 import {Link, useRouteMatch} from "react-router-dom";
 
 const Title = styled.span`
@@ -360,7 +360,7 @@ function Stock() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutDocument trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutStock trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
     )
 }

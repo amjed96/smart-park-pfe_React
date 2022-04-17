@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Truck from '../../assets/truck.png';
+import Profil from '../../assets/profileDefault.jpg'
 
 const Container = styled.div`
   margin: 0px;
@@ -18,6 +19,12 @@ const CardCont = styled.div`
 
 const VehicImg = styled.img`
   height: 100px;
+`
+
+const ProfileImg = styled.img`
+  height: 80px;
+  border: none;
+  border-radius: 50%;
 `
 
 const Card = styled.div`
@@ -74,7 +81,7 @@ const Card = styled.div`
   }
 `
 
-function FlotteDetails() {
+function FlotteAffectationDetails() {
 
     const { flotteId } = useParams()
 
@@ -99,36 +106,28 @@ function FlotteDetails() {
                     <h2 className={'titre'}>Entretien</h2>
                     <span className={'value'}>N/A</span>
                 </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Carte grise</span>
-                    </div>
-                    <h2 className={'titre'}>Immatriculation</h2>
-                    <span className={'value'}>165TUN2533</span>
-                </Card>
 
                 <Card>
                     <div className='header'>
-                        <span className='title'>Contrat de vente</span>
+                        <span className='title'>Chauffeur</span>
                     </div>
-                    <h2 className={'titre'}>Immatriculation</h2>
-                    <span className={'value'}>165TUN2533</span>
-                    <h2 className={'titre'}>Date</h2>
-                    <span className={'value'}>10-09-2021</span>
-                    <h2 className={'titre'}>Marque</h2>
-                    <span className={'value'}>Iveco</span>
-                    <h2 className={'titre'}>Modèle</h2>
-                    <span className={'value'}>Iveco</span>
-                    <h2 className={'titre'}>Chassis</h2>
-                    <span className={'value'}>123FE5164</span>
-                    <h2 className={'titre'}>Moteur</h2>
-                    <span className={'value'}>Essence</span>
-                    <h2 className={'titre'}>Prix</h2>
-                    <span className={'value'}>50 000 D.T</span>
+                    <ProfileImg alt={'profil'} src={Profil} />
+                    <h2 className={'titre'}>Nom</h2>
+                    <span className={'value'}>Ben Ali</span>
+                    <h2 className={'titre'}>Prénom</h2>
+                    <span className={'value'}>Mohamed</span>
+                    <h2 className={'titre'}>Date de naissance</h2>
+                    <span className={'value'}>10-05-1986</span>
+                    <h2 className={'titre'}>Téléphone</h2>
+                    <span className={'value'}>50 505 050</span>
+                    <h2 className={'titre'}>CIN</h2>
+                    <span className={'value'}>02020202</span>
+                    <h2 className={'titre'}>Type permis</h2>
+                    <span className={'value'}>A + B + C + H</span>
                 </Card>
             </CardCont>
         </Container>
     )
 }
 
-export default FlotteDetails
+export default FlotteAffectationDetails

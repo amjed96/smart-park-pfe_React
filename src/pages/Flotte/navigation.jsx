@@ -5,6 +5,7 @@ import AffectationsFlotte from "./affectations";
 import ConsommationFlotte from "./consommation";
 import ContratsFlotte from "./contratsFlotte";
 import FlotteDetails from "./details";
+import FlotteAffectationDetails from "./detailsAffectation";
 
 const Title = styled.span`
     color: #000;
@@ -72,20 +73,24 @@ function FlotteNav() {
                     <Flotte />
                 </Route>
 
-                <Route path={`${url}/affectations`}>
+                <Route exact path={`${path}/affectations`}>
                     <AffectationsFlotte />
                 </Route>
 
-                <Route path={`${url}/carburant`}>
+                <Route path={`${path}/carburant`}>
                     <ConsommationFlotte />
                 </Route>
 
-                <Route path={`${url}/contrats`}>
+                <Route path={`${path}/contrats`}>
                     <ContratsFlotte />
                 </Route>
 
                 <Route exact path={`${path}/:id`}>
                     <FlotteDetails />
+                </Route>
+
+                <Route exact path={`${path}/affectations/:id`}>
+                    <FlotteAffectationDetails/>
                 </Route>
             </Switch>
         </div>

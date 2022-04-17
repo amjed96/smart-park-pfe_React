@@ -85,9 +85,9 @@ function PersonnelNav() {
                     <VisitesMedicales />
                 </Route>
 
-                {/*<Route path={`${path}/:personnelId`}>
+                <Route path={`${path}/:personnelId`}>
                     <PersonnelDetails />
-                </Route>*/}
+                </Route>
             </Switch>
         </div>
     )

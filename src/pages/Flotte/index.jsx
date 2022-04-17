@@ -81,7 +81,7 @@ const TableCont = styled.div`
   width: 100%;
   padding: 15px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
   position: relative;
   border-bottom: 2px solid #373B54;
 
@@ -114,14 +114,16 @@ const TableCont = styled.div`
     color: #FFF;
     padding: 10px 0;
     border-bottom:1px solid #E3F1D5;
-    font-weight: bolder;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
     background-color: #00F;
   }
 
   td {
     color: #000;
-    font-family: 'Bebas Neue', sans-serif;
-    padding: 7px 5px;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    padding: 2px;
     border-bottom:1px solid #E3F1D5;
   }
   
@@ -132,6 +134,7 @@ const TableCont = styled.div`
   .etat {
     padding: 5px 10px;
     border-radius: 15px;
+    font-weight: bold;
   }
 
   .dispo {

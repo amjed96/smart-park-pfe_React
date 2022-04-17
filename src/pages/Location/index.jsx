@@ -4,6 +4,7 @@ import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesom
 import AjoutFlotte from '../../components/AddFlotteForm'
 import { useState } from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
+import AjoutVehiculeLocation from "../../components/AddVehiculeLocationForm";
 
 const Container = styled.div`
   margin: 0px;
@@ -393,7 +394,7 @@ function Location() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutVehiculeLocation trigger={btnPopup} setTrigger={setBtnPopup} />
         </Container>
     )
 }

@@ -4,6 +4,8 @@ import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import AjoutFlotte from "../../components/AddFlotteForm";
+import AjoutContratVente from "../../components/AddContratVente";
+import AjoutContratLocation from "../../components/AddContratLocationFlotteForm";
 
 const Container = styled.div`
   margin: 0px;
@@ -256,41 +258,12 @@ div {
 
 function ContratsFlotte() {
     const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ btnPopup1, setBtnPopup1 ] = useState(false)
     const { url } = useRouteMatch()
     let id = 1, id1 = 2, id2 = 3;
 
     return (
         <Container>
-            {/*<CardCont>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Nombre total</span>
-                        <span className='ratio-total'>100%</span>
-                    </div>
-                    <span className='value'>50</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Occupées</span>
-                        <span className='ratio-occ'>70%</span>
-                    </div>
-                    <span className='value'>35</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Disponible</span>
-                        <span className='ratio-dispo'>20%</span>
-                    </div>
-                    <span className='value'>10</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>En panne</span>
-                        <span className='ratio-panne'>10%</span>
-                    </div>
-                    <span className='value'>5</span>
-                </Card>
-            </CardCont>*/}
             <TableCont>
                 <caption>Contrats de vente</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
@@ -310,7 +283,7 @@ function ContratsFlotte() {
                         <th>Chassis</th>
                         <th>Moteur</th>
                         <th>Prix</th>
-                        <th>Details</th>
+                        {/*<th>Details</th>*/}
                         <th>Actions</th>
                     </tr>
 
@@ -328,7 +301,7 @@ function ContratsFlotte() {
                         <td>WAUZZZ8V6FA032176</td>
                         <td>Essence</td>
                         <td>16.000 DT</td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
+                        {/*<td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>*/}
                         <td className='action-btns'>
                             <ActionButtonEdit>
                                 <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
@@ -357,7 +330,7 @@ function ContratsFlotte() {
 
             <TableCont>
                 <caption>Contrats de location</caption><br/>
-                <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
+                <AddBtn onClick={() => setBtnPopup1(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
                 <br/>
                 <br/>
@@ -391,7 +364,7 @@ function ContratsFlotte() {
                         <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
                             <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                <FontAwesomeIcon onClick={() => setBtnPopup1(true)} icon={ faPenToSquare } className='btn btn-edit' />
                             </ActionButtonEdit>
                             <ActionButtonDelete>
                                 <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
@@ -414,7 +387,8 @@ function ContratsFlotte() {
                     </div>
                 </Pagination>
             </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutContratVente trigger={btnPopup} setTrigger={setBtnPopup} />
+            <AjoutContratLocation trigger={btnPopup1} setTrigger={setBtnPopup1} />
         </Container>
     )
 }
