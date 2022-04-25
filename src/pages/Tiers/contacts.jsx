@@ -4,21 +4,35 @@ import { faArrowUpRightFromSquare, faPenToSquare, faTrashCan } from '@fortawesom
 import { useState } from 'react'
 import AjoutContact from "../../components/AddContactForm";
 import {Link, useRouteMatch} from "react-router-dom";
+import {
+    Button,
+    Paper,
+    Table, TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
 
+/*
 const Title = styled.span`
     color: #000;
     font-family: 'Montserrat', sans-serif;
     font-size: 24px; 
     font-weight: bolder;
 `
+*/
 
 const Container = styled.div`
   margin: 0px;
   padding: 0px;
-  .second {
+  /*.second {
     width: 60%;
-  }
+  }*/
 `
+/*
 
 const AddBtn = styled.button`
   background-color: #4BF2B5;
@@ -40,6 +54,7 @@ const Header = styled.div`
   width: 100%;
   margin: 15px 0;
 `
+*/
 
 // const CardCont = styled.div`
 //   display: flex;
@@ -91,7 +106,7 @@ const Header = styled.div`
 //     color: #000;
 //   }
 // `
-
+/*
 const TableCont = styled.div`
   box-sizing: border-box;
   background-color: #FFF;
@@ -263,17 +278,127 @@ div {
     color: #FFF;
   }
 }
+`*/
+
+/* START MUI */
+
+const AddBtn = styled(Button)`
+  margin: 15px;
+  cursor: pointer;
 `
+
+const StyledTableCell = styled(TableCell)`
+  background-color: darkblue;
+  span {
+    color: white;
+  }
+`
+const RowTableCell = styled(TableCell)`
+  .etat {
+    padding: 5px 10px; !important;
+    border-radius: 15px; !important;
+    font-weight: bold; !important;
+  }
+
+  .dispo {
+    background-color: #e5fdf4; !important;
+    color: #00ed96; !important;
+  }
+
+  .panne {
+    background-color: #fde9ee;
+    color: #f12559;
+  }
+
+  .occupe {
+    background-color: #fdf8e9;
+    color: #f1be25;
+  }
+
+  .action-btns {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .matricule {
+    color: darkblue;
+  }
+  
+  .red {
+    color: #f12559;
+  }
+  
+  .green {
+    color: green;
+  }
+
+  .echeance {
+    color: orangered;
+  }
+`
+const ActionButtonEdit = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #2cd2f6;
+  background-color: #e9fafe;
+  cursor: pointer;
+  &:hover {
+    background-color: #2cd2f6;
+    .btn-edit {
+      color: #FFF;
+    }
+  }
+  .btn-edit {
+    color: #2cd2f6;
+  }
+`
+
+const ActionButtonDelete = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #f12559;
+  background-color: #fde9ee;
+  cursor: pointer;
+  &:hover {
+    background-color: #f12559;
+    .btn-delete {
+      color: #FFF;
+    }
+  }
+  .btn-delete {
+    color: #f12559;
+  }
+`
+
+const data = [
+    {
+        id:'CT0012',
+        type:'Interlocuteur',
+        civilite:'M.',
+        nom:'Messaoudi',
+        prenom:'Iheb',
+        service:'RH',
+        fonction:'Chef département',
+        telephone:'71717171',
+        portable:'92929292',
+        telecopie:'//',
+        skype:'skype96',
+        linkedin:'linkedin96',
+        facebook:'fb fb96',
+        email:'mail.email@email.com',
+    },
+];
+
+/* END MUI */
 
 function Contacts() {
 
-    const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ open, setOpen ] = useState(false)
     const { url } = useRouteMatch()
-    let id = 1;
 
     return (
         <Container>
-            <Header>
+            {/*<Header>
                 <Title>Contacts</Title>
             </Header>
             <TableCont>
@@ -322,7 +447,7 @@ function Contacts() {
                         <td>iheb.messaoudi@esprit.tn</td>
                         <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
                         <td className='action-btns'>
-                            {/* <span className='details'>Détails</span> */}
+                             <span className='details'>Détails</span>
                             <ActionButtonEdit>
                                 <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
                             </ActionButtonEdit>
@@ -347,7 +472,7 @@ function Contacts() {
                     </div>
                 </Pagination>
             </TableCont>
-            <TableCont className='second'> {/* A y penser */}
+            <TableCont className='second'>  A y penser
                 <caption>Liste des contacts par client/fournisseur</caption><br/>
                 <SearchInput placeholder='Rechercher ...'/>
                 <br/>
@@ -390,8 +515,106 @@ function Contacts() {
                         <span className='ext'>&gt;</span>
                     </div>
                 </Pagination>
-            </TableCont>
-            <AjoutContact trigger={btnPopup} setTrigger={setBtnPopup} />
+            </TableCont>*/}
+
+            {/* START MUI */}
+
+            <TableContainer
+                component={Paper}
+                sx={{width: 1155}}
+            >
+                <Typography
+                    sx={{ flex: '1 1 100%', margin: '20px', position: 'relative' }}
+                    variant="h6"
+                    id="tableTitle"
+                    component="div"
+                >
+                    Liste des clients
+                    <AddBtn
+                        sx={{ position: 'absolute', right: '15px'  }}
+                        variant="outlined"
+                        size={"small"}
+                        onClick={() => setOpen(true)}
+                    >
+                        Ajouter +
+                    </AddBtn>
+                </Typography>
+
+                <TextField
+                    sx={{ margin: '5px 20px', width: '50%' }}
+                    id={'search'}
+                    label={'Rechercher ...'}
+                    variant={'outlined'}
+                    size={'small'}
+                >
+
+                </TextField>
+
+                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                    <TableHead>
+                        <TableRow>
+
+                            <StyledTableCell></StyledTableCell>
+                            <StyledTableCell><span>#</span></StyledTableCell>
+                            <StyledTableCell><span>Type</span></StyledTableCell>
+                            <StyledTableCell><span>Civilité</span></StyledTableCell>
+                            <StyledTableCell><span>Nom</span></StyledTableCell>
+                            <StyledTableCell><span>Prénom</span></StyledTableCell>
+                            <StyledTableCell><span>Service</span></StyledTableCell>
+                            <StyledTableCell><span>Fonction</span></StyledTableCell>
+                            <StyledTableCell><span>Téléphone</span></StyledTableCell>
+                            <StyledTableCell><span>Portable</span></StyledTableCell>
+                            <StyledTableCell><span>Télécopie</span></StyledTableCell>
+                            <StyledTableCell><span>Skype</span></StyledTableCell>
+                            <StyledTableCell><span>LinkedIn</span></StyledTableCell>
+                            <StyledTableCell><span>Facebook</span></StyledTableCell>
+                            <StyledTableCell><span>Email</span></StyledTableCell>
+
+                            <StyledTableCell><span>Details</span></StyledTableCell>
+                            <StyledTableCell><span>Actions</span></StyledTableCell>
+
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {data.map((row) =>(
+                            <TableRow hover={true}>
+
+                                <RowTableCell><input type='checkbox' /></RowTableCell>
+                                <RowTableCell>{row.id}</RowTableCell>
+                                <RowTableCell>{row.type}</RowTableCell>
+                                <RowTableCell>{row.civilite}</RowTableCell>
+                                <RowTableCell>{row.nom}</RowTableCell>
+                                <RowTableCell>{row.prenom}</RowTableCell>
+                                <RowTableCell>{row.service}</RowTableCell>
+                                <RowTableCell>{row.fonction}</RowTableCell>
+                                <RowTableCell>{row.telephone}</RowTableCell>
+                                <RowTableCell>{row.portable}</RowTableCell>
+                                <RowTableCell>{row.telecopie}</RowTableCell>
+                                <RowTableCell>{row.skype}</RowTableCell>
+                                <RowTableCell>{row.linkedin}</RowTableCell>
+                                <RowTableCell>{row.facebook}</RowTableCell>
+                                <RowTableCell>{row.email}</RowTableCell>
+
+                                <RowTableCell>
+                                    <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                </RowTableCell>
+                                <RowTableCell>
+                                    <ActionButtonEdit>
+                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                    </ActionButtonEdit>
+                                    <ActionButtonDelete>
+                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                    </ActionButtonDelete>
+                                </RowTableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {/* END MUI */}
+
+            {/*<AjoutContact trigger={btnPopup} setTrigger={setBtnPopup} />*/}
         </Container>
     )
 }

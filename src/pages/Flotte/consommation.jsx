@@ -3,184 +3,61 @@ import {useState} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
-import AjoutFlotte from "../../components/AddFlotteForm";
+
+import {
+    Button,
+    Paper,
+    Table,
+    TableBody, TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
 
 const Container = styled.div`
   margin: 0px;
   padding: 0px;
 `
 
-const AddBtn = styled.button`
-  background-color: #4BF2B5;
-  border: none;
-  color: #FFF;
-  width: 87px;
-  height: 33px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  position: absolute;
-  right: 15px;
+/* START MUI */
+
+const AddBtn = styled(Button)`
+  margin: 15px;
   cursor: pointer;
 `
 
-const CardCont = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin: 20px 0;
-  box-sizing: border-box;
-`
-
-const Card = styled.div`
-  box-sizing: border-box;
-  flex-basis: 23%;
-  background-color: #FFF;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
-  padding: 20px;
-  /*font-family: 'Montserrat', sans-serif;*/
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
-  border-bottom: 2px solid #373B54;
-  /*font-weight: bold;*/
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 25px;
-  }
-
-  .title {
-    color: #C4C4C4;
-  }
-
-  .ratio-total {
-    color: #000;
-  }
-
-  .ratio-occ {
-    color: #6D52ED;
-  }
-
-  .ratio-dispo {
-    color: #4BF2B5;
-  }
-
-  .ratio-panne {
-    color: #F12559;
-  }
-
-  .value {
-    color: #000;
+const StyledTableCell = styled(TableCell)`
+  background-color: darkblue;
+  span {
+    color: white;
   }
 `
-
-const TableCont = styled.div`
-  box-sizing: border-box;
-  background-color: #FFF;
-  width: 100%;
-  padding: 15px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
-  font-family: 'Montserrat', sans-serif;
-  position: relative;
-  border-bottom: 2px solid #373B54;
-
-  caption {
-    text-align: left;
-    padding-bottom: 25px;
-    display: inline-block;
-    font-weight: bolder;
-    font-size: 20px;
-  }
-
-  table {
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse;
-    table-layout: auto;
-  }
-  
-  tr:nth-child(odd) {
-    background-color: #E5E5E5;
-  }
-
-  tr:not(:first-of-type) {
-    &:hover {
-      background-color: #C4C4C4;
-    }
-  }
-
-  th {
-    color: #FFF;
-    padding: 10px 0;
-    border-bottom:1px solid #E3F1D5;
-    font-weight: bolder;
-    background-color: #00F;
-  }
-
-  td {
-    color: #000;
-    font-family: 'Bebas Neue', sans-serif;
-    padding: 7px 5px;
-    border-bottom:1px solid #E3F1D5;
-  }
-  
-  td .details-icon {
-    color: #6D52ED;
-  }
-  
-  .blue {
-    color: cornflowerblue;
-  }
-
+const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px;
-    border-radius: 15px;
+    padding: 5px 10px; !important;
+    border-radius: 15px; !important;
+    font-weight: bold; !important;
   }
 
   .dispo {
-    background-color: #e5fdf4;
-    color: #00ed96;
+    background-color: #e5fdf4; !important;
+    color: #00ed96; !important;
   }
 
-  .panne {
+  .cloture {
     background-color: #fde9ee;
     color: #f12559;
-  }
-
-  .occupe {
-    background-color: #fdf8e9;
-    color: #f1be25;
   }
 
   .action-btns {
     display: flex;
     justify-content: space-evenly;
   }
-
-  .details {
-    display: block;
-    border: 1px solid #000;
-    padding: 5px;
-    cursor: pointer;
-    &:hover {
-      background-color: #000;
-      color: #FFF;
-    }
-  }
-`
-
-const SearchInput = styled.input`
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px;
-  border: 1px solid #C4C4C4;
-  width: 220px;
-  box-sizing: border-box;
-  &:focus {
-    outline: none;
-    border: 1px solid #000;
+  
+  .matricule {
+    color: darkblue;
   }
 `
 
@@ -218,40 +95,13 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-const Pagination = styled.div`
-display: flex;
-justify-content: flex-end;
 
-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  color: #6D52ED;
-  border-radius: 10px;
-  width: 25%;
-  padding: 5px;
-  margin: 5px;
+/* END MUI */
 
-  span {
-    display: inline-block;
-    text-align: center;
-    height: 20px;
-    width: 20px;
-    margin: 5px;
-    border-radius: 2px;
-    &:hover {
-      background-color: #6D52ED;
-      color: #FFF;
-    }
-  }
-
-  .selected,.ext {
-    background-color: #6D52ED;
-    color: #FFF;
-  }
-}
-`
+const data = [
+    {id:1, mois:'04/2022', vehicule:'120TUN5236', type:'camion', kilometrage:'145236', consototal:'20536', conso: '2.5'},
+    {id:2, mois:'05/2022', vehicule:'135TUN1022', type:'camion', kilometrage:'145236', consototal:'245356', conso: '1.5'},
+];
 
 function ConsommationFlotte() {
     const [ btnPopup, setBtnPopup ] = useState(false)
@@ -260,96 +110,82 @@ function ConsommationFlotte() {
 
     return (
         <Container>
-            {/*<CardCont>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Nombre total</span>
-                        <span className='ratio-total'>100%</span>
-                    </div>
-                    <span className='value'>50</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Occupées</span>
-                        <span className='ratio-occ'>70%</span>
-                    </div>
-                    <span className='value'>35</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Disponible</span>
-                        <span className='ratio-dispo'>20%</span>
-                    </div>
-                    <span className='value'>10</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>En panne</span>
-                        <span className='ratio-panne'>10%</span>
-                    </div>
-                    <span className='value'>5</span>
-                </Card>
-            </CardCont>*/}
-            <TableCont>
-                <caption>Consommation carburant</caption><br/>
-                {/*<AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>*/}
-                <SearchInput placeholder='Rechercher ...'/>
-                <br/>
-                <br/>
-                <table>
-                    <tbody>
-                    <tr>
-                        <th></th>
-                        <th>#</th>
-                        <th>Mois</th>
-                        <th>Véhicule</th>
-                        <th>Type</th>
-                        <th>Kilométrage</th>
-                        <th>Consommation Totale (l)</th>
-                        <th>Consommation (l/km)</th>
-                        <th>Details</th>
-                        <th>Actions</th>
-                    </tr>
+            {/* START MUI */}
+            <TableContainer component={Paper}>
+                <Typography
+                    sx={{ flex: '1 1 100%', margin: '20px', position: 'relative' }}
+                    variant="h6"
+                    id="tableTitle"
+                    component="div"
+                >
+                    Liste de consommation carburant
+                    <AddBtn
+                        sx={{ position: 'absolute', right: '15px'  }}
+                        variant="outlined"
+                        size={"small"}
+                        onClick={() => setBtnPopup(true)}
+                    >
+                        Ajouter +
+                    </AddBtn>
+                </Typography>
 
-                    <tr>
+                <TextField
+                    sx={{ margin: '5px 20px', width: '50%' }}
+                    id={'search'}
+                    label={'Rechercher ...'}
+                    variant={'outlined'}
+                    size={'small'}
+                >
 
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>1</td>
-                        <td>04/2022</td>
-                        <td><span className={'blue'}>120TUN5320</span></td>
-                        <td>Camion</td>
-                        <td>120530</td>
-                        <td>150</td>
-                        <td>2</td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
+                </TextField>
 
-                    </tbody>
-                </table>
-                <Pagination>
-                    <div>
-                        <span className='ext'>&lt;</span>
-                        <span className='selected'>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>...</span>
-                        <span>5</span>
-                        <span className='ext'>&gt;</span>
-                    </div>
-                </Pagination>
-            </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+                <Table sx={{ minWidth: 700, margin: '20px' }} size={"small"}>
+                    <TableHead>
+                        <TableRow>
+
+                            <StyledTableCell></StyledTableCell>
+                            <StyledTableCell><span>#</span></StyledTableCell>
+                            <StyledTableCell><span>Mois</span></StyledTableCell>
+                            <StyledTableCell><span>Véhicule</span></StyledTableCell>
+                            <StyledTableCell><span>Type</span></StyledTableCell>
+                            <StyledTableCell><span>Kilométrage</span></StyledTableCell>
+                            <StyledTableCell><span>Consommation totale (l)</span></StyledTableCell>
+                            <StyledTableCell><span>Consommation (l/km)</span></StyledTableCell>
+                            <StyledTableCell><span>Details</span></StyledTableCell>
+                            <StyledTableCell><span>Actions</span></StyledTableCell>
+
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {data.map((row) =>(
+                            <TableRow hover={true}>
+                                <RowTableCell><input type='checkbox' /></RowTableCell>
+                                <RowTableCell>{row.id}</RowTableCell>
+                                <RowTableCell>{row.mois}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
+                                <RowTableCell>{row.type}</RowTableCell>
+                                <RowTableCell>{row.kilometrage}</RowTableCell>
+                                <RowTableCell>{row.consototal}</RowTableCell>
+                                <RowTableCell>{row.conso}</RowTableCell>
+                                <RowTableCell>
+                                    <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                </RowTableCell>
+                                <RowTableCell>
+                                    <ActionButtonEdit>
+                                        <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                    </ActionButtonEdit>
+                                    <ActionButtonDelete>
+                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                    </ActionButtonDelete>
+                                </RowTableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {/* END MUI */}
+            {/*<AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />*/}
         </Container>
     )
 }

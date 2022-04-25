@@ -6,6 +6,8 @@ import ClientDetails from "./detailsClient";
 import FournisseurDetails from "./detailsFournisseur";
 import Contacts from "./contacts";
 import ContactDetails from "./detailsContact";
+import {useState} from "react";
+import {Box, Tab, Tabs} from "@mui/material";
 
 
 const Title = styled.span`
@@ -45,13 +47,32 @@ const StyledLink = styled(Link)`
 function TiersNav() {
 
     const { path, url } = useRouteMatch()
+    {/* START MUI */}
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+    {/* END MUI */}
 
     return(
         <div>
             <Header>
                 <Title>Tiers</Title>
             </Header>
-            <LinksCont>
+            {/* START MUI */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white', marginBottom: '20px' }}>
+                <Tabs
+                    value={selectedTab}
+                    onChange={handleChange}
+                >
+                    <Tab label="Clients" component={Link} to={`${url}`} />
+                    <Tab label="Fournisseurs" component={Link} to={`${url}/fournisseurs`} />
+                    <Tab label="Contacts" component={Link} to={`${url}/contacts`} />
+                 </Tabs>
+            </Box>
+            {/* END MUI */}
+            {/*<LinksCont>
                 <StyledLink to={`${url}`}>
                     <li>Clients</li>
                 </StyledLink>
@@ -63,7 +84,7 @@ function TiersNav() {
                 <StyledLink to={`${url}/contacts`}>
                     <li>Contacts</li>
                 </StyledLink>
-            </LinksCont>
+            </LinksCont>*/}
 
             <Switch>
                 <Route exact path={path}>

@@ -1,5 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    Typography,
+} from "@mui/material";
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const Popup = styled.div`
     font-family: 'Montserrat', sans-serif;
@@ -75,7 +83,66 @@ const AddBtn = styled.button`
 `
 
 function AjoutFlotte(props) {
-  return (props.trigger) ? (
+
+    let defaultDate = new Date().toISOString().split('T')[0]
+    const { open, setOpen } = props
+
+    return(
+        <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+            maxWidth={'md'}
+        >
+            <DialogTitle>
+                <div style={{display:'flex'}}>
+                    <Typography
+                        variant={'h6'}
+                        component={'div'}
+                        style={{flexGrow:1}}
+                    >
+                        Ajouter une véhicule
+                    </Typography>
+                    <Button
+                        color={'secondary'}
+                        text={'X'}
+                        onClick={() => setOpen(false)}
+                    >X</Button>
+                </div>
+            </DialogTitle>
+            <DialogContent>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Num° série'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Matricule'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Kilométrage'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Consommation'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Entretien'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Constructeur'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Type Commercial'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Activité'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Genre'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Type constructeur'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Date PMC'} type={'date'} variant={'outlined'} color={'secondary'} defaultValue={defaultDate}></TextField>
+                {/*<DesktopDatePicker
+                    label="Date PMC"
+                    inputFormat="dd/MM/yyyy"
+                 date={'10-08-2000'}/>*/}
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Carrosserie'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Energie'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Puissance fiscale'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={"Nombre d'essieux"} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Charge utile'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Poids vide'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'PTAC/PTRA'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Nombre de places'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Nombre debout'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Cylindrée'} variant={'outlined'} color={'secondary'}></TextField>
+                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+            </DialogContent>
+        </Dialog>
+    );
+
+
+    {/*return (props.trigger) ? (
     <Popup>
         <PopupInner>
             <button className="close-btn" onClick={() => props.setTrigger(false)}>
@@ -112,7 +179,7 @@ function AjoutFlotte(props) {
             { props.children }
         </PopupInner>
     </Popup>
-  ) : "";
+  ) : "";*/}
 }
 
 export default AjoutFlotte

@@ -5,6 +5,8 @@ import Details from "../Flotte/details";
 import AchatStock from "./index";
 import DemandesAchat from "./demandesAchat";
 import Stock from "./stock";
+import {useState} from "react";
+import {Box, Tab, Tabs} from "@mui/material";
 
 const Title = styled.span`
     color: #000;
@@ -43,13 +45,32 @@ const StyledLink = styled(Link)`
 function AchatStockNav() {
 
     const { url, path } = useRouteMatch()
+    {/* START MUI */}
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+    {/* END MUI */}
 
     return(
         <div>
             <Header>
                 <Title>Achats & Stock</Title>
             </Header>
-            <LinksCont>
+            {/* START MUI */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white', marginBottom: '20px' }}>
+                <Tabs
+                    value={selectedTab}
+                    onChange={handleChange}
+                >
+                    <Tab label="Documents/Factures" component={Link} to={`${url}`} />
+                    <Tab label="Stock" component={Link} to={`${url}/stock`} />
+                    <Tab label="Demandes d'achat" component={Link} to={`${url}/demandes-achat`} />
+                </Tabs>
+            </Box>
+            {/* END MUI */}
+            {/*<LinksCont>
                 <StyledLink to={`${url}`}>
                     <li>Documents/Factures</li>
                 </StyledLink>
@@ -61,10 +82,7 @@ function AchatStockNav() {
                 <StyledLink to={`${url}/demandes-achat`}>
                     <li>Demandes d'achat</li>
                 </StyledLink>
-                {/*<StyledLink to={`${url}/details`}>
-                    <li>Details</li>
-                </StyledLink>*/}
-            </LinksCont>
+            </LinksCont>*/}
             <Switch>
                 <Route exact path={path}>
                     <AchatStock />

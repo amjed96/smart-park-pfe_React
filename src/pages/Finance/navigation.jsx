@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Finance from "./index";
 import Encaissements from "./encaissements";
 import PaiementsFournisseur from "./paiementsFournisseur";
+import {useState} from "react";
+import {Box, Tab, Tabs} from "@mui/material";
 
 const Title = styled.span`
     color: #000;
@@ -41,13 +43,32 @@ const StyledLink = styled(Link)`
 function FinanceNav() {
 
     const { path, url } = useRouteMatch()
+    {/* START MUI */}
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+    {/* END MUI */}
 
     return (
         <div>
             <Header>
                 <Title>Finance</Title>
             </Header>
-            <LinksCont>
+            {/* START MUI */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white', marginBottom: '20px' }}>
+                <Tabs
+                    value={selectedTab}
+                    onChange={handleChange}
+                >
+                    <Tab label="Caisse" component={Link} to={`${url}`} />
+                    <Tab label="Encaissements Client" component={Link} to={`${url}/encaiss-client`} />
+                    <Tab label="Paiement Fournisseur" component={Link} to={`${url}/paiement-fournisseur`} />
+                </Tabs>
+            </Box>
+            {/* END MUI */}
+            {/*<LinksCont>
                 <StyledLink to={`${url}`}>
                     <li>Caisse</li>
                 </StyledLink>
@@ -59,7 +80,7 @@ function FinanceNav() {
                 <StyledLink to={`${url}/paiement-fournisseur`}>
                     <li>Paiement Fournisseur</li>
                 </StyledLink>
-            </LinksCont>
+            </LinksCont>*/}
 
             <Switch>
                 <Route exact path={`${path}`}>

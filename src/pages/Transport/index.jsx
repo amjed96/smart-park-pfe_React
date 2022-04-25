@@ -4,163 +4,48 @@ import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import AjoutFournisseur from "../../components/AddFournisseurForm";
-
-const Title = styled.span`
-    color: #000;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 24px; 
-    font-weight: bolder;
-`
+import {
+    Button,
+    Paper,
+    Table, TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
+import AjoutDossierVoyage from "../../components/AddDossierVoyageForm";
 
 const Container = styled.div`
   margin: 0px;
   padding: 0px;
 `
 
-const AddBtn = styled.button`
-  background-color: #4BF2B5;
-  border: none;
-  color: #FFF;
-  width: 87px;
-  height: 33px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  position: absolute;
-  right: 15px;
+/* START MUI */
+
+const AddBtn = styled(Button)`
+  margin: 15px;
   cursor: pointer;
 `
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin: 15px 0;
+const StyledTableCell = styled(TableCell)`
+  background-color: darkblue;
+  span {
+    color: white;
+  }
 `
-
-// const CardCont = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   width: 100%;
-//   margin: 20px 0;
-//   box-sizing: border-box;
-// `
-
-// const Card = styled.div`
-//   box-sizing: border-box;
-//   flex-basis: 23%;
-//   background-color: #FFF;
-//   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
-//   padding: 20px;
-//   /*font-family: 'Montserrat', sans-serif;*/
-//   font-family: 'Bebas Neue';
-//   font-size: 18px;
-//   border-bottom: 2px solid #373B54;
-//   /*font-weight: bold;*/
-
-//   .header {
-//     display: flex;
-//     justify-content: space-between;
-//     margin-bottom: 25px;
-//   }
-
-//   .title {
-//     color: #C4C4C4;
-//   }
-
-//   .ratio-total {
-//     color: #000;
-//   }
-
-//   .ratio-occ {
-//     color: #6D52ED;
-//   }
-
-//   .ratio-dispo {
-//     color: #4BF2B5;
-//   }
-
-//   .ratio-panne {
-//     color: #F12559;
-//   }
-
-//   .value {
-//     color: #000;
-//   }
-// `
-
-const TableCont = styled.div`
-  box-sizing: border-box;
-  background-color: #FFF;
-  width: 100%;
-  padding: 15px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  position: relative;
-  border-bottom: 2px solid #373B54;
-
-  caption {
-    text-align: left;
-    padding-bottom: 25px;
-    display: inline-block;
-    font-weight: bolder;
-    font-size: 20px;
-  }
-
-  table {
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse;
-    table-layout: auto;
-    font-size: 11px;
-  }
-
-  tr:not(:first-of-type) {
-    &:hover {
-      background-color: #E5E5E5;
-    }
-  }
-
-  tr:nth-child(odd) {
-    background-color: #E5E5E5;
-  }
-
-  th {
-    color: #FFF;
-    background-color: #00F;
-    padding: 10px 0;
-    border-bottom:1px solid #E3F1D5;
-    font-weight: bolder;
-  }
-
-  td {
-    color: #000;
-    font-family: 'Bebas Neue', sans-serif;
-    padding: 7px 5px;
-    border-bottom:1px solid #E3F1D5;
-  }
+const RowTableCell = styled(TableCell)`
   
-  td .blue {
-    color: cornflowerblue;
-  }
-  
-  td .red {
-    color: #f12559;
-  }
-  
-  td .green {
-    color: #00ed96;
-  }
-
   .etat {
-    padding: 5px 10px;
-    border-radius: 15px;
+    padding: 5px 10px; !important;
+    border-radius: 15px; !important;
+    font-weight: bold; !important;
   }
 
-  .client {
-    background-color: #e5fdf4;
-    color: #00ed96;
+  .dispo {
+    background-color: #e5fdf4; !important;
+    color: #00ed96; !important;
   }
 
   .panne {
@@ -168,7 +53,7 @@ const TableCont = styled.div`
     color: #f12559;
   }
 
-  .fournisseur {
+  .occupe {
     background-color: #fdf8e9;
     color: #f1be25;
   }
@@ -177,33 +62,19 @@ const TableCont = styled.div`
     display: flex;
     justify-content: space-evenly;
   }
-
-  .details {
-    display: block;
-    border: 1px solid #000;
-    padding: 5px;
-    cursor: pointer;
-    &:hover {
-      background-color: #000;
-      color: #FFF;
-    }
+  
+  .matricule {
+    color: darkblue;
+  }
+  
+  .red {
+    color: #f12559;
+  }
+  
+  .green {
+    color: green;
   }
 `
-
-const SearchInput = styled.input`
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px;
-  border: 1px solid #C4C4C4;
-  width: 220px;
-  box-sizing: border-box;
-  &:focus {
-    outline: none;
-    border: 1px solid #000;
-  }
-`
-
 const ActionButtonEdit = styled.button`
   width: 30px;
   height: 30px;
@@ -238,150 +109,148 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-const Pagination = styled.div`
-display: flex;
-justify-content: flex-end;
+const data = [
+    {
+        code:'DV001256',
+        numero:'002135',
+        refaller:'001256',
+        datecreation:'12-05-2022',
+        chauffeur:'Mohamed Ben Ali',
+        vehicule:'128TUN4563',
+        remorque:'004568',
+        client:'Ahmed Belhaj',
+        voyage:'tunis-bizerte',
+        datechargement:'15-05-2022',
+        datedechargement:'16-05-2022',
+        montantht:'150',
+        etat:'en cours',
+    },
+    {
+        code:'DV001356',
+        numero:'002235',
+        refaller:'002256',
+        datecreation:'15-06-2022',
+        chauffeur:'Mohamed Ben Ali',
+        vehicule:'130TUN2363',
+        remorque:'005568',
+        client:'Ahmed Belhaj',
+        voyage:'tunis-sousse',
+        datechargement:'17-06-2022',
+        datedechargement:'18-06-2022',
+        montantht:'180',
+        etat:'facturé',
+    },
+];
 
-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  color: #6D52ED;
-  border-radius: 10px;
-  width: 25%;
-  padding: 5px;
-  margin: 5px;
-
-  span {
-    display: inline-block;
-    text-align: center;
-    height: 20px;
-    width: 20px;
-    margin: 5px;
-    border-radius: 2px;
-    &:hover {
-      background-color: #6D52ED;
-      color: #FFF;
-    }
-  }
-
-  .selected,.ext {
-    background-color: #6D52ED;
-    color: #FFF;
-  }
-}
-`
+/* END MUI */
 
 function Transport() {
 
-    const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ open, setOpen ] = useState(false)
     const { url } = useRouteMatch()
-    let id = 1;
 
     return (
         <Container>
-            <TableCont>
-                <caption>Liste des dossiers de voyage</caption><br/>
-                <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
-                <SearchInput placeholder='Rechercher ...'/>
-                <br/>
-                <br/>
-                <table>
-                    <tbody>
-                    <tr>
-                        <th></th>
-                        <th>Code</th>
-                        <th>Num°</th>
-                        <th>Réf Aller</th>
-                        <th>Date création</th>
-                        <th>Chauffeur</th>
-                        <th>Véhicule</th>
-                        <th>Remorque</th>
-                        <th>Client</th>
-                        <th>Voyage</th>
-                        <th>Date chargement</th>
-                        <th>Date déchargement</th>
-                        <th>Montant HT</th>
-                        <th>Etat</th>
-                        <th>Détails</th>
-                        <th>Actions</th>
-                    </tr>
 
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>VY00002</td>
-                        <td>124450</td>
-                        <td>AL005236</td>
-                        <td>03/04/2022</td>
-                        <td>Jihed Hajlaoui</td>
-                        <td>156TUN2036</td>
-                        <td>172TUN1022</td>
-                        <td>Mohamed Ben Ali</td>
-                        <td><span className={'blue'}>Tunis-Bizerte</span></td>
-                        <td>05/04/2022</td>
-                        <td>06/04/2022</td>
-                        <td>400 D.T</td>
-                        <td><span className={'red'}>En cours</span></td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            {/* <span className='details'>Détails</span> */}
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
+            {/* START MUI */}
 
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>VY00002</td>
-                        <td>124450</td>
-                        <td>AL005236</td>
-                        <td>03/04/2022</td>
-                        <td>Jihed Hajlaoui</td>
-                        <td>156TUN2036</td>
-                        <td>172TUN1022</td>
-                        <td>Mohamed Ben Ali</td>
-                        <td><span className={'blue'}>Tunis-Bizerte</span></td>
-                        <td>05/04/2022</td>
-                        <td>06/04/2022</td>
-                        <td>400 D.T</td>
-                        <td><span className={'green'}>Facturé</span></td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            {/* <span className='details'>Détails</span> */}
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
+            <TableContainer
+                sx={{width: 1155}}
+                component={Paper}
+            >
+                <Typography
+                    sx={{ flex: '1 1 100%', margin: '20px', position: 'relative' }}
+                    variant="h6"
+                    id="tableTitle"
+                    component="div"
+                >
+                    Liste des dossiers voyage
+                    <AddBtn
+                        sx={{ position: 'absolute', right: '15px'  }}
+                        variant="outlined"
+                        size={"small"}
+                        onClick={() => setOpen(true)}
+                    >
+                        Ajouter +
+                    </AddBtn>
+                </Typography>
 
-                    </tbody>
-                </table>
-                <Pagination>
-                    <div>
-                        <span className='ext'>&lt;</span>
-                        <span className='selected'>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>...</span>
-                        <span>5</span>
-                        <span className='ext'>&gt;</span>
-                    </div>
-                </Pagination>
-            </TableCont>
-            <AjoutFournisseur trigger={btnPopup} setTrigger={setBtnPopup} />
+                <TextField
+                    sx={{ margin: '5px 20px', width: '50%' }}
+                    id={'search'}
+                    label={'Rechercher ...'}
+                    variant={'outlined'}
+                    size={'small'}
+                >
+
+                </TextField>
+
+                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                    <TableHead>
+                        <TableRow>
+
+                            <StyledTableCell></StyledTableCell>
+                            <StyledTableCell><span>Code</span></StyledTableCell>
+                            <StyledTableCell><span>Numéro</span></StyledTableCell>
+                            <StyledTableCell><span>Référence_aller</span></StyledTableCell>
+                            <StyledTableCell><span>Date_création</span></StyledTableCell>
+                            <StyledTableCell><span>Chauffeur</span></StyledTableCell>
+                            <StyledTableCell><span>Véficule</span></StyledTableCell>
+                            <StyledTableCell><span>Remorque</span></StyledTableCell>
+                            <StyledTableCell><span>Client</span></StyledTableCell>
+                            <StyledTableCell><span>Voyage</span></StyledTableCell>
+                            <StyledTableCell><span>Date_chargement</span></StyledTableCell>
+                            <StyledTableCell><span>Date_déchargement</span></StyledTableCell>
+                            <StyledTableCell><span>Montant_HT</span></StyledTableCell>
+                            <StyledTableCell><span>Etat</span></StyledTableCell>
+
+                            <StyledTableCell><span>Details</span></StyledTableCell>
+                            <StyledTableCell><span>Actions</span></StyledTableCell>
+
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {data.map((row) =>(
+                            <TableRow hover={true}>
+
+                                <RowTableCell><input type='checkbox' /></RowTableCell>
+                                <RowTableCell>{row.code}</RowTableCell>
+                                <RowTableCell>{row.numero}</RowTableCell>
+                                <RowTableCell>{row.refaller}</RowTableCell>
+                                <RowTableCell>{row.datecreation}</RowTableCell>
+                                <RowTableCell>{row.chauffeur}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
+                                <RowTableCell>{row.remorque}</RowTableCell>
+                                <RowTableCell>{row.client}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.voyage}</span></RowTableCell>
+                                <RowTableCell>{row.datechargement}</RowTableCell>
+                                <RowTableCell>{row.datedechargement}</RowTableCell>
+                                <RowTableCell>{row.montantht} D.T</RowTableCell>
+
+                                <RowTableCell>{row.etat === 'facturé' ? <span className={'green'}>{row.etat}</span> :
+                                    <span className={'red'}>{row.etat}</span> }
+                                </RowTableCell>
+
+                                <RowTableCell>
+                                    <Link to={`${url}/${row.code}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                </RowTableCell>
+                                <RowTableCell>
+                                    <ActionButtonEdit>
+                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                    </ActionButtonEdit>
+                                    <ActionButtonDelete>
+                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                    </ActionButtonDelete>
+                                </RowTableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {/* END MUI */}
+
+            <AjoutDossierVoyage open={open} setOpen={setOpen} />
         </Container>
     );
   }

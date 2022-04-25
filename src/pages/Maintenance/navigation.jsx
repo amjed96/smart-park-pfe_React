@@ -4,6 +4,8 @@ import Maintenance from "./index";
 import Interventions from "./interventions";
 import PlansEntretien from "./plansEntretien";
 import PiecesRechange from "./piecesRechange";
+import {useState} from "react";
+import {Box, Tab, Tabs} from "@mui/material";
 
 const Title = styled.span`
     color: #000;
@@ -42,13 +44,34 @@ const StyledLink = styled(Link)`
 function MaintenanceNav() {
 
     const { url, path } = useRouteMatch()
+    {/* START MUI */}
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+    {/* END MUI */}
 
     return(
         <div>
             <Header>
                 <Title>Maintenance</Title>
             </Header>
-            <LinksCont>
+            {/* START MUI */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white', marginBottom: '20px' }}>
+                <Tabs
+                    value={selectedTab}
+                    onChange={handleChange}
+                >
+                    <Tab label="Demandes d'intervention" component={Link} to={`${url}`} />
+                    <Tab label="Interventions" component={Link} to={`${url}/interventions`} />
+                    <Tab label="Plans d'entretien" component={Link} to={`${url}/plans-entretien`} />
+                    <Tab label="Pièces de rechange" component={Link} to={`${url}/pieces-rechange`} />
+                    <Tab label="Documents" component={Link} to={`${url}/documents`} />
+                </Tabs>
+            </Box>
+            {/* END MUI */}
+            {/*<LinksCont>
                 <StyledLink to={`${url}`}>
                     <li>Demandes d'intervention</li>
                 </StyledLink>
@@ -68,7 +91,7 @@ function MaintenanceNav() {
                 <StyledLink to={`${url}/documents`}>
                     <li>Documents</li>
                 </StyledLink>
-            </LinksCont>
+            </LinksCont>*/}
             <Switch>
                 <Route exact path={path}>
                     <Maintenance />

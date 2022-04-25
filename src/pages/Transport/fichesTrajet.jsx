@@ -4,19 +4,33 @@ import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import AjoutFournisseur from "../../components/AddFournisseurForm";
+import {
+    Button,
+    Paper,
+    Table, TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
+import AjoutFicheTrajet from "../../components/AddFicheTrajetForm";
 
+/*
 const Title = styled.span`
     color: #000;
     font-family: 'Montserrat', sans-serif;
     font-size: 24px; 
     font-weight: bolder;
 `
+*/
 
 const Container = styled.div`
   margin: 0px;
   padding: 0px;
 `
-
+/*
 const AddBtn = styled.button`
   background-color: #4BF2B5;
   border: none;
@@ -36,7 +50,7 @@ const Header = styled.div`
   justify-content: space-between;
   width: 100%;
   margin: 15px 0;
-`
+`*/
 
 // const CardCont = styled.div`
 //   display: flex;
@@ -88,7 +102,7 @@ const Header = styled.div`
 //     color: #000;
 //   }
 // `
-
+/*
 const TableCont = styled.div`
   box-sizing: border-box;
   background-color: #FFF;
@@ -271,86 +285,214 @@ div {
     color: #FFF;
   }
 }
+`*/
+
+/* START MUI */
+
+const AddBtn = styled(Button)`
+  margin: 15px;
+  cursor: pointer;
 `
+
+const StyledTableCell = styled(TableCell)`
+  background-color: darkblue;
+  span {
+    color: white;
+  }
+`
+const RowTableCell = styled(TableCell)`
+  .etat {
+    padding: 5px 10px; !important;
+    border-radius: 15px; !important;
+    font-weight: bold; !important;
+  }
+
+  .dispo {
+    background-color: #e5fdf4; !important;
+    color: #00ed96; !important;
+  }
+
+  .panne {
+    background-color: #fde9ee;
+    color: #f12559;
+  }
+
+  .occupe {
+    background-color: #fdf8e9;
+    color: #f1be25;
+  }
+
+  .action-btns {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .matricule {
+    color: darkblue;
+  }
+  
+  .red {
+    color: #f12559;
+  }
+  
+  .green {
+    color: green;
+  }
+`
+const ActionButtonEdit = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #2cd2f6;
+  background-color: #e9fafe;
+  cursor: pointer;
+  &:hover {
+    background-color: #2cd2f6;
+    .btn-edit {
+      color: #FFF;
+    }
+  }
+  .btn-edit {
+    color: #2cd2f6;
+  }
+`
+
+const ActionButtonDelete = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #f12559;
+  background-color: #fde9ee;
+  cursor: pointer;
+  &:hover {
+    background-color: #f12559;
+    .btn-delete {
+      color: #FFF;
+    }
+  }
+  .btn-delete {
+    color: #f12559;
+  }
+`
+
+const data = [
+    {
+        id:'DI1256',
+        nom:'Mohamed Mohamed',
+        client:'Ali Ben Ali',
+        marchandise:'Fer',
+        trajet:'tunis-mahdia',
+        unite:'tonne',
+        typeprestation:'/',
+        categorie:'materiaux construction',
+        datedebut:'20-05-2022',
+        datefin:'21-05-2022',
+        prix:'5000',
+        prixretour:'500',
+    },
+];
+
+/* END MUI */
 
 function Designation() {
 
-    const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ open, setOpen ] = useState(false)
     const { url } = useRouteMatch()
-    let id = 1;
 
     return (
         <Container>
-            <TableCont>
-                <caption>Liste des fiches de trajet</caption><br/>
-                <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
-                <SearchInput placeholder='Rechercher ...'/>
-                <br/>
-                <br/>
-                <table>
-                    <tbody>
-                    <tr>
-                        <th></th>
-                        <th>#</th>
-                        <th>Nom</th>
-                        <th>Client</th>
-                        <th>Marchandise</th>
-                        <th>Trajet</th>
-                        <th>Unité</th>
-                        <th>Type prestation</th>
-                        <th>Catégorie</th>
-                        <th>Date début</th>
-                        <th>Date fin</th>
-                        <th>Prix</th>
-                        <th>Prix retour</th>
-                        <th>Détails</th>
-                        <th>Actions</th>
-                    </tr>
+            {/* START MUI */}
 
-                    <tr>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>TR00002</td>
-                        <td>Amjed Bouallegui</td>
-                        <td>Ouays Bouallegui</td>
-                        <td>Semoule</td>
-                        <td><span className={'blue'}>Tunis-Bizerte</span></td>
-                        <td>Tonne</td>
-                        <td>Transport</td>
-                        <td>Fourgon</td>
-                        <td>05/04/2022</td>
-                        <td>06/04/2022</td>
-                        <td>5.000 D.T</td>
-                        <td>1.000 D.T</td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            {/* <span className='details'>Détails</span> */}
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
+            <TableContainer
+                sx={{width: 1155}}
+                component={Paper}
+            >
+                <Typography
+                    sx={{ flex: '1 1 100%', margin: '20px', position: 'relative' }}
+                    variant="h6"
+                    id="tableTitle"
+                    component="div"
+                >
+                    Liste des fiches trajet
+                    <AddBtn
+                        sx={{ position: 'absolute', right: '15px'  }}
+                        variant="outlined"
+                        size={"small"}
+                        onClick={() => setOpen(true)}
+                    >
+                        Ajouter +
+                    </AddBtn>
+                </Typography>
 
-                    </tbody>
-                </table>
-                <Pagination>
-                    <div>
-                        <span className='ext'>&lt;</span>
-                        <span className='selected'>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>...</span>
-                        <span>5</span>
-                        <span className='ext'>&gt;</span>
-                    </div>
-                </Pagination>
-            </TableCont>
-            <AjoutFournisseur trigger={btnPopup} setTrigger={setBtnPopup} />
+                <TextField
+                    sx={{ margin: '5px 20px', width: '50%' }}
+                    id={'search'}
+                    label={'Rechercher ...'}
+                    variant={'outlined'}
+                    size={'small'}
+                >
+
+                </TextField>
+
+                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                    <TableHead>
+                        <TableRow>
+
+                            <StyledTableCell></StyledTableCell>
+                            <StyledTableCell><span>#</span></StyledTableCell>
+                            <StyledTableCell><span>Nom</span></StyledTableCell>
+                            <StyledTableCell><span>Client</span></StyledTableCell>
+                            <StyledTableCell><span>Marchandise</span></StyledTableCell>
+                            <StyledTableCell><span>Trajet</span></StyledTableCell>
+                            <StyledTableCell><span>Unité</span></StyledTableCell>
+                            <StyledTableCell><span>Type_prestation</span></StyledTableCell>
+                            <StyledTableCell><span>Catégorie</span></StyledTableCell>
+                            <StyledTableCell><span>Date_début</span></StyledTableCell>
+                            <StyledTableCell><span>Date_fin</span></StyledTableCell>
+                            <StyledTableCell><span>Prix</span></StyledTableCell>
+                            <StyledTableCell><span>Prix_retour</span></StyledTableCell>
+
+                            <StyledTableCell><span>Details</span></StyledTableCell>
+                            <StyledTableCell><span>Actions</span></StyledTableCell>
+
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {data.map((row) =>(
+                            <TableRow hover={true}>
+
+                                <RowTableCell><input type='checkbox' /></RowTableCell>
+                                <RowTableCell>{row.id}</RowTableCell>
+                                <RowTableCell>{row.nom}</RowTableCell>
+                                <RowTableCell>{row.client}</RowTableCell>
+                                <RowTableCell>{row.marchandise}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.trajet}</span></RowTableCell>
+                                <RowTableCell>{row.unite}</RowTableCell>
+                                <RowTableCell>{row.typeprestation}</RowTableCell>
+                                <RowTableCell>{row.categorie}</RowTableCell>
+                                <RowTableCell>{row.datedebut}</RowTableCell>
+                                <RowTableCell>{row.datefin}</RowTableCell>
+                                <RowTableCell>{row.prix} D.T</RowTableCell>
+                                <RowTableCell>{row.prixretour} D.T</RowTableCell>
+
+                                <RowTableCell>
+                                    <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                </RowTableCell>
+                                <RowTableCell>
+                                    <ActionButtonEdit>
+                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                    </ActionButtonEdit>
+                                    <ActionButtonDelete>
+                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                    </ActionButtonDelete>
+                                </RowTableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {/* END MUI */}
+
+            <AjoutFicheTrajet open={open} setOpen={setOpen} />
         </Container>
     );
 }

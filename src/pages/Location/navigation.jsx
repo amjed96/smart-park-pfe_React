@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Location from "./index";
 import LocationContrats from "./contrats";
 import FacturesLocation from "./factures";
+import {useState} from "react";
+import {Box, Tab, Tabs} from "@mui/material";
 
 const Title = styled.span`
     color: #000;
@@ -41,13 +43,32 @@ const StyledLink = styled(Link)`
 function LocationNav() {
 
     const { path, url } = useRouteMatch()
+    {/* START MUI */}
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+    {/* END MUI */}
 
     return (
         <div>
             <Header>
                 <Title>Location</Title>
             </Header>
-            <LinksCont>
+            {/* START MUI */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white', marginBottom: '20px' }}>
+                <Tabs
+                    value={selectedTab}
+                    onChange={handleChange}
+                >
+                    <Tab label="Engins à louer" component={Link} to={`${url}`} />
+                    <Tab label="Contrats de location" component={Link} to={`${url}/contrats`} />
+                    <Tab label="Factures de location" component={Link} to={`${url}/factures`} />
+                </Tabs>
+            </Box>
+            {/* END MUI */}
+            {/*<LinksCont>
                 <StyledLink to={`${url}`}>
                     <li>Véhicules à louer</li>
                 </StyledLink>
@@ -59,7 +80,7 @@ function LocationNav() {
                 <StyledLink to={`${url}/factures`}>
                     <li>Factures de location</li>
                 </StyledLink>
-            </LinksCont>
+            </LinksCont>*/}
 
             <Switch>
                 <Route exact path={`${path}`}>

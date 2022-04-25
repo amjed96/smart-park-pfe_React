@@ -3,6 +3,8 @@ import {Link, Route, Switch, useRouteMatch} from "react-router-dom";
 import Transport from "./index";
 import FichesTrajet from "./fichesTrajet";
 import DocumentsTransport from "./documentsTransport";
+import {useState} from "react";
+import {Box, Tab, Tabs} from "@mui/material";
 
 
 const Title = styled.span`
@@ -42,13 +44,32 @@ const StyledLink = styled(Link)`
 function TransportNav() {
 
     const { path, url } = useRouteMatch()
+    {/* START MUI */}
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+    {/* END MUI */}
 
     return(
         <div>
             <Header>
                 <Title>Transport</Title>
             </Header>
-            <LinksCont>
+            {/* START MUI */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white', marginBottom: '20px' }}>
+                <Tabs
+                    value={selectedTab}
+                    onChange={handleChange}
+                >
+                    <Tab label="Dossiers voyage" component={Link} to={`${url}`} />
+                    <Tab label="Fiches trajet" component={Link} to={`${url}/fiches-trajet`} />
+                    <Tab label="Documents" component={Link} to={`${url}/documents`} />
+                </Tabs>
+            </Box>
+            {/* END MUI */}
+            {/*<LinksCont>
                 <StyledLink to={`${url}`}>
                     <li>Dossiers voyage</li>
                 </StyledLink>
@@ -60,7 +81,7 @@ function TransportNav() {
                 <StyledLink to={`${url}/documents`}>
                     <li>Documents</li>
                 </StyledLink>
-            </LinksCont>
+            </LinksCont>*/}
 
             <Switch>
                 <Route exact path={`${path}`}>

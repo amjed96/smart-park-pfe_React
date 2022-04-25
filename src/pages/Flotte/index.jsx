@@ -4,24 +4,21 @@ import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesom
 import AjoutFlotte from '../../components/AddFlotteForm'
 import { useState } from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
+import {
+    Paper,
+    Table,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Button,
+    Typography, TextField
+} from "@mui/material";
 
 const Container = styled.div`
   margin: 0px;
   padding: 0px;
-`
-
-const AddBtn = styled.button`
-  background-color: #4BF2B5;
-  border: none;
-  color: #FFF;
-  width: 87px;
-  height: 33px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  position: absolute;
-  right: 15px;
-  cursor: pointer;
 `
 
 const CardCont = styled.div`
@@ -38,11 +35,9 @@ const Card = styled.div`
   background-color: #FFF;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
   padding: 20px;
-  /*font-family: 'Montserrat', sans-serif;*/
   font-family: 'Bebas Neue', sans-serif;
   font-size: 18px;
   border-bottom: 2px solid #373B54;
-  /*font-weight: bold;*/
 
   .header {
     display: flex;
@@ -252,10 +247,63 @@ div {
 }
 `
 
+/* START MUI */
+
+const AddBtn = styled(Button)`
+  margin: 15px;
+  cursor: pointer;
+`
+
+const StyledTableCell = styled(TableCell)`
+  background-color: darkblue;
+  span {
+    color: white;
+  }
+`
+const RowTableCell = styled(TableCell)`
+  .etat {
+    padding: 5px 10px; !important;
+    border-radius: 15px; !important;
+    font-weight: bold; !important;
+  }
+
+  .dispo {
+    background-color: #e5fdf4; !important;
+    color: #00ed96; !important;
+  }
+
+  .panne {
+    background-color: #fde9ee;
+    color: #f12559;
+  }
+
+  .occupe {
+    background-color: #fdf8e9;
+    color: #f1be25;
+  }
+
+  .action-btns {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .matricule {
+    color: darkblue;
+  }
+`
+
+
+const data = [
+    {matricule:'120TUN2536',serie:'12653',kilometrage:'125436',moteur:'essence',consommation:'2L/Km', entretien:'5', etat:'disponible'},
+    {matricule:'125TUN1220',serie:'25638',kilometrage:'25036',moteur:'diesel',consommation:'1.5L/Km', entretien:'3', etat:'occupe'},
+    {matricule:'182TUN5234',serie:'84652',kilometrage:'5468',moteur:'diesel',consommation:'1.5L/Km', entretien:'1', etat:'en panne'},
+];
+
+/* END MUI */
+
 function Flotte() {
-    const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ open, setOpen ] = useState(false)
     const { url } = useRouteMatch()
-    let id = 1, id1 = 2, id2 = 3;
 
     return (
       <Container>
@@ -289,114 +337,84 @@ function Flotte() {
             <span className='value'>5</span>
           </Card>
         </CardCont>
-        <TableCont>
-            <caption>Liste des véhicules</caption><br/>
-            <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
-            <SearchInput placeholder='Rechercher ...'/>
-            <br/>
-            <br/>
-            <table>
-              <tbody>
-                <tr>
-                    <th></th>
-                    <th>#</th>
-                    <th>Matricule</th>
-                    <th>N° de série</th>
-                    <th>Kilométrage</th>
-                    <th>Engin</th>
-                    <th>Consommation</th>
-                    <th>Entretien</th>
-                    <th>Etat</th>
-                    <th>Details</th>
-                    <th>Actions</th>
-                </tr>
+          {/* START MUI */}
 
-                <tr>
+          <TableContainer component={Paper}>
+              <Typography
+                  sx={{ flex: '1 1 100%', margin: '20px', position: 'relative' }}
+                  variant="h6"
+                  id="tableTitle"
+                  component="div"
+              >
+                  Liste des engins et véhicules
+                  <AddBtn
+                      sx={{ position: 'absolute', right: '15px'  }}
+                      variant="outlined"
+                      size={"small"}
+                      onClick={() => setOpen(true)}
+                  >
+                      Ajouter +
+                  </AddBtn>
+              </Typography>
 
-                  <td>
-                      <input type='checkbox' />
-                      </td>
-                      <td>1</td>
-                      <td>120TUN5320</td>
-                      <td>00123520</td>
-                      <td>125360</td>
-                      <td>Essence</td>
-                      <td>10.000</td>
-                      <td>3</td>
-                      <td><span className='etat dispo'>Disponible</span></td>
-                      <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                      <td className='action-btns'>
-                    <ActionButtonEdit>
-                      <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                    </ActionButtonEdit>
-                    <ActionButtonDelete>
-                      <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                    </ActionButtonDelete>
-                  </td>
-              </tr>
+              <TextField
+                  sx={{ margin: '5px 20px', width: '50%' }}
+                  id={'search'}
+                  label={'Rechercher ...'}
+                  variant={'outlined'}
+                  size={'small'}
+              >
 
-              <tr>
-                <td>
-                  <input type='checkbox' />
-                </td>
-                <td>2</td>
-                <td>120TUN5320</td>
-                <td>00123520</td>
-                <td>125360</td>
-                <td>Essence</td>
-                <td>10.000</td>
-                <td>3</td>
-                <td><span className='etat panne'>En panne</span></td>
-                <td><Link to={`${url}/${id1}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                <td className='action-btns'>
-                  <ActionButtonEdit>
-                    <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
-                  </ActionButtonEdit>
-                  <ActionButtonDelete>
-                    <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                  </ActionButtonDelete>
-                </td>
-              </tr>
+              </TextField>
 
-              <tr>
-                <td>
-                  <input type='checkbox' />
-                </td>
-                <td>3</td>
-                <td>120TUN5320</td>
-                <td>00123520</td>
-                <td>125360</td>
-                <td>Essence</td>
-                <td>10.000</td>
-                <td>3</td>
-                <td><span className='etat occupe'>Occupé</span></td>
-                <td><Link to={`${url}/${id2}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                <td className='action-btns'>
-                  <ActionButtonEdit>
-                    <FontAwesomeIcon icon={ faPenToSquare } className='btn btn-edit' />
-                  </ActionButtonEdit>
-                  <ActionButtonDelete>
-                    <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                  </ActionButtonDelete>
-                </td>
-              </tr>
+              <Table sx={{ minWidth: 700, margin: '20px' }} size={"small"}>
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell></StyledTableCell>
+                        <StyledTableCell><span>Matricule</span></StyledTableCell>
+                        <StyledTableCell><span>N° de série</span></StyledTableCell>
+                        <StyledTableCell><span>Kilométrage</span></StyledTableCell>
+                        <StyledTableCell><span>Moteur</span></StyledTableCell>
+                        <StyledTableCell><span>Consommation</span></StyledTableCell>
+                        <StyledTableCell><span>Entretien</span></StyledTableCell>
+                        <StyledTableCell><span>Etat</span></StyledTableCell>
+                        <StyledTableCell><span>Details</span></StyledTableCell>
+                        <StyledTableCell><span>Actions</span></StyledTableCell>
+                    </TableRow>
+                </TableHead>
 
-            </tbody>
-          </table>
-          <Pagination>
-            <div>
-              <span className='ext'>&lt;</span>
-              <span className='selected'>1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
-              <span>...</span>
-              <span>5</span>
-              <span className='ext'>&gt;</span>
-            </div>
-          </Pagination>
-        </TableCont>
-        <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+                  <TableBody>
+                      {data.map((row) =>(
+                          <TableRow hover={true}>
+                              <RowTableCell><input type='checkbox' /></RowTableCell>
+                              <RowTableCell><span className={'matricule'}>{row.matricule}</span></RowTableCell>
+                              <RowTableCell>{row.serie}</RowTableCell>
+                              <RowTableCell>{row.kilometrage}</RowTableCell>
+                              <RowTableCell>{row.moteur}</RowTableCell>
+                              <RowTableCell>{row.consommation}</RowTableCell>
+                              <RowTableCell>{row.entretien}</RowTableCell>
+                              <RowTableCell>{row.etat === "disponible" ? <span className='etat dispo'>Disponible</span>
+                                  : row.etat === "en panne" ? <span className='etat panne'>En panne</span>
+                                      : <span className='etat occupe'>Occupé</span> }
+                              </RowTableCell>
+                              <RowTableCell>
+                                  <Link to={`${url}/${row.matricule}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                              </RowTableCell>
+                              <RowTableCell>
+                                  <ActionButtonEdit>
+                                      <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                  </ActionButtonEdit>
+                                  <ActionButtonDelete>
+                                      <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                  </ActionButtonDelete>
+                              </RowTableCell>
+                          </TableRow>
+                      ))}
+                  </TableBody>
+              </Table>
+          </TableContainer>
+          {/* END MUI */}
+          <AjoutFlotte open={open} setOpen={setOpen} />
       </Container>
     )
   }

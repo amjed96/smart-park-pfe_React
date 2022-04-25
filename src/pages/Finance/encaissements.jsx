@@ -4,12 +4,23 @@ import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import AjoutFlotte from "../../components/AddFlotteForm";
+import {
+    Button,
+    Paper,
+    Table, TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
 
 const Container = styled.div`
   margin: 0px;
   padding: 0px;
 `
-
+/*
 const AddBtn = styled.button`
   background-color: #4BF2B5;
   border: none;
@@ -38,11 +49,9 @@ const Card = styled.div`
   background-color: #FFF;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
   padding: 20px;
-  /*font-family: 'Montserrat', sans-serif;*/
   font-family: 'Bebas Neue', sans-serif;
   font-size: 18px;
   border-bottom: 2px solid #373B54;
-  /*font-weight: bold;*/
 
   .header {
     display: flex;
@@ -264,12 +273,124 @@ div {
     color: #FFF;
   }
 }
+`*/
+
+/* START MUI */
+
+const AddBtn = styled(Button)`
+  margin: 15px;
+  cursor: pointer;
 `
 
+const StyledTableCell = styled(TableCell)`
+  background-color: darkblue;
+  span {
+    color: white;
+  }
+`
+const RowTableCell = styled(TableCell)`
+  .etat {
+    padding: 5px 10px; !important;
+    border-radius: 15px; !important;
+    font-weight: bold; !important;
+  }
+
+  .dispo {
+    background-color: #e5fdf4; !important;
+    color: #00ed96; !important;
+  }
+
+  .panne {
+    background-color: #fde9ee;
+    color: #f12559;
+  }
+
+  .occupe {
+    background-color: #fdf8e9;
+    color: #f1be25;
+  }
+
+  .action-btns {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .matricule {
+    color: darkblue;
+  }
+  
+  .red {
+    color: #f12559;
+  }
+  
+  .green {
+    color: green;
+  }
+
+  .echeance {
+    color: orangered;
+  }
+`
+const ActionButtonEdit = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #2cd2f6;
+  background-color: #e9fafe;
+  cursor: pointer;
+  &:hover {
+    background-color: #2cd2f6;
+    .btn-edit {
+      color: #FFF;
+    }
+  }
+  .btn-edit {
+    color: #2cd2f6;
+  }
+`
+
+const ActionButtonDelete = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #f12559;
+  background-color: #fde9ee;
+  cursor: pointer;
+  &:hover {
+    background-color: #f12559;
+    .btn-delete {
+      color: #FFF;
+    }
+  }
+  .btn-delete {
+    color: #f12559;
+  }
+`
+
+const data = [
+    {
+        num:'EC001256',
+        date:'28-05-2022',
+        dateecheance:'28-08-2022',
+        modepaiement:'versement',
+        client:'Ali Ben Ali',
+        montant:'150',
+        statut:'en cours',
+    },
+    {
+        num:'EC001257',
+        date:'28-05-2022',
+        dateecheance:'28-08-2022',
+        modepaiement:'chèque',
+        client:'Ali Ben Ali',
+        montant:'150',
+        statut:'clôturé',
+    },
+];
+
+/* END MUI */
+
 function Encaissements() {
-    const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ open, setOpen ] = useState(false)
     const { url } = useRouteMatch()
-    let id = 1, id1 = 2, id2 = 3;
 
     return (
         <Container>
@@ -304,7 +425,7 @@ function Encaissements() {
                 </Card>
             </CardCont>*/}
 
-            <TableCont>
+            {/*<TableCont>
                 <caption>Encaissements clients</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
@@ -383,8 +504,93 @@ function Encaissements() {
                         <span className='ext'>&gt;</span>
                     </div>
                 </Pagination>
-            </TableCont>
-            <AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />
+            </TableCont>*/}
+
+            {/* START MUI */}
+
+            <TableContainer component={Paper}>
+                <Typography
+                    sx={{ flex: '1 1 100%', margin: '20px', position: 'relative' }}
+                    variant="h6"
+                    id="tableTitle"
+                    component="div"
+                >
+                    Liste des encaissements client
+                    <AddBtn
+                        sx={{ position: 'absolute', right: '15px'  }}
+                        variant="outlined"
+                        size={"small"}
+                        onClick={() => setOpen(true)}
+                    >
+                        Ajouter +
+                    </AddBtn>
+                </Typography>
+
+                <TextField
+                    sx={{ margin: '5px 20px', width: '50%' }}
+                    id={'search'}
+                    label={'Rechercher ...'}
+                    variant={'outlined'}
+                    size={'small'}
+                >
+
+                </TextField>
+
+                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                    <TableHead>
+                        <TableRow>
+
+                            <StyledTableCell></StyledTableCell>
+                            <StyledTableCell><span>Num°</span></StyledTableCell>
+                            <StyledTableCell><span>Date</span></StyledTableCell>
+                            <StyledTableCell><span>Date_échéance</span></StyledTableCell>
+                            <StyledTableCell><span>Mode_paiement</span></StyledTableCell>
+                            <StyledTableCell><span>Client</span></StyledTableCell>
+                            <StyledTableCell><span>Montant</span></StyledTableCell>
+                            <StyledTableCell><span>Statut</span></StyledTableCell>
+
+                            <StyledTableCell><span>Details</span></StyledTableCell>
+                            <StyledTableCell><span>Actions</span></StyledTableCell>
+
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {data.map((row) =>(
+                            <TableRow hover={true}>
+
+                                <RowTableCell><input type='checkbox' /></RowTableCell>
+                                <RowTableCell>{row.num}</RowTableCell>
+                                <RowTableCell>{row.date}</RowTableCell>
+                                <RowTableCell><span className={'echeance'}>{row.dateecheance}</span></RowTableCell>
+                                <RowTableCell>{row.modepaiement === 'versement' ? <span className={'green'}>{row.modepaiement}</span> :
+                                    <span className={'matricule'}>{row.modepaiement}</span>
+                                }</RowTableCell>
+                                <RowTableCell>{row.client}</RowTableCell>
+                                <RowTableCell>{row.montant} D.T</RowTableCell>
+                                <RowTableCell>{row.statut === 'clôturé' ? <span className={'green'}>{row.statut}</span> :
+                                    <span className={'red'}>{row.statut}</span>
+                                }</RowTableCell>
+
+                                <RowTableCell>
+                                    <Link to={`${url}/${row.num}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                </RowTableCell>
+                                <RowTableCell>
+                                    <ActionButtonEdit>
+                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                    </ActionButtonEdit>
+                                    <ActionButtonDelete>
+                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                    </ActionButtonDelete>
+                                </RowTableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {/* END MUI */}
+
+            {/*<AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />*/}
         </Container>
     )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import {Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
+/*
 const Popup = styled.div`
     font-family: 'Montserrat', sans-serif;
     position: fixed;
@@ -73,18 +74,57 @@ const AddBtn = styled.button`
   right: 15px;
   cursor: pointer;
   margin: 10px;
-`
+`*/
 
 function AjoutDemandeAchat(props) {
-    return (props.trigger) ? (
+
+    let defaultDate = new Date().toISOString().split('T')[0]
+    const { open, setOpen } = props
+
+    return(
+        <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+            maxWidth={'md'}
+        >
+            <DialogTitle>
+                <div style={{display:'flex'}}>
+                    <Typography
+                        variant={'h6'}
+                        component={'div'}
+                        style={{flexGrow:1}}
+                    >
+                        Ajouter une demande d'achat
+                    </Typography>
+                    <Button
+                        color={'secondary'}
+                        text={'X'}
+                        onClick={() => setOpen(false)}
+                    >X</Button>
+                </div>
+            </DialogTitle>
+            <DialogContent>
+
+                <TextField disabled={true} type={'date'} sx={{width: '80%', margin: '10px'}} size={'small'} label={'date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
+
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Article'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField type={'number'} sx={{width: '80%', margin: '10px'}} size={'small'} label={'Nombre'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Description'} variant={'outlined'} color={'secondary'}></TextField>
+
+                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+            </DialogContent>
+        </Dialog>
+    );
+
+    /*return (props.trigger) ? (
         <Popup>
             <PopupInner>
                 <button className="close-btn" onClick={() => props.setTrigger(false)}>
                     X
                 </button>
                 <h1>Ajouter une demande d'achat</h1>
-                {/*<label>Date :</label>
-                <input type={'date'} placeholder={'Date ...'} />*/}
+                {/!*<label>Date :</label>
+                <input type={'date'} placeholder={'Date ...'} />*!/}
                 <input placeholder={'Article ...'} />
                 <input placeholder={'Nombre ...'} />
                 <textarea placeholder={'Description ...'} />
@@ -95,7 +135,7 @@ function AjoutDemandeAchat(props) {
                 { props.children }
             </PopupInner>
         </Popup>
-    ) : "";
+    ) : "";*/
 }
 
 export default AjoutDemandeAchat

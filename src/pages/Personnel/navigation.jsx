@@ -5,6 +5,8 @@ import PersonnelDetails from "./details";
 import Permis from "./permis";
 import Passeports from "./passeports";
 import VisitesMedicales from "./visites";
+import {useState} from "react";
+import {Box, Tab, Tabs} from "@mui/material";
 
 const Title = styled.span`
     color: #000;
@@ -44,29 +46,32 @@ const StyledLink = styled(Link)`
 function PersonnelNav() {
 
     const { path, url } = useRouteMatch()
+    {/* START MUI */}
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setSelectedTab(newValue);
+    };
+    {/* END MUI */}
 
     return(
         <div>
             <Header>
                 <Title>Personnel</Title>
             </Header>
-            <LinksCont>
-                <StyledLink to={`${url}`}>
-                    <li>Personnel</li>
-                </StyledLink>
-
-                <StyledLink to={`${url}/permis`}>
-                    <li>Permis</li>
-                </StyledLink>
-
-                <StyledLink to={`${url}/passeports`}>
-                    <li>Passeports</li>
-                </StyledLink>
-
-                <StyledLink to={`${url}/visites-médicales`}>
-                    <li>Visites médicales</li>
-                </StyledLink>
-            </LinksCont>
+            {/* START MUI */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white', marginBottom: '20px' }}>
+                <Tabs
+                    value={selectedTab}
+                    onChange={handleChange}
+                >
+                    <Tab label="Personnel" component={Link} to={`${url}`} />
+                    <Tab label="Permis" component={Link} to={`${url}/permis`} />
+                    <Tab label="Passeports" component={Link} to={`${url}/passeports`} />
+                    <Tab label="Visites médicales" component={Link} to={`${url}/visites-médicales`} />
+                </Tabs>
+            </Box>
+            {/* END MUI */}
 
             <Switch>
                 <Route exact path={path}>

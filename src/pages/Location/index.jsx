@@ -5,12 +5,23 @@ import AjoutFlotte from '../../components/AddFlotteForm'
 import { useState } from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
 import AjoutVehiculeLocation from "../../components/AddVehiculeLocationForm";
+import {
+    Button,
+    Paper,
+    Table, TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
 
 const Container = styled.div`
   margin: 0px;
   padding: 0px;
 `
-
+/*
 const AddBtn = styled.button`
   background-color: #4BF2B5;
   border: none;
@@ -23,7 +34,7 @@ const AddBtn = styled.button`
   position: absolute;
   right: 15px;
   cursor: pointer;
-`
+`*/
 
 const CardCont = styled.div`
   display: flex;
@@ -39,11 +50,10 @@ const Card = styled.div`
   background-color: #FFF;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
   padding: 20px;
-  /*font-family: 'Montserrat', sans-serif;*/
+  font-family: 'Montserrat', sans-serif;
   font-family: 'Bebas Neue', sans-serif;
   font-size: 18px;
   border-bottom: 2px solid #373B54;
-  /*font-weight: bold;*/
 
   .header {
     display: flex;
@@ -75,7 +85,7 @@ const Card = styled.div`
     color: #000;
   }
 `
-
+/*
 const TableCont = styled.div`
   box-sizing: border-box;
   background-color: #FFF;
@@ -248,12 +258,136 @@ div {
     color: #FFF;
   }
 }
+`*/
+
+/* START MUI */
+
+const AddBtn = styled(Button)`
+  margin: 15px;
+  cursor: pointer;
 `
 
+const StyledTableCell = styled(TableCell)`
+  background-color: darkblue;
+  span {
+    color: white;
+  }
+`
+const RowTableCell = styled(TableCell)`
+  .etat {
+    padding: 5px 10px; !important;
+    border-radius: 15px; !important;
+    font-weight: bold; !important;
+  }
+
+  .dispo {
+    background-color: #e5fdf4; !important;
+    color: #00ed96; !important;
+  }
+
+  .panne {
+    background-color: #fde9ee;
+    color: #f12559;
+  }
+
+  .occupe {
+    background-color: #fdf8e9;
+    color: #f1be25;
+  }
+
+  .action-btns {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .matricule {
+    color: darkblue;
+  }
+  
+  .red {
+    color: #f12559;
+  }
+  
+  .green {
+    color: green;
+  }
+
+  .echeance {
+    color: orangered;
+  }
+`
+const ActionButtonEdit = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #2cd2f6;
+  background-color: #e9fafe;
+  cursor: pointer;
+  &:hover {
+    background-color: #2cd2f6;
+    .btn-edit {
+      color: #FFF;
+    }
+  }
+  .btn-edit {
+    color: #2cd2f6;
+  }
+`
+
+const ActionButtonDelete = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #f12559;
+  background-color: #fde9ee;
+  cursor: pointer;
+  &:hover {
+    background-color: #f12559;
+    .btn-delete {
+      color: #FFF;
+    }
+  }
+  .btn-delete {
+    color: #f12559;
+  }
+`
+
+const data = [
+    {
+        id:'PF001256',
+        matricule:'99TUN4563',
+        numserie:'123RF456',
+        kilometrage:'123456',
+        moteur:'essence',
+        consommation:'10000',
+        entretien:'5',
+        etat:'disponible',
+    },
+    {
+        id:'PF001256',
+        matricule:'99TUN4563',
+        numserie:'123RF456',
+        kilometrage:'123456',
+        moteur:'essence',
+        consommation:'10000',
+        entretien:'5',
+        etat:'occupé',
+    },
+    {
+        id:'PF001256',
+        matricule:'99TUN4563',
+        numserie:'123RF456',
+        kilometrage:'123456',
+        moteur:'essence',
+        consommation:'10000',
+        entretien:'5',
+        etat:'en panne',
+    },
+];
+
+/* END MUI */
+
 function Location() {
-    const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ open, setOpen ] = useState(false)
     const { url } = useRouteMatch()
-    let id = 1, id1 = 2, id2 = 3;
 
     return (
         <Container>
@@ -287,7 +421,7 @@ function Location() {
                     <span className='value'>5</span>
                 </Card>
             </CardCont>
-            <TableCont>
+            {/*<TableCont>
                 <caption>Liste des véhicules à louer</caption><br/>
                 <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
                 <SearchInput placeholder='Rechercher ...'/>
@@ -393,8 +527,100 @@ function Location() {
                         <span className='ext'>&gt;</span>
                     </div>
                 </Pagination>
-            </TableCont>
-            <AjoutVehiculeLocation trigger={btnPopup} setTrigger={setBtnPopup} />
+            </TableCont>*/}
+
+            {/* START MUI */}
+
+            <TableContainer
+                component={Paper}
+                sx={{width: 1155}}
+            >
+                <Typography
+                    sx={{ flex: '1 1 100%', margin: '20px', position: 'relative' }}
+                    variant="h6"
+                    id="tableTitle"
+                    component="div"
+                >
+                    Liste des engins à louer
+                    <AddBtn
+                        sx={{ position: 'absolute', right: '15px'  }}
+                        variant="outlined"
+                        size={"small"}
+                        onClick={() => setOpen(true)}
+                    >
+                        Ajouter +
+                    </AddBtn>
+                </Typography>
+
+                <TextField
+                    sx={{ margin: '5px 20px', width: '50%' }}
+                    id={'search'}
+                    label={'Rechercher ...'}
+                    variant={'outlined'}
+                    size={'small'}
+                >
+
+                </TextField>
+
+                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                    <TableHead>
+                        <TableRow>
+
+                            <StyledTableCell></StyledTableCell>
+                            <StyledTableCell><span>#</span></StyledTableCell>
+                            <StyledTableCell><span>Matricule</span></StyledTableCell>
+                            <StyledTableCell><span>Num°Série</span></StyledTableCell>
+                            <StyledTableCell><span>Kilométrage</span></StyledTableCell>
+                            <StyledTableCell><span>Moteur</span></StyledTableCell>
+                            <StyledTableCell><span>Consommation</span></StyledTableCell>
+                            <StyledTableCell><span>Entretien</span></StyledTableCell>
+                            <StyledTableCell><span>Etat</span></StyledTableCell>
+
+                            <StyledTableCell><span>Details</span></StyledTableCell>
+                            <StyledTableCell><span>Actions</span></StyledTableCell>
+
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {data.map((row) =>(
+                            <TableRow hover={true}>
+
+                                <RowTableCell><input type='checkbox' /></RowTableCell>
+                                <RowTableCell>{row.id}</RowTableCell>
+                                <RowTableCell>{row.matricule}</RowTableCell>
+                                <RowTableCell>{row.numserie}</RowTableCell>
+                                <RowTableCell>{row.kilometrage}</RowTableCell>
+                                <RowTableCell>{row.moteur}</RowTableCell>
+                                <RowTableCell>{row.consommation}</RowTableCell>
+                                <RowTableCell>{row.entretien}</RowTableCell>
+                                <RowTableCell>
+                                    {row.etat === 'disponible' ? <span className={'dispo'}>{row.etat}</span> :
+
+                                    row.etat === 'en panne' ? <span className={'panne'}>{row.etat}</span> :
+                                                <span className={'occupe'}>{row.etat}</span>
+                                        }
+                                </RowTableCell>
+
+                                <RowTableCell>
+                                    <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                </RowTableCell>
+                                <RowTableCell>
+                                    <ActionButtonEdit>
+                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                    </ActionButtonEdit>
+                                    <ActionButtonDelete>
+                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                    </ActionButtonDelete>
+                                </RowTableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {/* END MUI */}
+
+            {/*<AjoutVehiculeLocation trigger={btnPopup} setTrigger={setBtnPopup} />*/}
         </Container>
     )
 }

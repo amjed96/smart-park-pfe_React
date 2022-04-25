@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Autocomplete,Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
 
-const Popup = styled.div`
+/*const Popup = styled.div`
     font-family: 'Montserrat', sans-serif;
     position: fixed;
     z-index: 100;
@@ -73,10 +74,53 @@ const AddBtn = styled.button`
   right: 15px;
   cursor: pointer;
   margin: 10px;
-`
+`*/
 
 function AjoutPersonne(props) {
-  return (props.trigger) ? (
+
+    let defaultDate = new Date().toISOString().split('T')[0]
+    const { open, setOpen } = props
+
+    return(
+        <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+            maxWidth={'md'}
+        >
+            <DialogTitle>
+                <div style={{display:'flex'}}>
+                    <Typography
+                        variant={'h6'}
+                        component={'div'}
+                        style={{flexGrow:1}}
+                    >
+                        Ajouter un personnel
+                    </Typography>
+                    <Button
+                        color={'secondary'}
+                        text={'X'}
+                        onClick={() => setOpen(false)}
+                    >X</Button>
+                </div>
+            </DialogTitle>
+            <DialogContent>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Nom'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Prénom'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField type={'date'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Date de naissance'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Téléphone'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'CIN'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField type={'email'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Email'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField type={'password'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Mot de passe'} variant={'outlined'} color={'secondary'}></TextField>
+
+                <Autocomplete renderInput={(params) => <TextField {...params} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Qualification'} variant={'outlined'} color={'secondary'}></TextField>} options={['Chef de parc','Chauffeur','Chauffeur poids lourd','Mécanicien','Gardien']}></Autocomplete>
+                <Autocomplete renderInput={(params) => <TextField {...params} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Type de permis'} variant={'outlined'} color={'secondary'}></TextField>} options={['A','B','C','D','E','F','G','H']}></Autocomplete>
+
+                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+            </DialogContent>
+        </Dialog>
+    );
+
+  /*return (props.trigger) ? (
     <Popup>
         <PopupInner>
             <button className="close-btn" onClick={() => props.setTrigger(false)}>
@@ -112,7 +156,7 @@ function AjoutPersonne(props) {
             { props.children }
         </PopupInner>
     </Popup>
-  ) : "";
+  ) : "";*/
 }
 
 export default AjoutPersonne
