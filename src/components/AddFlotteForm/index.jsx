@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import { Button,
     Dialog,
@@ -7,7 +7,8 @@ import { Button,
     TextField,
     Typography,
 } from "@mui/material";
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import axios from 'axios'
+import { baseURL, headers } from "../../services/service"
 
 const Popup = styled.div`
     font-family: 'Montserrat', sans-serif;
@@ -84,6 +85,101 @@ const AddBtn = styled.button`
 
 function AjoutFlotte(props) {
 
+    /* Start API */
+    const initialVehiculeState = {
+        immatriculation: null,
+        num_serie: null,
+        kilometrage: null,
+        engin: null,
+        consommation: null,
+        entretien: null,
+        constructeur: null,
+        type_commercial: null,
+        activite: null,
+        genre: null,
+        type_constructeur: null,
+        date_pmc: null,
+        carrosserie: null,
+        energie: null,
+        puissance_fiscale: null,
+        nombre_essieux: null,
+        charge_utile: null,
+        poids_vide: null,
+        ptac_ptra: null,
+        nombre_places: null,
+        nombre_debout: null,
+        cylidree: null,
+    }
+    const [vehicule, setVehicule] = useState(initialVehiculeState)
+    const handleVehiculeChange = (e) => {
+        const { name, value } = e.target;
+        setVehicule({ ...vehicule, [name]: value })
+    }
+    const submitVehicule = () => {
+        let data = {
+            immatriculation: vehicule.immatriculation,
+            num_serie: vehicule.num_serie,
+            kilometrage: vehicule.kilometrage,
+            engin: vehicule.engin,
+            consommation: vehicule.consommation,
+            entretien: vehicule.entretien,
+            constructeur: vehicule.constructeur,
+            type_commercial: vehicule.type_commercial,
+            activite: vehicule.activite,
+            genre: vehicule.genre,
+            type_constructeur: vehicule.type_constructeur,
+            date_pmc: vehicule.date_pmc,
+            carrosserie: vehicule.carrosserie,
+            energie: vehicule.energie,
+            puissance_fiscale: vehicule.puissance_fiscale,
+            nombre_essieux: vehicule.nombre_essieux,
+            charge_utile: vehicule.charge_utile,
+            poids_vide: vehicule.poids_vide,
+            ptac_ptra: vehicule.ptac_ptra,
+            nombre_places: vehicule.nombre_places,
+            nombre_debout: vehicule.nombre_debout,
+            cylidree: vehicule.cylidree,
+        };
+        axios
+            .post(`${baseURL}/vehicule/`, data, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                setVehicule({
+                    immatriculation: response.data.immatriculation,
+                    num_serie: response.data.num_serie,
+                    kilometrage: response.data.kilometrage,
+                    engin: response.data.engin,
+                    consommation: response.data.consommation,
+                    entretien: response.data.entretien,
+                    constructeur: response.data.constructeur,
+                    type_commercial: response.data.type_commercial,
+                    activite: response.data.activite,
+                    genre: response.data.genre,
+                    type_constructeur: response.data.type_constructeur,
+                    date_pmc: response.data.date_pmc,
+                    carrosserie: response.data.carrosserie,
+                    energie: response.data.energie,
+                    puissance_fiscale: response.data.puissance_fiscale,
+                    nombre_essieux: response.data.nombre_essieux,
+                    charge_utile: response.data.charge_utile,
+                    poids_vide: response.data.poids_vide,
+                    ptac_ptra: response.data.ptac_ptra,
+                    nombre_places: response.data.nombre_places,
+                    nombre_debout: response.data.nombre_debout,
+                    cylidree: response.data.cylidree,
+                });
+                /*setSubmitted(true);*/
+                console.log(response.data);
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    };
+    /* End API */
+
     let defaultDate = new Date().toISOString().split('T')[0]
     const { open, setOpen } = props
 
@@ -110,76 +206,34 @@ function AjoutFlotte(props) {
                 </div>
             </DialogTitle>
             <DialogContent>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Num° série'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Matricule'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Kilométrage'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Consommation'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Entretien'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Constructeur'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Type Commercial'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Activité'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Genre'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Type constructeur'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Date PMC'} type={'date'} variant={'outlined'} color={'secondary'} defaultValue={defaultDate}></TextField>
-                {/*<DesktopDatePicker
-                    label="Date PMC"
-                    inputFormat="dd/MM/yyyy"
-                 date={'10-08-2000'}/>*/}
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Carrosserie'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Energie'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Puissance fiscale'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={"Nombre d'essieux"} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Charge utile'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Poids vide'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'PTAC/PTRA'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Nombre de places'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Nombre debout'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Cylindrée'} variant={'outlined'} color={'secondary'}></TextField>
-                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'immatriculation'} label={'Immatriculation'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'num_serie'} label={'Num° série'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'kilometrage'} label={'Kilométrage'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'engin'} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'consommation'} label={'Consommation'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'entretien'} label={'Entretien'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'constructeur'} label={'Constructeur'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'type_commercial'} label={'Type Commercial'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'activite'} label={'Activité'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'genre'} label={'Genre'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'type_constructeur'} label={'Type constructeur'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'date_pmc'} label={'Date PMC'} type={'date'} variant={'outlined'} color={'secondary'} defaultValue={defaultDate}></TextField>
+
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'carrosserie'} label={'Carrosserie'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'energie'} label={'Energie'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'puissance_fiscale'} label={'Puissance fiscale'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'nombre_essieux'} label={"Nombre d'essieux"} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'charge_utile'} label={'Charge utile'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'poids_vide'} label={'Poids vide'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'ptac_ptra'} label={'PTAC/PTRA'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'nombre_places'} label={'Nombre de places'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'nombre_debout'} label={'Nombre debout'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'cylidree'} label={'Cylindrée'} variant={'outlined'} color={'secondary'}></TextField>
+
+                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'} onClick={() => {submitVehicule(); setOpen(false)}}>Ajouter</Button>
             </DialogContent>
         </Dialog>
     );
-
-
-    {/*return (props.trigger) ? (
-    <Popup>
-        <PopupInner>
-            <button className="close-btn" onClick={() => props.setTrigger(false)}>
-                X
-            </button>
-            <h1>Ajouter une véhicule</h1>
-            <input placeholder='Num° de série ...' />
-            <input placeholder='Matricule ...' />
-            <input placeholder='Kilométrage ...' />
-            <input placeholder='Engin ...' />
-            <input placeholder='Consommation ...' />
-            <input placeholder='Entretien ...' />
-            <input placeholder='Constructeur ...' />
-            <input placeholder='Type commercial ...' />
-            <input placeholder='Activité ...' />
-            <input placeholder='Genre ...' />
-            <input placeholder='Type constructeur ...' />
-            <input type='date' placeholder='DPMC (date)' />
-            <input placeholder='Carrosserie ...' />
-            <input placeholder='Energie ...' />
-            <input placeholder='Puissance fiscale ...' />
-            <input placeholder='Nombre d&#8217;essieux ...' />
-            <input placeholder='Charge utile ...' />
-            <input placeholder='PV (Poids Vide) ...' />
-            <input placeholder='PTAC/PTRA ...' />
-            <input placeholder='Nombre de places ...' />
-            <input placeholder='Nombre debout ...' />
-            <input placeholder='Cylindrée ...' />
-            <input placeholder='N° d&#8217;immatriculation précédent ...' />
-            <input placeholder='N° certificat Date et lieu d&#8217;établissement ...' />
-            <div className='submit-cont'>
-                <AddBtn>Enregistrer</AddBtn>
-            </div>
-            { props.children }
-        </PopupInner>
-    </Popup>
-  ) : "";*/}
 }
 
 export default AjoutFlotte

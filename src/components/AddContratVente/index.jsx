@@ -1,98 +1,96 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState, useEffect } from 'react'
 import {Autocomplete, Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
+import axios from 'axios';
+import { baseURL, headers } from "../../services/service"
 
-/*const Popup = styled.div`
-  font-family: 'Montserrat', sans-serif;
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.2);
-  overflow-y: auto;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const PopupInner = styled.div`
-  padding: 20px;
-  position: relative;
-  background-color: #FFF;
-  width: 50%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  h1 {
-    width: 100%;
-  }
-
-  .close-btn {
-    border: none;
-    position: absolute;
-    top: 20px;
-    right: 10px;
-    cursor: pointer;
-    color: #C4C4C4;
-  }
-
-  input, select, textarea {
-    border: 1px solid #C4C4C4;
-    width: 60%;
-    padding: 10px;
-    margin: 5px;
-
-    &:focus {
-      outline: none;
-      border: 1px solid #000;
-    }
-  }
-
-  label {
-    width: 60%;
-    font-weight: bold;
-    margin-left: -20px;
-  }
-
-  textarea {
-    resize: none;
-  }
-
-  select {
-    width: 63% !important;
-    option {
-      height: 50px;
-    }
-  }
-
-  .submit-cont {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-`
-
-const AddBtn = styled.button`
-  background-color: #4BF2B5;
-  border: none;
-  color: #FFF;
-  width: 87px;
-  height: 33px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  right: 15px;
-  cursor: pointer;
-  margin: 10px;
-`*/
 
 function AjoutContratVente(props) {
 
     let defaultDate = new Date().toISOString().split('T')[0]
+
+    /* Start API */
+    const initialContratventeState = {
+      id: null,
+      date: defaultDate,
+      vendeur: null,
+      marque: null,
+      modele: null,
+      chassis: null,
+      moteur: null,
+      prix: null,
+      vehicule: null
+  }
+
+  const [contratvente, setContratvente] = useState(initialContratventeState)
+  const [engins, setEngins] = useState([])
+
+  const handleContratventeChange = (e) => {
+      const { name, value } = e.target;
+      setContratvente({ ...contratvente, [name]: value })
+      console.log(contratvente)
+  }
+
+  /*const handleEnginChange = (e) => {
+      const { name, value } = e.target;
+      setConsommation({...consommation, [name]: value})
+  }*/
+  
+  const submitContratvente = () => {
+      let data = {
+        date: contratvente.date,
+        vendeur: contratvente.vendeur,
+        marque: contratvente.marque,
+        modele: contratvente.modele,
+        chassis: contratvente.chassis,
+        moteur: contratvente.moteur,
+        prix: contratvente.prix,
+        vehicule: contratvente.vehicule,
+      };
+      axios
+          .post(`${baseURL}/contrat-achat/`, data, {
+              /*headers: {
+                  headers,
+              },*/
+          })
+          .then((response) => {
+            setContratvente({
+                  date: response.data.date,
+                  vendeur: response.data.vendeur,
+                  marque: response.data.marque,
+                  modele: response.data.modele,
+                  chassis: response.data.chassis,
+                  moteur: response.data.moteur,
+                  prix: response.data.prix,
+                  vehicule: response.data.vehicule,
+              });
+              /*setSubmitted(true);*/
+              console.log(response.data);
+          })
+          .catch((e) => {
+              console.error(e);
+          });
+  };
+  const retrieveEngins = () => {
+      axios
+          .get(`${baseURL}/vehicule/`, {
+          /*headers: {
+              headers,
+          },*/
+      })
+          .then((response) => {
+              setEngins(response.data)
+          })
+          .catch((e) => {
+              console.error(e)
+          })
+      
+}
+
+  useEffect(() => {
+      retrieveEngins()
+  },[])
+  /* End API */
+
     const { open, setOpen } = props
 
     return(
@@ -118,47 +116,18 @@ function AjoutContratVente(props) {
                 </div>
             </DialogTitle>
             <DialogContent>
-                <TextField type={"date"} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Num° série'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Vendeur'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Immatriculation'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Marque'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Modèle'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Chassis'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Moteur'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete>
-                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+                <TextField onChange={handleContratventeChange} name={'date'} type={"date"} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleContratventeChange} name={'vendeur'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Vendeur'} variant={'outlined'} color={'secondary'}></TextField>
+                <Autocomplete renderInput={(params) => <TextField {...params} onChange={handleContratventeChange} name={'vehicule'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Immatriculation'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e)=>e.immatriculation)}></Autocomplete>
+                <TextField onChange={handleContratventeChange} name={'marque'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Marque'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleContratventeChange} name={'modele'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Modèle'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleContratventeChange} name={'chassis'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Chassis'} variant={'outlined'} color={'secondary'}></TextField>
+                <Autocomplete renderInput={(params) => <TextField  onChange={handleContratventeChange} name={'moteur'} {...params} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Moteur'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete>
+                <br/><Button onClick={() => {submitContratvente();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>
         </Dialog>
     );
 
-    {/*return (props.trigger) ? (
-        <Popup>
-            <PopupInner>
-                <button className="close-btn" onClick={() => props.setTrigger(false)}>
-                    X
-                </button>
-                <h1>Ajouter un contrat de vente</h1>
-
-                <label>Date :</label> {/!* To check *!/}
-                <input type={"date"} defaultValue={defaultDate} />
-                <input placeholder={'Vendeur ...'} />
-                <input placeholder={'Matricule ...'} />
-                <input placeholder={"Marque ..."} />
-                <input placeholder={"Modèle ..."} />
-                <input placeholder={"Chassis ..."} />
-                <label>Moteur</label>
-                <select>
-                    <option value={'essence'}>Essence</option>
-                    <option value={'diesel'}>Diesel</option>
-                </select>
-                <input placeholder={"Prix ..."} />
-
-                <div className='submit-cont'>
-                    <AddBtn>Enregistrer</AddBtn>
-                </div>
-                { props.children }
-            </PopupInner>
-        </Popup>
-    ) : "";*/}
 }
 
 export default AjoutContratVente

@@ -555,7 +555,7 @@ function Clients() {
         </TableContainer>
         {/* END MUI */}
 
-        {/*<AjoutClient trigger={btnPopup} setTrigger={setBtnPopup} />*/}
+        <AjoutClient open={open} setOpen={setOpen} />
       </Container>
     )
   }

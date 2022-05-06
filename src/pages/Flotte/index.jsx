@@ -1,9 +1,10 @@
+import axios from 'axios'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import AjoutFlotte from '../../components/AddFlotteForm'
-import { useState } from 'react'
-import {Link, useRouteMatch} from "react-router-dom";
+import { useState, useEffect } from 'react'
+import { Link, useRouteMatch } from "react-router-dom";
 import {
     Paper,
     Table,
@@ -13,8 +14,11 @@ import {
     TableCell,
     TableBody,
     Button,
-    Typography, TextField
+    Typography, 
+    TextField
 } from "@mui/material";
+import { baseURL, headers } from "../../services/service"
+import EditFlotte from '../../components/AddFlotteForm/edit'
 
 const Container = styled.div`
   margin: 0px;
@@ -262,14 +266,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .panne {
@@ -293,17 +297,65 @@ const RowTableCell = styled(TableCell)`
 `
 
 
-const data = [
-    {matricule:'120TUN2536',serie:'12653',kilometrage:'125436',moteur:'essence',consommation:'2L/Km', entretien:'5', etat:'disponible'},
+/*const data = [
+    {
+        matricule:'120TUN2536',
+        serie:'12653',
+        kilometrage:'125436',
+        moteur:'essence',
+        consommation:'2L/Km',
+        entretien:'5',
+        etat:'disponible'
+    },
     {matricule:'125TUN1220',serie:'25638',kilometrage:'25036',moteur:'diesel',consommation:'1.5L/Km', entretien:'3', etat:'occupe'},
     {matricule:'182TUN5234',serie:'84652',kilometrage:'5468',moteur:'diesel',consommation:'1.5L/Km', entretien:'1', etat:'en panne'},
-];
+];*/
 
 /* END MUI */
 
 function Flotte() {
     const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+    const [ vehicules, setVehicules ] = useState([])
+    const [ id, setId ] = useState(0)
+    /*const [ deleted, setDeleted ] = useState(false)*/
+
     const { url } = useRouteMatch()
+
+    useEffect(() => {
+        retrieveAllVehicules()
+    },[open,openedit])
+
+    const retrieveAllVehicules = () => {
+        axios
+            .get(`${baseURL}/vehicule/`, {
+            /*headers: {
+                headers,
+            },*/
+        })
+            .then((response) => {
+                setVehicules(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    const deleteVehicule = (id) => {
+        axios
+            .delete(`${baseURL}/vehicule/${id}/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                /*setDeleted(true);*/
+                retrieveAllVehicules();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    };
 
     return (
       <Container>
@@ -384,13 +436,13 @@ function Flotte() {
                 </TableHead>
 
                   <TableBody>
-                      {data.map((row) =>(
-                          <TableRow hover={true}>
+                      { vehicules.map((row) => (
+                          <TableRow hover={true} key={row.id}>
                               <RowTableCell><input type='checkbox' /></RowTableCell>
-                              <RowTableCell><span className={'matricule'}>{row.matricule}</span></RowTableCell>
-                              <RowTableCell>{row.serie}</RowTableCell>
+                              <RowTableCell><span className={'matricule'}>{ row.immatriculation }</span></RowTableCell>
+                              <RowTableCell>{row.num_serie}</RowTableCell>
                               <RowTableCell>{row.kilometrage}</RowTableCell>
-                              <RowTableCell>{row.moteur}</RowTableCell>
+                              <RowTableCell>{row.engin}</RowTableCell>
                               <RowTableCell>{row.consommation}</RowTableCell>
                               <RowTableCell>{row.entretien}</RowTableCell>
                               <RowTableCell>{row.etat === "disponible" ? <span className='etat dispo'>Disponible</span>
@@ -398,14 +450,14 @@ function Flotte() {
                                       : <span className='etat occupe'>Occupé</span> }
                               </RowTableCell>
                               <RowTableCell>
-                                  <Link to={`${url}/${row.matricule}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                  <Link to={`${url}/${row.immatriculation}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
                               </RowTableCell>
                               <RowTableCell>
                                   <ActionButtonEdit>
-                                      <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                      <FontAwesomeIcon onClick={() => { setId(row.immatriculation);setOpenedit(true) }} icon={ faPenToSquare } className='btn btn-edit' />
                                   </ActionButtonEdit>
                                   <ActionButtonDelete>
-                                      <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                      <FontAwesomeIcon onClick={() => deleteVehicule(row.immatriculation)} icon={ faTrashCan } className='btn btn-delete' />
                                   </ActionButtonDelete>
                               </RowTableCell>
                           </TableRow>
@@ -415,6 +467,8 @@ function Flotte() {
           </TableContainer>
           {/* END MUI */}
           <AjoutFlotte open={open} setOpen={setOpen} />
+          <EditFlotte openedit={openedit} setOpenedit={setOpenedit} id={id} />
+          
       </Container>
     )
   }

@@ -1,98 +1,98 @@
-import React from 'react'
-import styled from 'styled-components'
-import {Autocomplete, Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
+import React, { useState, useEffect } from 'react'
+import {
+  Autocomplete,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography
+} from "@mui/material";
+import axios from 'axios';
+import { baseURL, headers } from "../../services/service"
 
-/*const Popup = styled.div`
-  font-family: 'Montserrat', sans-serif;
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.2);
-  overflow-y: auto;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const PopupInner = styled.div`
-  padding: 20px;
-  position: relative;
-  background-color: #FFF;
-  width: 50%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  h1 {
-    width: 100%;
-  }
-
-  .close-btn {
-    border: none;
-    position: absolute;
-    top: 20px;
-    right: 10px;
-    cursor: pointer;
-    color: #C4C4C4;
-  }
-
-  input, select, textarea {
-    border: 1px solid #C4C4C4;
-    width: 60%;
-    padding: 10px;
-    margin: 5px;
-
-    &:focus {
-      outline: none;
-      border: 1px solid #000;
-    }
-  }
-
-  label {
-    width: 60%;
-    font-weight: bold;
-    margin-left: -20px;
-  }
-
-  textarea {
-    resize: none;
-  }
-
-  select {
-    width: 63% !important;
-    option {
-      height: 50px;
-    }
-  }
-
-  .submit-cont {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-`
-
-const AddBtn = styled.button`
-  background-color: #4BF2B5;
-  border: none;
-  color: #FFF;
-  width: 87px;
-  height: 33px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  right: 15px;
-  cursor: pointer;
-  margin: 10px;
-`*/
-
-function AjoutContratLocation(props) {
+function AjoutContratLocationFlotte(props) {
 
     let defaultDate = new Date().toISOString().split('T')[0]
+
+    /* Start API */
+    const initialContratlocationState = {
+        id: null,
+        date_debut: defaultDate,
+        date_fin: defaultDate,
+        marque: null,
+        modele: null,
+        prix: null,
+        vehicule: null
+  }
+
+  const [contratlocation, setContratlocation] = useState(initialContratlocationState)
+  const [engins, setEngins] = useState([])
+
+  const handleContratlocationChange = (e) => {
+      const { name, value } = e.target;
+      setContratlocation({ ...contratlocation, [name]: value })
+      console.log(contratlocation)
+  }
+
+  /*const handleEnginChange = (e) => {
+      const { name, value } = e.target;
+      setConsommation({...consommation, [name]: value})
+  }*/
+  
+  const submitContratlocation = () => {
+      let data = {
+        date_debut: contratlocation.date_debut,
+        date_fin: contratlocation.date_fin,
+        marque: contratlocation.marque,
+        modele: contratlocation.modele,
+        prix: contratlocation.prix,
+        vehicule: contratlocation.vehicule
+      };
+      axios
+          .post(`${baseURL}/contrat-location-flotte/`, data, {
+              /*headers: {
+                  headers,
+              },*/
+          })
+          .then((response) => {
+            setContratlocation({
+                  date_debut: response.data.date_debut,
+                  date_fin: response.data.date_fin,
+                  marque: response.data.marque,
+                  modele: response.data.modele,
+                  prix: response.data.prix,
+                  vehicule: response.data.vehicule
+              });
+              /*setSubmitted(true);*/
+              console.log(response.data);
+          })
+          .catch((e) => {
+              console.error(e);
+          });
+  };
+  const retrieveEngins = () => {
+      axios
+          .get(`${baseURL}/vehicule/`, {
+          /*headers: {
+              headers,
+          },*/
+      })
+          .then((response) => {
+              setEngins(response.data)
+          })
+          .catch((e) => {
+              console.error(e)
+          })
+      
+}
+
+  useEffect(() => {
+      retrieveEngins()
+  },[])
+  /* End API */
+
     const { open, setOpen } = props
 
     return(
@@ -118,45 +118,18 @@ function AjoutContratLocation(props) {
                 </div>
             </DialogTitle>
             <DialogContent>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Immatriculation'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField type={'date'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Date début'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField type={'date'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Date fin'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Locataire'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Marque'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Modèle'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Prix'} variant={'outlined'} color={'secondary'}></TextField>
-                {/*<Autocomplete renderInput={(params) => <TextField {...params} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Moteur'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete>*/}
-                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+                <TextField onChange={handleContratlocationChange} type={'date'} sx={{width: '40%', margin: '10px'}} size={'small'} name={'date_debut'} label={'Date début'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleContratlocationChange} type={'date'} sx={{width: '40%', margin: '10px'}} size={'small'} name={'date_fin'} label={'Date fin'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleContratlocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'marque'} label={'Marque'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleContratlocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'modele'} label={'Modèle'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleContratlocationChange} type={'number'} sx={{width: '40%', margin: '10px'}} size={'small'} name={'prix'} label={'Prix'} variant={'outlined'} color={'secondary'}></TextField>
+                <Autocomplete renderInput={(params) => <TextField {...params}  onChange={handleContratlocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'vehicule'} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e) => e.immatriculation)}></Autocomplete>
+                
+                <br/><Button onClick={() => {submitContratlocation();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>
         </Dialog>
     );
 
-    /*return (props.trigger) ? (
-        <Popup>
-            <PopupInner>
-                <button className="close-btn" onClick={() => props.setTrigger(false)}>
-                    X
-                </button>
-                <h1>Ajouter un contrat de location</h1>
-
-                <input placeholder={'Matricule ...'} />
-                <label>Date début :</label> {/!* To check *!/}
-                <input type={"date"} defaultValue={defaultDate} />
-                <label>Date fin :</label> {/!* To check *!/}
-                <input type={"date"} defaultValue={defaultDate} />
-                <input placeholder={'Locataire ...'} />
-                <input placeholder={"Marque ..."} />
-                <input placeholder={"Modèle ..."} />
-                <input placeholder={"Prix ..."} />
-                <label>Moteur</label>
-
-                <div className='submit-cont'>
-                    <AddBtn>Enregistrer</AddBtn>
-                </div>
-                { props.children }
-            </PopupInner>
-        </Popup>
-    ) : "";*/
 }
 
-export default AjoutContratLocation
+export default AjoutContratLocationFlotte

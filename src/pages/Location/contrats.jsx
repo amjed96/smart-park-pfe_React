@@ -3,7 +3,6 @@ import {useState} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
-import AjoutFlotte from "../../components/AddFlotteForm";
 import {
     Button,
     Paper,
@@ -15,6 +14,7 @@ import {
     TextField,
     Typography
 } from "@mui/material";
+import AddContratLocationForm from "../../components/AddContratLocationForm";
 
 const Container = styled.div`
   margin: 0px;
@@ -520,7 +520,7 @@ function LocationContrats() {
             </TableContainer>
             {/* END MUI */}
 
-            {/*<AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />*/}
+            <AddContratLocationForm open={open} setOpen={setOpen} />
         </Container>
     )
 }

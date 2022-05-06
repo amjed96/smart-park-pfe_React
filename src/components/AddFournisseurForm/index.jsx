@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
 
-const Popup = styled.div`
+/*const Popup = styled.div`
     font-family: 'Montserrat', sans-serif;
     position: fixed;
     z-index: 100;
@@ -87,10 +88,51 @@ const AddBtn = styled.button`
   right: 15px;
   cursor: pointer;
   margin: 10px;
-`
+`*/
 
 function AjoutFournisseur(props) {
-    return (props.trigger) ? (
+
+    let defaultDate = new Date().toISOString().split('T')[0]
+    const { open, setOpen } = props
+
+    return(
+        <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+            maxWidth={'md'}
+        >
+            <DialogTitle>
+                <div style={{display:'flex'}}>
+                    <Typography
+                        variant={'h6'}
+                        component={'div'}
+                        style={{flexGrow:1}}
+                    >
+                        Ajouter un fournisseur
+                    </Typography>
+                    <Button
+                        color={'secondary'}
+                        text={'X'}
+                        onClick={() => setOpen(false)}
+                    >X</Button>
+                </div>
+            </DialogTitle>
+            <DialogContent>
+
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Compte tiers'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Intitulé'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Abrégé'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Compte collectif'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Qualité'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Interlocuteur'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Commentaire'} variant={'outlined'} color={'secondary'}></TextField>
+
+                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+            </DialogContent>
+        </Dialog>
+    );
+
+    /*return (props.trigger) ? (
         <Popup>
             <PopupInner>
                 <button className="close-btn" onClick={() => props.setTrigger(false)}>
@@ -143,7 +185,7 @@ function AjoutFournisseur(props) {
                 { props.children }
             </PopupInner>
         </Popup>
-    ) : "";
+    ) : "";*/
 }
 
 export default AjoutFournisseur

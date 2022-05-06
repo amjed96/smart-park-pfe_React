@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
-import AjoutFlotte from "../../components/AddFlotteForm";
 import {
     Paper,
     Table,
@@ -16,6 +15,9 @@ import {
     Typography,
     Button
 } from "@mui/material";
+import AjoutAffectation from "../../components/AddAffectationForm";
+import axios from "axios"
+import { baseURL, headers } from "../../services/service";
 
 const Container = styled.div`
   margin: 0px;
@@ -37,14 +39,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .cloture {
@@ -96,18 +98,80 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-
 /* END MUI */
 
 const data = [
-    {id:1, matricule:'120TUN2536', chauffeur:'Mohamed Mohamed', datedebut:'12/05/2022', datefin:'12/06/2022', etat:'en cours'},
+    {
+        id:1,
+        matricule:'120TUN2536',
+        chauffeur:'Mohamed Mohamed',
+        datedebut:'12/05/2022',
+        datefin:'12/06/2022',
+        etat:'en cours'
+    },
     {id:2, matricule:'125TUN2576', chauffeur:'Mohamed Ali', datedebut:'12/05/2022', datefin:'12/06/2022', etat:'clôturée'},
 
 ];
 
 function AffectationsFlotte() {
-    const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+    const [ affectations, setAffectations ] = useState([])
+    const [ chauffeur, setChauffeur ] = useState()
+    const [ id, setId ] = useState(0)
+    /*const [ deleted, setDeleted ] = useState(false)*/
     const { url } = useRouteMatch()
+
+    useEffect(() => {
+      retrieveAllAffectations()
+  },[open,openedit])
+
+  const retrieveAllAffectations = () => {
+    axios
+        .get(`${baseURL}/affectation/`, {
+        /*headers: {
+            headers,
+        },*/
+    })
+        .then((response) => {
+            setAffectations(response.data)
+            // retrieveChauffeur(response.data.id)
+        })
+        .catch((e) => {
+            console.error(e)
+        })
+  }
+
+  const retrieveChauffeur = (id) => {
+    axios
+        .get(`${baseURL}/personnel/${id}`, {
+        /*headers: {
+            headers,
+        },*/
+    })
+        .then((response) => {
+            setChauffeur(response.data)
+        })
+        .catch((e) => {
+            console.error(e)
+        })
+    }
+
+  const deleteAffectations = (id) => {
+    axios
+        .delete(`${baseURL}/affectation/${id}/`, {
+            /*headers: {
+                headers,
+            },*/
+        })
+        .then((response) => {
+            /*setDeleted(true);*/
+            retrieveAllAffectations();
+        })
+        .catch((e) => {
+            console.error(e);
+        });
+  };
 
     return (
         <Container>
@@ -124,7 +188,7 @@ function AffectationsFlotte() {
                         sx={{ position: 'absolute', right: '15px'  }}
                         variant="outlined"
                         size={"small"}
-                        onClick={() => setBtnPopup(true)}
+                        onClick={() => setOpen(true)}
                     >
                         Ajouter +
                     </AddBtn>
@@ -158,15 +222,15 @@ function AffectationsFlotte() {
                     </TableHead>
 
                     <TableBody>
-                        {data.map((row) =>(
+                        {affectations.map((row) =>(
                             <TableRow hover={true}>
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.id}</RowTableCell>
-                                <RowTableCell><span className={'matricule'}>{row.matricule}</span></RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
                                 <RowTableCell>{row.chauffeur}</RowTableCell>
-                                <RowTableCell>{row.datedebut}</RowTableCell>
-                                <RowTableCell>{row.datefin}</RowTableCell>
-                                <RowTableCell>{row.etat === "en cours" ? <span className='etat dispo'>En cours</span>
+                                <RowTableCell>{row.date_debut}</RowTableCell>
+                                <RowTableCell>{row.date_fin}</RowTableCell>
+                                <RowTableCell>{row.etat ? <span className='etat dispo'>En cours</span>
                                     : <span className='etat cloture'>Clôturée</span>
                                 }
                                 </RowTableCell>
@@ -174,11 +238,11 @@ function AffectationsFlotte() {
                                     <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
                                 </RowTableCell>
                                 <RowTableCell>
-                                    <ActionButtonEdit>
+                                    {/*<ActionButtonEdit>
                                         <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                                    </ActionButtonEdit>
+                              </ActionButtonEdit>*/}
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteAffectations(row.id)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -186,6 +250,8 @@ function AffectationsFlotte() {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <AjoutAffectation open ={open} setOpen={setOpen} />
             {/* END MUI */}
         </Container>
     )

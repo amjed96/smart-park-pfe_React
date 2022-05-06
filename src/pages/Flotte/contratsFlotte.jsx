@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import AjoutContratVente from "../../components/AddContratVente";
-import AjoutContratLocation from "../../components/AddContratLocationFlotteForm";
+import AjoutContratLocationFlotte from "../../components/AddContratLocationFlotteForm";
 import {
     Button,
     Paper,
@@ -16,6 +16,10 @@ import {
     TextField,
     Typography
 } from "@mui/material";
+import axios from "axios";
+import { baseURL,headers } from "../../services/service";
+import EditContratVente from "../../components/AddContratVente/edit";
+import EditContratLocationFlotte from "../../components/AddContratLocationFlotteForm/edit";
 
 const Container = styled.div`
   margin: 0px;
@@ -37,14 +41,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .cloture {
@@ -99,7 +103,17 @@ const ActionButtonDelete = styled.button`
 /* END MUI */
 
 const data = [
-    {id:1, date:'20/04/2022', vendeur:'Mohamed Ali', matricule:'120TUN5231', marque:'Volvo', modele:'Volvo', chassis: '1254RFG523', moteur:'essence', prix:'120 000'},
+    {
+        id:1,
+        date:'20/04/2022',
+        vendeur:'Mohamed Ali',
+        matricule:'120TUN5231',
+        marque:'Volvo',
+        modele:'Volvo',
+        chassis: '1254RFG523',
+        moteur:'essence',
+        prix:'120 000'
+    },
     {id:2, date:'15/06/2022', vendeur:'Amjed Bouallegui', matricule:'135TUN8466', marque:'Volvo', modele:'Volvo', chassis: '5236CHG514', moteur:'diesel', prix:'52 000'},
 ];
 
@@ -117,8 +131,90 @@ const data1 = [
 
 function ContratsFlotte() {
     const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
     const [ open1, setOpen1 ] = useState(false)
+    const [ openedit1, setOpenedit1 ] = useState(false)
+
+    /* Start API */
+    const [ contratsvente, setContratsvente ] = useState([])
+    const [ id, setId ] = useState(0)
+
+    const [ contratslocation, setContratslocation ] = useState([])
+    const [ id1, setId1 ] = useState(0)
+    /* End API */
+
     const { url } = useRouteMatch()
+
+    /* Start API */
+
+    useEffect(() => {
+        retrieveAllContratsvente()
+        retrieveAllContratslocation()
+    },[open,openedit,open1,openedit1])
+
+    const retrieveAllContratsvente = () => {
+        axios
+            .get(`${baseURL}/contrat-achat/`, {
+            /*headers: {
+                headers,
+            },*/
+        })
+            .then((response) => {
+                setContratsvente(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    const retrieveAllContratslocation = () => {
+        axios
+            .get(`${baseURL}/contrat-location-flotte/`, {
+            /*headers: {
+                headers,
+            },*/
+        })
+            .then((response) => {
+                setContratslocation(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    const deleteContratvente = (id) => {
+        axios
+            .delete(`${baseURL}/contrat-achat/${id}/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                /*setDeleted(true);*/
+                retrieveAllContratsvente();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    };
+
+    const deleteContratlocation = (id) => {
+        axios
+            .delete(`${baseURL}/contrat-location-flotte/${id}/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                /*setDeleted(true);*/
+                retrieveAllContratslocation();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    };
+
+    /* End API */
 
     return (
         <Container>
@@ -172,13 +268,14 @@ function ContratsFlotte() {
                     </TableHead>
 
                     <TableBody>
-                        {data.map((row) =>(
+                        {contratsvente.map((row) =>(
+                            
                             <TableRow hover={true}>
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.id}</RowTableCell>
                                 <RowTableCell>{row.date}</RowTableCell>
                                 <RowTableCell>{row.vendeur}</RowTableCell>
-                                <RowTableCell><span className={'matricule'}>{row.matricule}</span></RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
                                 <RowTableCell>{row.marque}</RowTableCell>
                                 <RowTableCell>{row.modele}</RowTableCell>
                                 <RowTableCell>{row.chassis}</RowTableCell>
@@ -189,10 +286,10 @@ function ContratsFlotte() {
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => {setOpenedit(true);setId(row.id)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteContratvente(row.id)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -250,13 +347,13 @@ function ContratsFlotte() {
                     </TableHead>
 
                     <TableBody>
-                        {data1.map((row) =>(
+                        {contratslocation.map((row) =>(
                             <TableRow hover={true}>
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.id}</RowTableCell>
-                                <RowTableCell><span className={'matricule'}>{row.matricule}</span></RowTableCell>
-                                <RowTableCell>{row.datedebut}</RowTableCell>
-                                <RowTableCell>{row.datefin}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
+                                <RowTableCell>{row.date_debut}</RowTableCell>
+                                <RowTableCell>{row.date_fin}</RowTableCell>
                                 <RowTableCell>{row.marque}</RowTableCell>
                                 <RowTableCell>{row.modele}</RowTableCell>
                                 <RowTableCell>{row.prix} D.T</RowTableCell>
@@ -265,10 +362,10 @@ function ContratsFlotte() {
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setOpen1(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => {setId1(row.id); setOpenedit1(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteContratlocation(row.id)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -279,7 +376,10 @@ function ContratsFlotte() {
             {/* END MUI */}
 
             <AjoutContratVente open={open} setOpen={setOpen} />
-            <AjoutContratLocation open={open1} setOpen={setOpen1} />
+            <AjoutContratLocationFlotte open={open1} setOpen={setOpen1} />
+
+            <EditContratVente openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <EditContratLocationFlotte openedit={openedit1} setOpenedit={setOpenedit1} id={id1} />
 
         </Container>
     )

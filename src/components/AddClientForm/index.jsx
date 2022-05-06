@@ -121,11 +121,13 @@ function AjoutClient(props) {
             </DialogTitle>
             <DialogContent>
 
-                <TextField disabled={true} type={'date'} sx={{width: '80%', margin: '10px'}} size={'small'} label={'date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
-
-                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Article'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField type={'number'} sx={{width: '80%', margin: '10px'}} size={'small'} label={'Nombre'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Description'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Compte tiers'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Intitulé'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Abrégé'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Compte collectif'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Qualité'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Interlocuteur'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Commentaire'} variant={'outlined'} color={'secondary'}></TextField>
 
                 <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>

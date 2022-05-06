@@ -2,60 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7418be41-3252-4d95-b138-a5712551f476" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/AddDossierVoyageForm/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/AddFicheTrajetForm/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AddClientForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddClientForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddContratLocationFlotteForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddContratLocationFlotteForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddContratVente/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddContratVente/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddDemandeAchatForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddDemandeAchatForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddDemandeInterventionForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddDemandeInterventionForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddDocumentForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddDocumentForm/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddContactForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddContactForm/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddContratLocationForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddContratLocationForm/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AddFlotteForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddFlotteForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddInterventionForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddInterventionForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddPasseportForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddPasseportForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddPermisForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddPermisForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddPersonnelForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddPersonnelForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddPieceRechange/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddPieceRechange/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddPlanEntretien/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddPlanEntretien/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddStockForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddStockForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddVisiteMedicaleForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddVisiteMedicaleForm/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AchatStock/demandesAchat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AchatStock/demandesAchat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AchatStock/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AchatStock/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AchatStock/navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AchatStock/navigation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AchatStock/stock.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AchatStock/stock.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Finance/encaissements.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Finance/encaissements.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Finance/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Finance/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Finance/navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Finance/navigation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Finance/paiementsFournisseur.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Finance/paiementsFournisseur.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddFournisseurForm/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddFournisseurForm/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Flotte/affectations.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Flotte/affectations.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Flotte/consommation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Flotte/consommation.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Flotte/contratsFlotte.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Flotte/contratsFlotte.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Flotte/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Flotte/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Flotte/navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Flotte/navigation.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Location/contrats.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Location/contrats.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Location/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Location/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Location/navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Location/navigation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Maintenance/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Maintenance/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Maintenance/interventions.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Maintenance/interventions.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Maintenance/navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Maintenance/navigation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Maintenance/piecesRechange.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Maintenance/piecesRechange.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Maintenance/plansEntretien.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Maintenance/plansEntretien.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Personnel/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Personnel/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Personnel/navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Personnel/navigation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Personnel/passeports.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Personnel/passeports.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Personnel/permis.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Personnel/permis.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Personnel/visites.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Personnel/visites.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Tiers/contacts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Tiers/contacts.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Tiers/fournisseurs.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Tiers/fournisseurs.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Tiers/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Tiers/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Tiers/navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Tiers/navigation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Transport/fichesTrajet.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Transport/fichesTrajet.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Transport/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Transport/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Transport/navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Transport/navigation.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +90,16 @@
       <workItem from="1650576604335" duration="17029000" />
       <workItem from="1650637762029" duration="1822000" />
       <workItem from="1650714470919" duration="25959000" />
+      <workItem from="1650981134252" duration="15030000" />
+      <workItem from="1651149190523" duration="13335000" />
+      <workItem from="1651244762446" duration="1835000" />
+      <workItem from="1651276229318" duration="6633000" />
+      <workItem from="1651321397930" duration="9402000" />
+      <workItem from="1651400525607" duration="19184000" />
+      <workItem from="1651576761477" duration="31000" />
+      <workItem from="1651576825546" duration="17000" />
+      <workItem from="1651579075084" duration="5000" />
+      <workItem from="1651597954454" duration="3000" />
     </task>
     <servers />
   </component>

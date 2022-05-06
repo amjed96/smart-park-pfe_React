@@ -551,7 +551,7 @@ function Fournisseurs() {
             </TableContainer>
             {/* END MUI */}
 
-            {/*<AjoutFournisseur trigger={btnPopup} setTrigger={setBtnPopup} />*/}
+            <AjoutFournisseur open={open} setOpen={setOpen} />
         </Container>
     )
 }

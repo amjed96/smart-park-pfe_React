@@ -614,7 +614,7 @@ function Contacts() {
             </TableContainer>
             {/* END MUI */}
 
-            {/*<AjoutContact trigger={btnPopup} setTrigger={setBtnPopup} />*/}
+            <AjoutContact open={open} setOpen={setOpen} />
         </Container>
     )
 }

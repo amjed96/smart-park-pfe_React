@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Autocomplete, Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
 
-const Popup = styled.div`
+/*const Popup = styled.div`
     font-family: 'Montserrat', sans-serif;
     position: fixed;
     z-index: 100;
@@ -85,10 +86,58 @@ const AddBtn = styled.button`
   right: 15px;
   cursor: pointer;
   margin: 10px;
-`
+`*/
 
 function AjoutContact(props) {
-    return (props.trigger) ? (
+
+    let defaultDate = new Date().toISOString().split('T')[0]
+    const { open, setOpen } = props
+
+    return(
+        <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+            maxWidth={'md'}
+        >
+            <DialogTitle>
+                <div style={{display:'flex'}}>
+                    <Typography
+                        variant={'h6'}
+                        component={'div'}
+                        style={{flexGrow:1}}
+                    >
+                        Ajouter un contact
+                    </Typography>
+                    <Button
+                        color={'secondary'}
+                        text={'X'}
+                        onClick={() => setOpen(false)}
+                    >X</Button>
+                </div>
+            </DialogTitle>
+            <DialogContent>
+
+                <Autocomplete renderInput={(params) => <TextField {...params} sx={{width: '80%', margin: '10px'}} size={'small'} label={'Tiers'} variant={'outlined'} color={'secondary'}></TextField>} options={['SATEM','SPACEX','AMAZON']}></Autocomplete>
+                <Autocomplete renderInput={(params) => <TextField {...params} sx={{width: '80%', margin: '10px'}} size={'small'} label={'Civilité'} variant={'outlined'} color={'secondary'}></TextField>} options={['M.','Mme.','Mlle.']}></Autocomplete>
+
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Nom'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Préom'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Service'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Fonction'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Téléphone'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Portable'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Télécopie'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Skype'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'LinkedIn'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Facebook'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Email'} variant={'outlined'} color={'secondary'}></TextField>
+
+                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+            </DialogContent>
+        </Dialog>
+    );
+
+    /*return (props.trigger) ? (
         <Popup>
             <PopupInner>
                 <button className="close-btn" onClick={() => props.setTrigger(false)}>
@@ -98,20 +147,20 @@ function AjoutContact(props) {
 
                 <h2>Identification</h2>
                 <FormGroup>
-                    <select>{/* A vérifier */}
+                    <select>{/!* A vérifier *!/}
                         <option>-- Type Contact --</option>
                         <option>Interlocuteur</option>
                         <option>Gérant</option>
                         <option>Responsable</option>
                     </select>
-                    {/*<input placeholder='Type contact ...' />*/}
-                    <select>{/* A vérifier */}
+                    {/!*<input placeholder='Type contact ...' />*!/}
+                    <select>{/!* A vérifier *!/}
                         <option>-- Civilité --</option>
                         <option>M.</option>
                         <option>Mme.</option>
                         <option>Mlle.</option>
                     </select>
-                    {/*<input placeholder='Civilité ...' />*/}
+                    {/!*<input placeholder='Civilité ...' />*!/}
                     <input placeholder='Nom ...' />
                     <input placeholder='Prénom ...' />
                     <input placeholder='Service ...' />
@@ -135,7 +184,7 @@ function AjoutContact(props) {
                 { props.children }
             </PopupInner>
         </Popup>
-    ) : "";
+    ) : "";*/
 }
 
 export default AjoutContact

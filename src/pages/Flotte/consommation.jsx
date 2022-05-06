@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
-
 import {
     Button,
     Paper,
@@ -15,6 +14,10 @@ import {
     TextField,
     Typography
 } from "@mui/material";
+import AjoutConsommation from "../../components/AddConsommationForm";
+import { baseURL,headers } from "../../services/service"
+import axios from "axios"
+import EditConsommation from "../../components/AddConsommationForm/edit";
 
 const Container = styled.div`
   margin: 0px;
@@ -36,14 +39,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .cloture {
@@ -99,14 +102,67 @@ const ActionButtonDelete = styled.button`
 /* END MUI */
 
 const data = [
-    {id:1, mois:'04/2022', vehicule:'120TUN5236', type:'camion', kilometrage:'145236', consototal:'20536', conso: '2.5'},
+    {
+        id:1,
+        mois:'04/2022',
+        vehicule:'120TUN5236',
+        type:'camion',
+        kilometrage:'145236',
+        consototal:'20536',
+        conso: '2.5'
+    },
     {id:2, mois:'05/2022', vehicule:'135TUN1022', type:'camion', kilometrage:'145236', consototal:'245356', conso: '1.5'},
 ];
 
 function ConsommationFlotte() {
-    const [ btnPopup, setBtnPopup ] = useState(false)
+    const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+
+    /* Start API */
+    const [ consommation, setConsommation ] = useState([])
+    const [ id, setId ] = useState(0)
+    /* End API */
+
     const { url } = useRouteMatch()
-    let id = 1, id1 = 2, id2 = 3;
+
+    /* Start API */
+
+    useEffect(() => {
+      retrieveAllConsommations()
+  },[open,openedit])
+
+  const retrieveAllConsommations = () => {
+      axios
+          .get(`${baseURL}/consommation/`, {
+          /*headers: {
+              headers,
+          },*/
+      })
+          .then((response) => {
+              setConsommation(response.data)
+          })
+          .catch((e) => {
+              console.error(e)
+          })
+  }
+
+  const deleteConsommation = (id) => {
+      axios
+          .delete(`${baseURL}/consommation/${id}/`, {
+              /*headers: {
+                  headers,
+              },*/
+          })
+          .then((response) => {
+              /*setDeleted(true);*/
+              retrieveAllConsommations();
+          })
+          .catch((e) => {
+              console.error(e);
+          });
+  };
+
+  /* End API */
 
     return (
         <Container>
@@ -123,7 +179,7 @@ function ConsommationFlotte() {
                         sx={{ position: 'absolute', right: '15px'  }}
                         variant="outlined"
                         size={"small"}
-                        onClick={() => setBtnPopup(true)}
+                        onClick={() => setOpen(true)}
                     >
                         Ajouter +
                     </AddBtn>
@@ -158,7 +214,7 @@ function ConsommationFlotte() {
                     </TableHead>
 
                     <TableBody>
-                        {data.map((row) =>(
+                        {consommation.map((row) =>(
                             <TableRow hover={true}>
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.id}</RowTableCell>
@@ -166,17 +222,17 @@ function ConsommationFlotte() {
                                 <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
                                 <RowTableCell>{row.type}</RowTableCell>
                                 <RowTableCell>{row.kilometrage}</RowTableCell>
-                                <RowTableCell>{row.consototal}</RowTableCell>
-                                <RowTableCell>{row.conso}</RowTableCell>
+                                <RowTableCell>{row.consommation_totale}</RowTableCell>
+                                <RowTableCell>{row.consommation}</RowTableCell>
                                 <RowTableCell>
                                     <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => { setId(row.id);setOpenedit(true) }} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteConsommation(row.id)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -185,7 +241,8 @@ function ConsommationFlotte() {
                 </Table>
             </TableContainer>
             {/* END MUI */}
-            {/*<AjoutFlotte trigger={btnPopup} setTrigger={setBtnPopup} />*/}
+            <AjoutConsommation open={open} setOpen={setOpen} />
+            <EditConsommation openedit={openedit} setOpenedit={setOpenedit} id={id} />
         </Container>
     )
 }
