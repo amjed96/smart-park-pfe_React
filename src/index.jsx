@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { useRouteMatch, Route, BrowserRouter as Router } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import Header from './components/Header'
 import { createGlobalStyle } from 'styled-components';
-import Body from './components/Body';
+import Admin from './pages/Admin';
+import Login from './pages/Login';
+import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
+import { LoginProvider } from './utils/context';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -17,9 +20,19 @@ const GlobalStyle = createGlobalStyle`
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <GlobalStyle />
-      <Header />
-      <Body />
+      <LoginProvider>
+        <GlobalStyle />
+        {/* <Header />
+        <Body /> */}
+        <Switch>
+          <Route exact path={`/login`}>
+            <Login />
+          </Route>
+          <Route path={`/`}>
+            <Admin />
+          </Route>
+        </Switch>
+      </LoginProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

@@ -7,6 +7,10 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import profil from '../../assets/profil.jpg'
+import { useContext, useEffect } from 'react'
+import { LoginContext } from '../../utils/context'
+import { useHistory } from 'react-router-dom'
+import axios from 'axios'
 
 const StyledHeader = styled.div`
     display: flex;
@@ -215,7 +219,35 @@ const ProfilePhoto = styled.img`
     border-radius: 50%;
 `
 
+
 function Header() {
+
+    const { loggedin, token, setLoggedin, setToken } = useContext(LoginContext)
+    const history = useHistory()
+
+    const handleLogout = () => {
+        axios
+            .post(`http://127.0.0.1:8000/sign/auth/logout/`,{
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                setToken(null)
+                setLoggedin(false)
+                console.log(response)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    useEffect(() => {
+        if(!loggedin) {
+            history.push('/login')
+        }
+    }, [loggedin])
+
     return(
         <StyledHeader>
             <Logo>
@@ -256,7 +288,7 @@ function Header() {
                             <li>Profil</li>
                             <li>Paramètres</li>
                             <li>Paramètres</li>
-                            <li>Logout</li>
+                            <li onClick={() => {handleLogout()}}>Logout</li>
                         </ul>
                     </DropDown>
                 </Profile>
