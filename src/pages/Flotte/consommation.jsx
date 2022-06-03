@@ -195,7 +195,7 @@ function ConsommationFlotte() {
 
                 </TextField>
 
-                <Table sx={{ minWidth: 700, margin: '20px' }} size={"small"}>
+                <Table sx={{ width: '96%', margin: '20px' }} size={"small"}>
                     <TableHead>
                         <TableRow>
 

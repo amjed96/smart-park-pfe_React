@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
-import {Link, useRouteMatch} from "react-router-dom";
-import AjoutVisiteMedicale from "../../components/AddVisiteMedicaleForm";
+import { useState, useEffect } from 'react'
+import {Link, useRouteMatch} from "react-router-dom"
+import AjoutVisiteMedicale from "../../components/AddVisiteMedicaleForm"
 import {
     Button,
     Paper,
@@ -14,7 +14,11 @@ import {
     TableRow,
     TextField,
     Typography
-} from "@mui/material";
+} from "@mui/material"
+import axios from 'axios'
+import { baseURL, headers } from '../../services/service'
+import EditVisiteMedicale from '../../components/AddVisiteMedicaleForm/edit'
+
 
 const Container = styled.div`
   margin: 0px;
@@ -36,14 +40,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .panne {
@@ -99,109 +103,71 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-const data = [
-    {
-        id:'12356',
-        personnel:'Mohamed Ben Ali',
-        date:'10-08-2020',
-        diagnostique:'Grippe',
-        numordonnance:'OR001254',
-    },
-];
+// const data = [
+//     {
+//         id:'12356',
+//         personnel:'Mohamed Ben Ali',
+//         date:'10-08-2020',
+//         diagnostique:'Grippe',
+//         numordonnance:'OR001254',
+//     },
+// ];
 
 /* END MUI */
 
 function VisitesMedicales() {
     const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+
+    /* Start API */
+    const [ data, setData ] = useState([])
+    const [ id, setId ] = useState(0)
+    /* End API */
+
     const { url } = useRouteMatch()
+
+    /* Start API */
+
+    useEffect(() => {
+        retrieveAllData()
+    },[open,openedit])
+
+    const retrieveAllData = () => {
+        axios
+            .get(`${baseURL}/visite-get/`, {
+            /*headers: {
+                headers,
+            },*/
+            })
+            .then((response) => {
+                setData(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    const deleteData = (id) => {
+        axios
+            .delete(`${baseURL}/visite/${id}/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                /*setDeleted(true);*/
+                retrieveAllData();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    };
+
+    /* End API */
+
 
     return (
         <Container>
-            {/*<CardCont>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Nombre total</span>
-                        <span className='ratio-total'>100%</span>
-                    </div>
-                    <span className='value'>50</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Occupées</span>
-                        <span className='ratio-occ'>70%</span>
-                    </div>
-                    <span className='value'>35</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Disponible</span>
-                        <span className='ratio-dispo'>20%</span>
-                    </div>
-                    <span className='value'>10</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>En panne</span>
-                        <span className='ratio-panne'>10%</span>
-                    </div>
-                    <span className='value'>5</span>
-                </Card>
-            </CardCont>*/}
-            {/*<TableCont>
-                <caption>Liste des visites médicales</caption><br/>
-                <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
-                <SearchInput placeholder='Rechercher ...'/>
-                <br/>
-                <br/>
-                <table>
-                    <tbody>
-                    <tr>
-                        <th></th>
-                        <th>#</th>
-                        <th>Personnel</th>
-                        <th>Date</th>
-                        <th>Diagnostisque</th>
-                        <th>Num° ordonnance</th>
-                        <th>Details</th>
-                        <th>Actions</th>
-                    </tr>
-
-                    <tr>
-
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>1</td>
-                        <td>Foulen Ben Foulen</td>
-                        <td>12-05-2022</td>
-                        <td>Grippe</td>
-                        <td>OR125640</td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    </tbody>
-                </table>
-                <Pagination>
-                    <div>
-                        <span className='ext'>&lt;</span>
-                        <span className='selected'>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>...</span>
-                        <span>5</span>
-                        <span className='ext'>&gt;</span>
-                    </div>
-                </Pagination>
-            </TableCont>*/}
 
             {/* START MUI */}
 
@@ -233,7 +199,7 @@ function VisitesMedicales() {
 
                 </TextField>
 
-                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                <Table sx={{ width: '96%', margin: '20px' }} size={'small'}>
                     <TableHead>
                         <TableRow>
 
@@ -255,19 +221,19 @@ function VisitesMedicales() {
                             <TableRow hover={true}>
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.id}</RowTableCell>
-                                <RowTableCell>{row.personnel}</RowTableCell>
+                                <RowTableCell>{row.personnel ? row.personnel.first_name+' '+row.personnel.last_name : 'N.D'}</RowTableCell>
                                 <RowTableCell>{row.date}</RowTableCell>
                                 <RowTableCell>{row.diagnostique}</RowTableCell>
-                                <RowTableCell>{row.numordonnance}</RowTableCell>
+                                <RowTableCell>{row.num_ordonnance}</RowTableCell>
                                 <RowTableCell>
-                                    <Link to={`${url}/${row.ref}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                    <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteData(row.id)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -278,6 +244,7 @@ function VisitesMedicales() {
             {/* END MUI */}
 
             <AjoutVisiteMedicale open={open} setOpen={setOpen} />
+            <EditVisiteMedicale openedit={openedit} setOpenedit={setOpenedit} id={id} />
         </Container>
     )
 }

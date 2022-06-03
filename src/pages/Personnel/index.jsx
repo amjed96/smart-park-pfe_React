@@ -134,36 +134,36 @@ function Personnel() {
     retrieveAllData()
   },[open,openedit])
 
-const retrieveAllData = () => {
-    axios
-        .get(`${baseURL}/personnel/`, {
-        /*headers: {
-            headers,
-        },*/
-    })
-        .then((response) => {
-            setData(response.data)
-        })
-        .catch((e) => {
-            console.error(e)
-        })
-}
+  const retrieveAllData = () => {
+      axios
+          .get(`${baseURL}/personnel/`, {
+          /*headers: {
+              headers,
+          },*/
+          })
+          .then((response) => {
+              setData(response.data)
+          })
+          .catch((e) => {
+              console.error(e)
+          })
+  }
 
-const deleteData = (id) => {
-    axios
-        .delete(`${baseURL}/personnel/${id}/`, {
-            /*headers: {
-                headers,
-            },*/
-        })
-        .then((response) => {
-            /*setDeleted(true);*/
-            retrieveAllData();
-        })
-        .catch((e) => {
-            console.error(e);
-        });
-};
+  const deleteData = (id) => {
+      axios
+          .delete(`${baseURL}/personnel/${id}/`, {
+              /*headers: {
+                  headers,
+              },*/
+          })
+          .then((response) => {
+              /*setDeleted(true);*/
+              retrieveAllData();
+          })
+          .catch((e) => {
+              console.error(e);
+          });
+  }
 
 /* End API */
 
@@ -201,7 +201,7 @@ const deleteData = (id) => {
 
           </TextField>
 
-          <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+          <Table sx={{ width: '96%', margin: '20px' }} size={'small'}>
             <TableHead>
               <TableRow>
 

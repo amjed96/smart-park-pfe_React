@@ -137,12 +137,12 @@ function AjoutConsommation(props) {
                     vehicule: response.data.vehicule
                 });
                 /*setSubmitted(true);*/
-                console.log(response.data);
             })
             .catch((e) => {
                 console.error(e);
             });
-    };
+    }
+
     const retrieveEngins = () => {
         axios
             .get(`${baseURL}/vehicule/`, {
@@ -157,7 +157,7 @@ function AjoutConsommation(props) {
                 console.error(e)
             })
         
-}
+    }
 
     useEffect(() => {
         retrieveEngins()
@@ -190,11 +190,11 @@ function AjoutConsommation(props) {
             </DialogTitle>
             <DialogContent>
                 <TextField onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'mois'} type={'date'} defaultValue={defaultDate} label={'Mois'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'type'} label={'Type'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete>
+                <Autocomplete onChange={(event, newValue) => {consommation.type=newValue}} sx={{width: '40%', margin: '10px'}} size={'small'} name={'type'} renderInput={(params) => <TextField {...params} label={'Type'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete>
                 <TextField onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'kilometrage'} label={'Kilometrage'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'consommation_totale'} label={'Consommation totale'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'consommation'} label={'Consommation'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'vehicule'} label={'Vehicule'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map(e => e.immatriculation)}></Autocomplete>
+                <Autocomplete onChange={(event, newValue) => {consommation.vehicule=newValue}} sx={{width: '40%', margin: '10px'}} size={'small'} name={'vehicule'} renderInput={(params) => <TextField {...params} label={'Vehicule'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map(e => e.immatriculation)}></Autocomplete>
 
                 <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'} onClick={() => {submitConsommation(); setOpen(false)}}>Ajouter</Button>
             </DialogContent>

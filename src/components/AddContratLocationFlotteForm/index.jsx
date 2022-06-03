@@ -41,52 +41,51 @@ function AjoutContratLocationFlotte(props) {
       setConsommation({...consommation, [name]: value})
   }*/
   
-  const submitContratlocation = () => {
-      let data = {
-        date_debut: contratlocation.date_debut,
-        date_fin: contratlocation.date_fin,
-        marque: contratlocation.marque,
-        modele: contratlocation.modele,
-        prix: contratlocation.prix,
-        vehicule: contratlocation.vehicule
-      };
-      axios
-          .post(`${baseURL}/contrat-location-flotte/`, data, {
+    const submitContratlocation = () => {
+        let data = {
+            date_debut: contratlocation.date_debut,
+            date_fin: contratlocation.date_fin,
+            marque: contratlocation.marque,
+            modele: contratlocation.modele,
+            prix: contratlocation.prix,
+            vehicule: contratlocation.vehicule
+        };
+        axios
+            .post(`${baseURL}/contrat-location-flotte/`, data, {
               /*headers: {
                   headers,
               },*/
-          })
-          .then((response) => {
-            setContratlocation({
-                  date_debut: response.data.date_debut,
-                  date_fin: response.data.date_fin,
-                  marque: response.data.marque,
-                  modele: response.data.modele,
-                  prix: response.data.prix,
-                  vehicule: response.data.vehicule
-              });
-              /*setSubmitted(true);*/
-              console.log(response.data);
-          })
-          .catch((e) => {
-              console.error(e);
-          });
-  };
-  const retrieveEngins = () => {
-      axios
-          .get(`${baseURL}/vehicule/`, {
-          /*headers: {
-              headers,
-          },*/
-      })
-          .then((response) => {
-              setEngins(response.data)
-          })
-          .catch((e) => {
-              console.error(e)
-          })
-      
-}
+            })
+            .then((response) => {
+                setContratlocation({
+                    date_debut: response.data.date_debut,
+                    date_fin: response.data.date_fin,
+                    marque: response.data.marque,
+                    modele: response.data.modele,
+                    prix: response.data.prix,
+                    vehicule: response.data.vehicule
+                });
+                /*setSubmitted(true);*/
+                console.log(response.data);
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    }
+    const retrieveEngins = () => {
+        axios
+            .get(`${baseURL}/vehicule/`, {
+            /*headers: {
+                headers,
+            },*/
+            })
+            .then((response) => {
+                setEngins(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })  
+    }
 
   useEffect(() => {
       retrieveEngins()
@@ -123,7 +122,7 @@ function AjoutContratLocationFlotte(props) {
                 <TextField onChange={handleContratlocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'marque'} label={'Marque'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleContratlocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'modele'} label={'Modèle'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleContratlocationChange} type={'number'} sx={{width: '40%', margin: '10px'}} size={'small'} name={'prix'} label={'Prix'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params}  onChange={handleContratlocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'vehicule'} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e) => e.immatriculation)}></Autocomplete>
+                <Autocomplete onChange={(event, newValue) => {contratlocation.vehicule=newValue}} sx={{width: '40%', margin: '10px'}} size={'small'} name={'vehicule'} renderInput={(params) => <TextField {...params} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e) => e.immatriculation)}></Autocomplete>
                 
                 <br/><Button onClick={() => {submitContratlocation();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>

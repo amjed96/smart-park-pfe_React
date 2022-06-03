@@ -1,85 +1,76 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import {Autocomplete, Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
+import {
+    Autocomplete,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    Typography
+} from "@mui/material"
+import axios from 'axios'
+import { baseURL, headers } from '../../services/service'
 
-/*const Popup = styled.div`
-    font-family: 'Montserrat', sans-serif;
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.2);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
-
-const PopupInner = styled.div`
-    padding: 20px;
-    position: relative;
-    background-color: #FFF;
-    width: 50%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-    h1 {
-        width: 100%;
-    }
-
-    .close-btn {
-        border: none;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-        color: #C4C4C4;
-    }
-
-    input,select {
-        border: 1px solid #C4C4C4;
-        width: 45%;
-        padding: 10px;
-        margin: 5px;
-
-        #novalue {
-            color: #C4C4C4;
-        }
-
-        &:focus {
-            outline: none;
-            border: 1px solid #000;
-        }
-    }
-
-    .submit-cont {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-`
-
-const AddBtn = styled.button`
-  background-color: #4BF2B5;
-  border: none;
-  color: #FFF;
-  width: 87px;
-  height: 33px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  right: 15px;
-  cursor: pointer;
-  margin: 10px;
-`*/
 
 function AjoutStock(props) {
 
     let defaultDate = new Date().toISOString().split('T')[0]
+    
+    /* Start API */
+    const initialDatasState = {
+        reference: null,
+        article: null,
+        codecasier: null,
+        dateachat: defaultDate,
+        quantite: null,
+        unite: null
+    }
+  
+    const [datas, setDatas] = useState(initialDatasState)
+    /*const [chauffeurs, setChauffeurs] = useState([])*/
+  
+    const handleDataChange = (e) => {
+        const { name, value } = e.target;
+        setDatas({ ...datas, [name]: value })
+        console.log(datas)
+    }
+    
+    const submitDatas = () => {
+        let data = {
+            reference: datas.reference,
+            article: datas.article,
+            codecasier: datas.codecasier,
+            dateachat: datas.dateachat,
+            quantite: datas.quantite,
+            unite: datas.unite
+        };
+        axios
+            .post(`${baseURL}/stock/`, data, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                setDatas({
+                    reference: response.data.reference,
+                    article: response.data.article,
+                    codecasier: response.data.codecasier,
+                    dateachat: response.data.dateachat,
+                    quantite: response.data.quantite,
+                    unite: response.data.unite
+                });
+                /*setSubmitted(true);*/
+                console.log(response.data);
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    }
+  
     const { open, setOpen } = props
+  
+    /* End API */
 
     return(
         <Dialog
@@ -105,42 +96,20 @@ function AjoutStock(props) {
             </DialogTitle>
             <DialogContent>
 
-                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Référence'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Article'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Code casier'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Catégorie'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'reference'} label={'Référence'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'article'} label={'Article'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'codecasier'} label={'Code casier'} variant={'outlined'} color={'secondary'}></TextField>
 
-                <TextField type={'date'} sx={{width: '80%', margin: '10px'}} size={'small'} label={"Date d'achat"} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField type={'number'} sx={{width: '80%', margin: '10px'}} size={'small'} label={'Quantité'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '80%', margin: '10px'}} size={'small'} label={'Unité'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} type={'date'} sx={{width: '80%', margin: '10px'}} size={'small'} name={'dateachat'} label={"Date d'achat"} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} type={'number'} sx={{width: '80%', margin: '10px'}} size={'small'} name={'quantite'} label={'Quantité'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} sx={{width: '80%', margin: '10px'}} size={'small'} label={'Unité'} name={'unite'} variant={'outlined'} color={'secondary'}></TextField>
 
-                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+
+                <br/><Button onClick={() => {submitDatas();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>
         </Dialog>
     );
 
-    /*return (props.trigger) ? (
-        <Popup>
-            <PopupInner>
-                <button className="close-btn" onClick={() => props.setTrigger(false)}>
-                    X
-                </button>
-                <h1>Ajouter un article</h1>
-                <input placeholder={'Référence ...'} />
-                <input placeholder={'Article ...'} />
-                <input placeholder={'Code casier ...'} />
-                <input placeholder={'Catégorie ...'} />
-                <input placeholder={"Date d'achat ..."} />
-                <input placeholder={'Quantité ...'} />
-                <input placeholder={'Unité ...'} />
-
-                <div className='submit-cont'>
-                    <AddBtn>Enregistrer</AddBtn>
-                </div>
-                { props.children }
-            </PopupInner>
-        </Popup>
-    ) : "";*/
 }
 
 export default AjoutStock

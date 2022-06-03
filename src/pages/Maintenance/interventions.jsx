@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {useState} from "react";
+import { useState, useEffect } from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +15,11 @@ import {
     TableRow,
     TextField,
     Typography
-} from "@mui/material";
+} from "@mui/material"
+import axios from 'axios'
+import { baseURL, headers } from '../../services/service';
+import EditIntervention from '../../components/AddInterventionForm/edit';
+
 
 const Container = styled.div`
   margin: 0px;
@@ -37,14 +41,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .panne {
@@ -108,27 +112,59 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-const data = [
-    {
-        id:'IT1256',
-        matricule:'123TUN1452',
-        datedebut:'10-08-2020',
-        datefin:'10-09-2020',
-        objet:'diagnostique moteur',
-        entreprise:'peugeot',
-        montantmoht:'250',
-        montantpht:'500',
-        montanttotalht:'750',
-        collaborateur:'Mohamed Salhi',
-    },
-];
-
 /* END MUI */
 
 function Interventions() {
 
     const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+
+    /* Start API */
+    const [ data, setData ] = useState([])
+    const [ user , setUser ] = useState()
+    const [ id, setId ] = useState(0)
+    /* End API */
+
     const { url } = useRouteMatch()
+
+    /* Start API */
+
+    useEffect(() => {
+      retrieveAllData()
+    },[open,openedit])
+
+    const retrieveAllData = () => {
+        axios
+            .get(`${baseURL}/intervention/`, {
+            /*headers: {
+                headers,
+            },*/
+            })
+            .then((response) => {
+                setData(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    const deleteData = (id) => {
+        axios
+            .delete(`${baseURL}/intervention/${id}/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                /*setDeleted(true);*/
+                retrieveAllData();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    };
+
+    /* End API */
 
     return (
         <Container>
@@ -166,7 +202,7 @@ function Interventions() {
 
                 </TextField>
 
-                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                <Table sx={{ width: '96%', margin: '20px' }} size={'small'}>
                     <TableHead>
                         <TableRow>
 
@@ -195,14 +231,14 @@ function Interventions() {
 
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.id}</RowTableCell>
-                                <RowTableCell><span className={'matricule'}>{row.matricule}</span></RowTableCell>
-                                <RowTableCell>{row.datedebut}</RowTableCell>
-                                <RowTableCell>{row.datefin}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
+                                <RowTableCell>{row.date_debut}</RowTableCell>
+                                <RowTableCell>{row.date_fin}</RowTableCell>
                                 <RowTableCell>{row.objet}</RowTableCell>
                                 <RowTableCell>{row.entreprise}</RowTableCell>
-                                <RowTableCell>{row.montantmoht}</RowTableCell>
-                                <RowTableCell>{row.montantpht}</RowTableCell>
-                                <RowTableCell>{row.montanttotalht}</RowTableCell>
+                                <RowTableCell>{row.montant_mo_ht}</RowTableCell>
+                                <RowTableCell>{row.montant_pieces_ht}</RowTableCell>
+                                <RowTableCell>{row.montant_total_ht}</RowTableCell>
                                 <RowTableCell>{row.collaborateur}</RowTableCell>
 
                                 <RowTableCell>
@@ -210,10 +246,10 @@ function Interventions() {
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteData(row.id)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -224,6 +260,7 @@ function Interventions() {
             {/* END MUI */}
 
             <AjoutIntervention open={open} setOpen={setOpen} />
+            <EditIntervention openedit={openedit} setOpenedit={setOpenedit} id={id} />
         </Container>
     );
 }

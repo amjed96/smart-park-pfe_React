@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import {useState} from "react";
-import {Link, useRouteMatch} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
+import { Link, useRouteMatch } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUpRightFromSquare, faPenToSquare, faTrashCan, faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import AjoutDemande from "../../components/AddDemandeInterventionForm";
 import {
     Button,
@@ -15,6 +15,10 @@ import {
     TextField,
     Typography
 } from "@mui/material";
+import axios from 'axios'
+import { baseURL, headers } from '../../services/service';
+import EditDemande from '../../components/AddDemandeInterventionForm/edit';
+
 
 const Container = styled.div`
   margin: 0px;
@@ -36,14 +40,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .panne {
@@ -107,31 +111,89 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-const data = [
-    {
-        id:'DI1256',
-        datedemande:'10-08-2020',
-        matricule:'123TUN1452',
-        type:'curative',
-        description:'vérification parallélisme',
-        etat:'en cours',
-    },
-    {
-        id:'DI2356',
-        datedemande:'10-09-2020',
-        matricule:'120TUN2452',
-        type:'préventive',
-        description:'vidange huile',
-        etat:'clôturée',
-    },
-];
-
 /* END MUI */
 
 function Maintenance() {
 
     const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+
+    /* Start API */
+    const [ data, setData ] = useState([])
+    const [ user , setUser ] = useState()
+    const [ id, setId ] = useState(0)
+    /* End API */
+
     const { url } = useRouteMatch()
+
+    /* Start API */
+
+    const retrieveAllData = () => {
+        axios
+            .get(`${baseURL}/demande-intervention/`, {
+            /*headers: {
+                headers,
+            },*/
+            })
+            .then((response) => {
+                setData(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    const deleteData = (id) => {
+        axios
+            .delete(`${baseURL}/demande-intervention/${id}/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                /*setDeleted(true);*/
+                retrieveAllData();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    }
+
+    const cloturerDemande = (id) => {
+      axios
+        .post(`${baseURL}/demande-intervention/${id}/cloturer/`, {
+          /*headers: {
+            headers,
+          },*/
+        })
+        .then((response) => {
+          retrieveAllData();
+        })
+        .catch((e) => {
+          console.error(e)
+        })
+    }
+  
+    const annulerClotureDemande = (id) => {
+      axios.
+        post(`${baseURL}/demande-intervention/${id}/annuler/`, {
+          /*headers: {
+            headers,
+          },*/
+        })
+        .then((response) => {
+          retrieveAllData()
+        })
+        .catch((e) => {
+          console.error(e)
+        })
+    }
+
+    useEffect(() => {
+          retrieveAllData()
+        },[open,openedit])
+
+    /* End API */
 
     return (
         <Container>
@@ -166,7 +228,7 @@ function Maintenance() {
 
                 </TextField>
 
-                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                <Table sx={{ width: '96%', margin: '20px' }} size={'small'}>
                     <TableHead>
                         <TableRow>
 
@@ -177,6 +239,8 @@ function Maintenance() {
                             <StyledTableCell><span>Type</span></StyledTableCell>
                             <StyledTableCell><span>Description</span></StyledTableCell>
                             <StyledTableCell><span>Etat</span></StyledTableCell>
+
+                            <StyledTableCell><span>Clôturer/Annuler</span></StyledTableCell>
 
                             <StyledTableCell><span>Details</span></StyledTableCell>
                             <StyledTableCell><span>Actions</span></StyledTableCell>
@@ -190,22 +254,29 @@ function Maintenance() {
 
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.id}</RowTableCell>
-                                <RowTableCell>{row.datedemande}</RowTableCell>
-                                <RowTableCell><span className={'matricule'}>{row.matricule}</span></RowTableCell>
+                                <RowTableCell>{row.date_demande}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
                                 <RowTableCell>{row.type === 'préventive' ? <span className={'green'}>{row.type}</span> :
                                     <span className={'red'}>{row.type}</span>}</RowTableCell>
                                 <RowTableCell>{row.description}</RowTableCell>
-                                <RowTableCell>{row.etat === 'clôturée' ? <span className={'green'}>{row.etat}</span> :
-                                    <span className={'red'}>{row.etat}</span> }</RowTableCell>
+                                <RowTableCell>{row.etat ? <span className={'red'}>en cours</span> :
+                                    <span className={'green'}>clôturée</span> }
+                                </RowTableCell>
+
+                                <RowTableCell>
+                                {row.etat ? <Button sx={{ color: 'green' }} onClick={() => cloturerDemande(row.id)}><FontAwesomeIcon icon={faCircleCheck} className='btn' /></Button>
+                                    : <Button sx={{ color: 'red' }} onClick={() => annulerClotureDemande(row.id)}><FontAwesomeIcon icon={faCircleXmark} className='btn' /></Button>}
+                                </RowTableCell>
+
                                 <RowTableCell>
                                     <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteData(row.id)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -216,6 +287,7 @@ function Maintenance() {
             {/* END MUI */}
 
             <AjoutDemande open={open} setOpen={setOpen} />
+            <EditDemande openedit={openedit} setOpenedit={setOpenedit} id={id} />
         </Container>
     );
   }

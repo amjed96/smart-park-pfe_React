@@ -1,99 +1,85 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import {Autocomplete, Button, Dialog, DialogContent, DialogTitle, TextField, Typography} from "@mui/material";
+import axios from 'axios'
+import { baseURL, headers } from "../../services/service"
 
-/*const Popup = styled.div`
-  font-family: 'Montserrat', sans-serif;
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.2);
-  overflow-y: auto;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const PopupInner = styled.div`
-  padding: 20px;
-  position: relative;
-  background-color: #FFF;
-  width: 50%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  h1 {
-    width: 100%;
-  }
-
-  .close-btn {
-    border: none;
-    position: absolute;
-    top: 20px;
-    right: 10px;
-    cursor: pointer;
-    color: #C4C4C4;
-  }
-
-  input, select, textarea {
-    border: 1px solid #C4C4C4;
-    width: 60%;
-    padding: 10px;
-    margin: 5px;
-
-    &:focus {
-      outline: none;
-      border: 1px solid #000;
-    }
-  }
-
-  label {
-    width: 60%;
-    font-weight: bold;
-    margin-left: -20px;
-  }
-
-  textarea {
-    resize: none;
-  }
-
-  select {
-    width: 63% !important;
-    option {
-      height: 50px;
-    }
-  }
-
-  .submit-cont {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-`
-
-const AddBtn = styled.button`
-  background-color: #4BF2B5;
-  border: none;
-  color: #FFF;
-  width: 87px;
-  height: 33px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  right: 15px;
-  cursor: pointer;
-  margin: 10px;
-`*/
 
 function AjoutVisiteMedicale(props) {
 
     let defaultDate = new Date().toISOString().split('T')[0]
+    
+    /* Start API */
+    const initialDatasState = {
+      date: defaultDate,
+      diagnostique: null,
+      num_ordonnance: null,
+      personnel: null
+    }
+
+    const [datas, setDatas] = useState(initialDatasState)
+    const [personnels, setPersonnels] = useState([])
+
+    const handleDataChange = (e) => {
+        const { name, value } = e.target;
+        setDatas({ ...datas, [name]: value })
+        console.log(datas)
+    }
+
+    /*const handleEnginChange = (e) => {
+        const { name, value } = e.target;
+        setConsommation({...consommation, [name]: value})
+    }*/
+  
+    const submitDatas = () => {
+      let data = {
+        date: datas.date,
+        diagnostique: datas.diagnostique,
+        num_ordonnance: datas.num_ordonnance,
+        personnel: datas.personnel
+      };
+      axios
+          .post(`${baseURL}/visite/`, data, {
+              /*headers: {
+                  headers,
+              },*/
+          })
+          .then((response) => {
+            setDatas({
+                  date: response.data.date,
+                  diagnostique: response.data.diagnostique,
+                  num_ordonnance: response.data.num_ordonnance,
+                  personnel: response.data.personnel
+              });
+              /*setSubmitted(true);*/
+              console.log(response.data);
+          })
+          .catch((e) => {
+              console.error(e);
+          });
+    };
+    const retrievePersonnels = () => {
+        axios
+            .get(`${baseURL}/personnel/`, {
+            /*headers: {
+                headers,
+            },*/
+            })
+            .then((response) => {
+              setPersonnels(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+        
+    }
+
     const { open, setOpen } = props
+
+    useEffect(() => {
+        retrievePersonnels()
+    },[open])
+    /* End API */
 
     return(
         <Dialog
@@ -118,44 +104,30 @@ function AjoutVisiteMedicale(props) {
                 </div>
             </DialogTitle>
             <DialogContent>
-                <Autocomplete renderInput={(params) => <TextField {...params} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Personnel'} variant={'outlined'} color={'secondary'}></TextField>} options={['Personnel1','Personnel2','Personnel3']}></Autocomplete>
+                {/* <Autocomplete
+                    onChange={(event, newValue) => {datas.personnel=newValue}}
+                    sx={{width: '40%', margin: '10px'}}
+                    size={'small'}
+                    name={'personnel'}
+                    renderInput={(params) => <TextField {...params} label={'Personnel'} variant={'outlined'} color={'secondary'}></TextField>}
+                    options={personnels.map((e) => e.id.toString())}></Autocomplete> */}
 
-                <TextField type={'date'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Diagnostique'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField sx={{width: '40%', margin: '10px'}} size={'small'} label={'Numéro ordonnance'} variant={'outlined'} color={'secondary'}></TextField>
+                <select className='form-select mt-2' onChange={(e,newValue)=>{datas.personnel=e.target.value}}>
+                    <option selected value=''>-- Personnel --</option>
+                    {personnels.map(c=>
+                        <option value={c.id}>{c.first_name} {c.last_name}</option>
+                    )}
+                </select>
 
-                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+                <TextField onChange={handleDataChange} type={'date'} sx={{width: '40%', margin: '10px'}} size={'small'} name={'date'} label={'Date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'diagnostique'} label={'Diagnostique'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'num_ordonnance'} label={'Numéro ordonnance'} variant={'outlined'} color={'secondary'}></TextField>
+
+                <br/><Button onClick={() => {submitDatas();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>
         </Dialog>
     );
 
-    /*return (props.trigger) ? (
-        <Popup>
-            <PopupInner>
-                <button className="close-btn" onClick={() => props.setTrigger(false)}>
-                    X
-                </button>
-                <h1>Ajouter une visite médicale</h1>
-
-                <input placeholder={'Personnel ...'} list={'personnel'} />
-                <datalist id={'personnel'}>
-                    <option>Mohamed Laabidi</option>
-                    <option>Mohamed Ben Mohamed</option>
-                    <option>Mohamed Ben Ali</option>
-                </datalist>
-
-                <label>Date :</label>
-                <input type={"date"} defaultValue={defaultDate} />
-                <input placeholder={'Diagnostic ...'} />
-                <input placeholder={'Ordonnance ...'} />
-
-                <div className='submit-cont'>
-                    <AddBtn>Enregistrer</AddBtn>
-                </div>
-                { props.children }
-            </PopupInner>
-        </Popup>
-    ) : "";*/
 }
 
 export default AjoutVisiteMedicale

@@ -118,11 +118,11 @@ function AjoutContratVente(props) {
             <DialogContent>
                 <TextField onChange={handleContratventeChange} name={'date'} type={"date"} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleContratventeChange} name={'vendeur'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Vendeur'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} onChange={handleContratventeChange} name={'vehicule'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Immatriculation'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e)=>e.immatriculation)}></Autocomplete>
+                <Autocomplete onChange={(event, newValue) => {contratvente.vehicule=newValue}} name={'vehicule'} sx={{width: '40%', margin: '10px'}} size={'small'} renderInput={(params) => <TextField {...params} label={'Immatriculation'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e)=>e.immatriculation)}></Autocomplete>
                 <TextField onChange={handleContratventeChange} name={'marque'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Marque'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleContratventeChange} name={'modele'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Modèle'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleContratventeChange} name={'chassis'} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Chassis'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField  onChange={handleContratventeChange} name={'moteur'} {...params} sx={{width: '40%', margin: '10px'}} size={'small'} label={'Moteur'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete>
+                <Autocomplete onChange={(event, newValue) => {contratvente.moteur=newValue}} name={'moteur'} sx={{width: '40%', margin: '10px'}} size={'small'} renderInput={(params) => <TextField {...params} label={'Moteur'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete>
                 <br/><Button onClick={() => {submitContratvente();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>
         </Dialog>

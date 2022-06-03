@@ -134,11 +134,30 @@ function EditConsommation(props) {
             </DialogTitle>
             <DialogContent>
                 <TextField type={'date'} value={consommation.mois} onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'mois'} label={'Mois'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} value={consommation.type} onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'type'} label={'Type'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete> {/* TO CHECK */}
+                
+                <Autocomplete
+                    value={consommation.type}
+                    onChange={(event, newValue) => {consommation.type=newValue}}
+                    sx={{width: '40%', margin: '10px'}}
+                    size={'small'}
+                    name={'type'}
+                    renderInput={(params) => <TextField {...params} label={'Type'} variant={'outlined'} color={'secondary'}></TextField>}
+                    options={['essence','diesel']}>
+                </Autocomplete> {/* TO CHECK */}
+                
                 <TextField value={consommation.kilometrage} onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'kilometrage'} label={'Kilometrage'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField value={consommation.consommation_totale} onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'consommation_totale'} label={'Consommation totale'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField value={consommation.consommation} onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'consommation'} label={'Consommation'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} value={consommation.vehicule} onChange={handleConsommationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'vehicule'} label={'Vehicule'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e) => e.immatriculation)}></Autocomplete>
+                
+                <Autocomplete
+                    value={consommation.vehicule}
+                    onChange={(event, newValue) => {consommation.vehicule=newValue}}
+                    sx={{width: '40%', margin: '10px'}}
+                    size={'small'}
+                    name={'vehicule'}
+                    renderInput={(params) => <TextField {...params} label={'Vehicule'} variant={'outlined'} color={'secondary'}></TextField>}
+                    options={engins.map((e) => e.immatriculation)}>
+                </Autocomplete>
  
                 <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'} onClick={() => {updateConsommation(); setOpenedit(false)}}>Enregistrer</Button>
             </DialogContent>

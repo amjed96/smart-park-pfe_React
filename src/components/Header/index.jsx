@@ -281,7 +281,7 @@ function Header() {
                 </ListMenu>
                 <Profile>
                     <ProfilePhoto src={profil} />
-                    <span className="name">Foulen Ben Foulen</span>
+                    <span className="name">Admin</span>
                     <FontAwesomeIcon icon={faCaretDown} className="drop-down-icon" />
                     <DropDown>
                         <ul>

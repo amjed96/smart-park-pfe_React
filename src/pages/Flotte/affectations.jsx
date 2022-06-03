@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {useState, useEffect} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faArrowUpRightFromSquare, faCircleCheck, faCircleXmark, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {
     Paper,
     Table,
@@ -13,11 +13,15 @@ import {
     TableCell,
     TextField,
     Typography,
-    Button
+    Button,
+    DialogTitle,
+    DialogContent,
+    Dialog
 } from "@mui/material";
 import AjoutAffectation from "../../components/AddAffectationForm";
 import axios from "axios"
 import { baseURL, headers } from "../../services/service";
+import CloturerDialog from "../../components/AddAffectationForm/cloturerDialog";
 
 const Container = styled.div`
   margin: 0px;
@@ -113,22 +117,54 @@ const data = [
 
 ];
 
+// function CloturerDialog(props) {
+
+//   const { opencloture, setOpencloture, id } = props
+
+//   const cloturerAffectation = (id) => {
+//     axios
+//       .post(`${baseURL}/affectation/${id}/cloturer/`, {
+//         /*headers: {
+//           headers,
+//         },*/
+//       })
+//       .then((response) => {
+//         console.log(response)
+//       })
+//       .catch((e) => {
+//         console.error(e)
+//       })
+//   }
+
+//   return (
+//     <Dialog
+//       open={opencloture}
+//       onClose={() => setOpencloture(false)}
+//       maxWidth={'md'}
+//     >
+//       <DialogTitle>Êtes-vous sûr de vouloir clôturer cette affectation ?</DialogTitle>
+//       <DialogContent><Button variant={'contained'} onClick={cloturerAffectation(id)}>Confirmer</Button><Button variant={'outlined'} onClick={setOpencloture(false)}>Annuler</Button></DialogContent>
+//     </Dialog>
+//   )
+// }
+
 function AffectationsFlotte() {
+
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
     const [ affectations, setAffectations ] = useState([])
     const [ chauffeur, setChauffeur ] = useState()
     const [ id, setId ] = useState(0)
+
+    const [ opencloture, setOpencloture ] = useState(false)
     /*const [ deleted, setDeleted ] = useState(false)*/
     const { url } = useRouteMatch()
 
-    useEffect(() => {
-      retrieveAllAffectations()
-  },[open,openedit])
+    
 
   const retrieveAllAffectations = () => {
     axios
-        .get(`${baseURL}/affectation/`, {
+        .get(`${baseURL}/affectation-get/`, {
         /*headers: {
             headers,
         },*/
@@ -148,14 +184,16 @@ function AffectationsFlotte() {
         /*headers: {
             headers,
         },*/
-    })
+        })
         .then((response) => {
             setChauffeur(response.data)
         })
         .catch((e) => {
             console.error(e)
         })
-    }
+
+    return `${chauffeur}`
+  }
 
   const deleteAffectations = (id) => {
     axios
@@ -172,6 +210,70 @@ function AffectationsFlotte() {
             console.error(e);
         });
   };
+
+  const cloturerAffectation = (id) => {
+    axios
+      .post(`${baseURL}/affectation/${id}/cloturer/`, {
+        /*headers: {
+          headers,
+        },*/
+      })
+      .then((response) => {
+        retrieveAllAffectations();
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+
+  const annulerClotureAffectation = (id) => {
+    axios
+      .post(`${baseURL}/affectation/${id}/annuler/`, {
+        /*headers: {
+          headers,
+        },*/
+      })
+      .then((response) => {
+        retrieveAllAffectations();
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+
+  const desaffecterChauffeur = (id) => {
+    axios
+      .post(`${baseURL}/personnel/${id}/desaffecter/`, {
+        /*headers: {
+          headers,
+        },*/
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+
+  const desaffecterVehicule = (id) => {
+    axios
+      .post(`${baseURL}/vehicule/${id}/desaffecter/`, {
+        /*headers: {
+          headers,
+        },*/
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }
+
+  useEffect(() => {
+      retrieveAllAffectations()
+  },[open,openedit])
 
     return (
         <Container>
@@ -204,7 +306,7 @@ function AffectationsFlotte() {
 
                 </TextField>
 
-                <Table sx={{ minWidth: 700, margin: '20px' }} size={"small"}>
+                <Table sx={{ width: '96%', margin: '20px' }} size={"small"}>
                     <TableHead>
                         <TableRow>
 
@@ -215,6 +317,7 @@ function AffectationsFlotte() {
                             <StyledTableCell><span>Date Debut</span></StyledTableCell>
                             <StyledTableCell><span>Date Fin</span></StyledTableCell>
                             <StyledTableCell><span>Etat</span></StyledTableCell>
+                            <StyledTableCell><span>Clôturer/Annuler</span></StyledTableCell>
                             <StyledTableCell><span>Details</span></StyledTableCell>
                             <StyledTableCell><span>Actions</span></StyledTableCell>
 
@@ -226,14 +329,20 @@ function AffectationsFlotte() {
                             <TableRow hover={true}>
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.id}</RowTableCell>
-                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
-                                <RowTableCell>{row.chauffeur}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule ? row.vehicule.immatriculation : 'N.D'}</span></RowTableCell>
+                                <RowTableCell>{row.chauffeur ? row.chauffeur.first_name : 'N.D'} {row.chauffeur ? row.chauffeur.last_name : 'N.D'}</RowTableCell>
                                 <RowTableCell>{row.date_debut}</RowTableCell>
                                 <RowTableCell>{row.date_fin}</RowTableCell>
                                 <RowTableCell>{row.etat ? <span className='etat dispo'>En cours</span>
                                     : <span className='etat cloture'>Clôturée</span>
                                 }
                                 </RowTableCell>
+
+                                <RowTableCell>
+                                  {row.etat ? <Button sx={{ color: 'green' }} onClick={() => {cloturerAffectation(row.id);desaffecterChauffeur(row.chauffeur.id);desaffecterVehicule(row.vehicule.immatriculation)}}><FontAwesomeIcon icon={faCircleCheck} className='btn' /></Button>
+                                    : <Button sx={{ color: 'red' }} onClick={() => annulerClotureAffectation(row.id)}><FontAwesomeIcon icon={faCircleXmark} className='btn' /></Button>}
+                                </RowTableCell>
+
                                 <RowTableCell>
                                     <Link to={`${url}/${row.id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
                                 </RowTableCell>
@@ -251,7 +360,9 @@ function AffectationsFlotte() {
                 </Table>
             </TableContainer>
 
-            <AjoutAffectation open ={open} setOpen={setOpen} />
+            <AjoutAffectation open={open} setOpen={setOpen} />
+
+            {/* <CloturerDialog opencloture={opencloture} setOpencloture={setOpencloture} id={id} /> */}
             {/* END MUI */}
         </Container>
     )

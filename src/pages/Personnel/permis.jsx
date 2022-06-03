@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import AjoutPermis from '../../components/AddPermisForm'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
 import {
     Button,
@@ -15,6 +15,9 @@ import {
     TextField,
     Typography
 } from "@mui/material";
+import { baseURL, headers } from '../../services/service'
+import axios from 'axios'
+import EditPermis from '../../components/AddPermisForm/edit'
 
 const Container = styled.div`
   margin: 0px;
@@ -36,14 +39,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .panne {
@@ -99,107 +102,60 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-const data = [
-    {
-        ref:'12356',
-        date:'12-05-2022',
-        nom:'Ben Mohamed',
-        prenom:'Mohamed',
-        typepermis:'A+C',
-    },
-];
-
 /* END MUI */
 
 function Permis() {
     const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+
+    /* Start API */
+    const [ data, setData ] = useState([])
+    const [ id, setId ] = useState(0)
+    /* End API */
+
     const { url } = useRouteMatch()
+
+    /* Start API */
+
+  useEffect(() => {
+    retrieveAllData()
+  },[open,openedit])
+
+const retrieveAllData = () => {
+    axios
+        .get(`${baseURL}/permis-get/`, {
+        /*headers: {
+            headers,
+        },*/
+        })
+        .then((response) => {
+            setData(response.data)
+        })
+        .catch((e) => {
+            console.error(e)
+        })
+}
+
+const deleteData = (id) => {
+    axios
+        .delete(`${baseURL}/permis/${id}/`, {
+            /*headers: {
+                headers,
+            },*/
+        })
+        .then((response) => {
+            /*setDeleted(true);*/
+            retrieveAllData();
+        })
+        .catch((e) => {
+            console.error(e);
+        });
+}
+
+/* End API */
 
     return (
         <Container>
-            {/*<CardCont>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Nombre total</span>
-                        <span className='ratio-total'>100%</span>
-                    </div>
-                    <span className='value'>50</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Occupées</span>
-                        <span className='ratio-occ'>70%</span>
-                    </div>
-                    <span className='value'>35</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Disponible</span>
-                        <span className='ratio-dispo'>20%</span>
-                    </div>
-                    <span className='value'>10</span>
-                </Card>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>En panne</span>
-                        <span className='ratio-panne'>10%</span>
-                    </div>
-                    <span className='value'>5</span>
-                </Card>
-            </CardCont>*/}
-            {/*<TableCont>
-                <caption>Liste des permis</caption><br/>
-                <AddBtn onClick={() => setBtnPopup(true)}>+ Ajouter</AddBtn>
-                <SearchInput placeholder='Rechercher ...'/>
-                <br/>
-                <br/>
-                <table>
-                    <tbody>
-                    <tr>
-                        <th></th>
-                        <th>Réf</th>
-                        <th>Date</th>
-                        <th>Nom prénom</th>
-                        <th>Type permis</th>
-                        <th>Details</th>
-                        <th>Actions</th>
-                    </tr>
-
-                    <tr>
-
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td>1</td>
-                        <td>12-05-2022</td>
-                        <td>Foulen Ben Foulen</td>
-                        <td>A+C</td>
-                        <td><Link to={`${url}/${id}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link></td>
-                        <td className='action-btns'>
-                            <ActionButtonEdit>
-                                <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
-                            </ActionButtonEdit>
-                            <ActionButtonDelete>
-                                <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
-                            </ActionButtonDelete>
-                        </td>
-                    </tr>
-
-                    </tbody>
-                </table>
-                <Pagination>
-                    <div>
-                        <span className='ext'>&lt;</span>
-                        <span className='selected'>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>...</span>
-                        <span>5</span>
-                        <span className='ext'>&gt;</span>
-                    </div>
-                </Pagination>
-            </TableCont>*/}
 
             {/* START MUI */}
 
@@ -231,7 +187,7 @@ function Permis() {
 
                 </TextField>
 
-                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                <Table sx={{ width: '96%', margin: '20px' }} size={'small'}>
                     <TableHead>
                         <TableRow>
 
@@ -248,22 +204,22 @@ function Permis() {
                     </TableHead>
 
                     <TableBody>
-                        {data.map((row) =>(
-                            <TableRow hover={true}>
+                        {data.map((row) => (
+                            <TableRow key={row.reference} hover={true}>
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
-                                <RowTableCell>{row.ref}</RowTableCell>
+                                <RowTableCell>{row.reference}</RowTableCell>
                                 <RowTableCell>{row.date}</RowTableCell>
-                                <RowTableCell>{row.prenom} {row.nom}</RowTableCell>
-                                <RowTableCell>{row.typepermis}</RowTableCell>
+                                <RowTableCell>{row.personnel ? row.personnel.first_name+' '+row.personnel.first_name : 'N.D'} </RowTableCell>
+                                <RowTableCell>{row.type}</RowTableCell>
                                 <RowTableCell>
-                                    <Link to={`${url}/${row.ref}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
+                                    <Link to={`${url}/${row.reference}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.reference);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteData(row.reference)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -274,6 +230,7 @@ function Permis() {
             {/* END MUI */}
 
             <AjoutPermis open={open} setOpen={setOpen} />
+            <EditPermis openedit={openedit} setOpenedit={setOpenedit} id={id} />
         </Container>
     )
 }

@@ -110,6 +110,7 @@ function AjoutFlotte(props) {
         nombre_places: null,
         nombre_debout: null,
         cylidree: null,
+        affecte: false,
     }
     const [vehicule, setVehicule] = useState(initialVehiculeState)
     const handleVehiculeChange = (e) => {

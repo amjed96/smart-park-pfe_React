@@ -160,7 +160,7 @@ function EditFlotte(props) {
                         component={'div'}
                         style={{flexGrow:1}}
                     >
-                        Test dialog
+                        Modifier engin
                     </Typography>
                     <Button
                         color={'secondary'}

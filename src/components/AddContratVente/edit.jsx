@@ -146,9 +146,28 @@ const initialContratVenteState = {
                 <TextField value={contratvente.marque} onChange={handleContratVenteChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'marque'} label={'Marque'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField value={contratvente.modele} onChange={handleContratVenteChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'modele'} label={'Modele'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField value={contratvente.chassis} onChange={handleContratVenteChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'chassis'} label={'Chassis'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} value={contratvente.moteur} onChange={handleContratVenteChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'moteur'} label={'Moteur'} variant={'outlined'} color={'secondary'}></TextField>} options={['essence','diesel']}></Autocomplete>
+                
+                <Autocomplete
+                    value={contratvente.moteur}
+                    onChange={(event, newValue) => {contratvente.moteur=newValue}}
+                    sx={{width: '40%', margin: '10px'}}
+                    size={'small'}
+                    name={'moteur'}
+                    renderInput={(params) => <TextField {...params} label={'Moteur'} variant={'outlined'} color={'secondary'}></TextField>}
+                    options={['essence','diesel']}>
+                </Autocomplete>
+                
                 <TextField type={'number'} value={contratvente.prix} onChange={handleContratVenteChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'prix'} label={'Prix'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} value={contratvente.vehicule} onChange={handleContratVenteChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'vehicule'} label={'Vehicule'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e)=>e.immatriculation)}></Autocomplete>
+                
+                <Autocomplete
+                    value={contratvente.vehicule}
+                    onChange={(event, newValue) => {contratvente.vehicule=newValue}}
+                    sx={{width: '40%', margin: '10px'}}
+                    size={'small'}
+                    name={'vehicule'}
+                    renderInput={(params) => <TextField {...params} label={'Vehicule'} variant={'outlined'} color={'secondary'}></TextField>}
+                    options={engins.map((e)=>e.immatriculation)}>
+                </Autocomplete>
                 
                 <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'} onClick={() => {updateContratvente(); setOpenedit(false)}}>Enregistrer</Button>
             </DialogContent>

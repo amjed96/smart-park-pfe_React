@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import AjoutFlotte from '../../components/AddFlotteForm'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {Link, useRouteMatch} from "react-router-dom";
 import AjoutPasseport from "../../components/AddPasseportForm";
 import {
@@ -16,6 +16,9 @@ import {
     TextField,
     Typography
 } from "@mui/material";
+import { baseURL, headers } from '../../services/service'
+import axios from 'axios'
+import EditPasseport from '../../components/AddPasseportForm/edit'
 
 const Container = styled.div`
   margin: 0px;
@@ -37,14 +40,14 @@ const StyledTableCell = styled(TableCell)`
 `
 const RowTableCell = styled(TableCell)`
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .panne {
@@ -100,29 +103,57 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-const data = [
-    {
-        num:'12356',
-        type:'Type',
-        nom:'Mohamed',
-        prenom:'Ben Mohamed',
-        nationalite:'Tunisienne',
-        datenaissance:'10-08-1986',
-        adressenaissance:'Tunis',
-        profession:'Chauffeur',
-        numnational:'12121212',
-        sexe:'Masculin',
-        authorite:"Ministère de l'intérieuré",
-        dateedit:"10-05-2020",
-        dateexp:"10-05-2023",
-    },
-];
-
 /* END MUI */
 
 function Passeports() {
     const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+
+    /* Start API */
+    const [ data, setData ] = useState([])
+    const [ id, setId ] = useState(0)
+    /* End API */
+
     const { url } = useRouteMatch()
+
+    /* Start API */
+
+    useEffect(() => {
+      retrieveAllData()
+    },[open,openedit])
+
+    const retrieveAllData = () => {
+        axios
+            .get(`${baseURL}/passeport-get/`, {
+            /*headers: {
+                headers,
+            },*/
+            })
+            .then((response) => {
+                setData(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    const deleteData = (id) => {
+        axios
+            .delete(`${baseURL}/passeport/${id}/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                /*setDeleted(true);*/
+                retrieveAllData();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    };
+
+    /* End API */
 
     return (
         <Container>
@@ -160,7 +191,7 @@ function Passeports() {
 
                 </TextField>
 
-                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                <Table sx={{ width: '96%', margin: '20px' }} size={'small'}>
                     <TableHead>
                         <TableRow>
 
@@ -188,27 +219,27 @@ function Passeports() {
                         {data.map((row) =>(
                             <TableRow hover={true}>
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
-                                <RowTableCell>{row.num}</RowTableCell>
+                                <RowTableCell>{row.numero}</RowTableCell>
                                 <RowTableCell>{row.type}</RowTableCell>
-                                <RowTableCell>{row.nom}</RowTableCell>
-                                <RowTableCell>{row.prenom}</RowTableCell>
+                                <RowTableCell>{row.personnel !== null ? row.personnel.last_name : 'N.D'}</RowTableCell>
+                                <RowTableCell>{row.personnel !== null ? row.personnel.first_name : 'N.D'}</RowTableCell>
                                 <RowTableCell>{row.nationalite}</RowTableCell>
-                                <RowTableCell>{row.datenaissance}</RowTableCell>
-                                <RowTableCell>{row.adressenaissance}</RowTableCell>
-                                <RowTableCell>{row.profession}</RowTableCell>
-                                <RowTableCell>{row.numnational}</RowTableCell>
+                                <RowTableCell>{row.personnel !== null ? row.personnel.date_naissance : 'N.D'}</RowTableCell>
+                                <RowTableCell>{row.personnel.adresse_naissance}</RowTableCell>
+                                <RowTableCell>{row.personnel !== null ? row.personnel.qualification : 'N.D'}</RowTableCell>
+                                <RowTableCell>{row.personnel !== null ? row.personnel.cin : 'N.D'}</RowTableCell>
                                 <RowTableCell>{row.sexe}</RowTableCell>
-                                <RowTableCell>{row.dateedit}</RowTableCell>
-                                <RowTableCell>{row.dateexp}</RowTableCell>
+                                <RowTableCell>{row.date_edition}</RowTableCell>
+                                <RowTableCell>{row.date_expiration}</RowTableCell>
                                 <RowTableCell>
                                     <Link to={`${url}/${row.num}`}><FontAwesomeIcon icon={ faArrowUpRightFromSquare } className='details-icon'/></Link>
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.numero);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteData(row.numero)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -219,6 +250,7 @@ function Passeports() {
             {/* END MUI */}
 
             <AjoutPasseport open={open} setOpen={setOpen} />
+            <EditPasseport openedit={openedit} setOpenedit={setOpenedit} id={id} />
         </Container>
     )
 }

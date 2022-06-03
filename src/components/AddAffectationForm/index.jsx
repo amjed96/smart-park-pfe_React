@@ -18,8 +18,8 @@ function AjoutAffectation(props) {
 
     /* Start API */
     const initialAffectationState = {
-        date_debut: null,
-        date_fin: null,
+        date_debut: defaultDate,
+        date_fin: defaultDate,
         etat: true,
         vehicule: null,
         chauffeur: null
@@ -27,6 +27,7 @@ function AjoutAffectation(props) {
     const [affectation, setAffectation] = useState(initialAffectationState)
     const [engins, setEngins] = useState([])
     const [chauffeurs, setChauffeurs] = useState([])
+
     const handleAffectationChange = (e) => {
         const { name, value } = e.target;
         setAffectation({ ...affectation, [name]: value })
@@ -61,11 +62,41 @@ function AjoutAffectation(props) {
             .catch((e) => {
                 console.error(e);
             });
-    };
+    }
+
+    const affecterChauffeur = (id) => {
+        axios
+            .post(`${baseURL}/personnel/${id}/affecter/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response)=>{
+                console.log(response.data)
+            })
+            .catch((e) => {
+                console.error(e);
+            })
+    }
+
+    const affecterVehicule = (id) => {
+        axios
+            .post(`${baseURL}/vehicule/${id}/affecter/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response)=>{
+                console.log(response.data)
+            })
+            .catch((e) => {
+                console.error(e);
+            })
+    }
 
     const retrieveChauffeurs = () => {
         axios
-            .get(`${baseURL}/personnel/`, {
+            .get(`${baseURL}/personnel/?qualification=Chauffeur`, {
             /*headers: {
                 headers,
             },*/
@@ -126,12 +157,24 @@ function AjoutAffectation(props) {
             </DialogTitle>
             <DialogContent>
 
-                <Autocomplete renderInput={(params) => <TextField  {...params} onChange={handleAffectationChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'vehicule'} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map(e => e.immatriculation)}></Autocomplete>
-                <Autocomplete renderInput={(params) => <TextField  {...params} onChange={handleAffectationChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'chauffeur'} label={'Chauffeur'} variant={'outlined'} color={'secondary'}></TextField>} options={chauffeurs.map(e => e.id)}></Autocomplete> {/*TO FIX*/}
+                <select className='form-select mt-2' onChange={(e,newValue)=>{affectation.chauffeur=e.target.value}}>
+                    <option selected value=''>-- Chauffeur --</option>
+                    {chauffeurs.map(c=>
+                        <option value={c.id}>{c.first_name} {c.last_name}</option>
+                    )}
+                </select>
+
+                <select className='form-select mt-2' onChange={(e,newValue)=>{affectation.vehicule=e.target.value}}>
+                <option selected value=''>-- Engin --</option>
+                    {engins.map(c=>
+                        <option value={c.immatriculation}>{c.immatriculation}</option>
+                    )}
+                </select>
+
                 <TextField onChange={handleAffectationChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'date_debut'} label={'Date début'} type={'date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleAffectationChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'date_fin'} label={'Date fin'} type={'date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
 
-                <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'} onClick={() => {submitAffectation(); setOpen(false)}}>Ajouter</Button>
+                <br/><Button onClick={() => {submitAffectation();affecterChauffeur(affectation.chauffeur);affecterVehicule(affectation.vehicule);setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>
         </Dialog>
     );

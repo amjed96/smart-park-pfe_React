@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useRouteMatch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import Header from './components/Header'
 import { createGlobalStyle } from 'styled-components';
 import Admin from './pages/Admin';
 import Login from './pages/Login';

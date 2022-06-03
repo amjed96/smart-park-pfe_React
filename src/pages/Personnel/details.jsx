@@ -1,9 +1,13 @@
+import { useState, useEffect } from "react";
 import {Link, useParams} from "react-router-dom";
 import Truck from "../../assets/truck.png";
 import Profil from "../../assets/profileDefault.jpg";
 import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios"
+import { baseURL, headers } from "../../services/service"
+
 
 const CardCont = styled.div`
   display: flex;
@@ -332,34 +336,55 @@ const RecentActivity = styled.div`
 function PersonnelDetails() {
 
     const { personnelId } = useParams()
+    const [ data, setData ] = useState()
+
+    const retrieveData = () => {
+      axios
+        .get(`${baseURL}/personnel/${personnelId}`, {
+          /*headers: {
+            headers,
+          },*/
+        })
+        .then((response) => {
+          setData(response.data)
+          console.log(data)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+
+    useEffect(() => {
+      retrieveData()
+    },[])
 
     return(
         <Container>
             <CardCont>
                 <Card>
                     <div className='header'>
-                        <span className='title'>Personnel {personnelId}</span>
+                        <span className='title'>Personnel: {data && data.username}</span>
                     </div>
                     <ProfileImg alt={'profil'} src={Profil} />
                     <h2 className={'titre'}>Nom</h2>
-                    <span className={'value'}>Ben Ali</span>
+                    <span className={'value'}>{data && data.last_name}</span>
                     <h2 className={'titre'}>Prénom</h2>
-                    <span className={'value'}>Mohamed</span>
+                    <span className={'value'}>{data && data.first_name}</span>
                     <h2 className={'titre'}>Date de naissance</h2>
-                    <span className={'value'}>10-05-1986</span>
+                    <span className={'value'}>{data && data.date_naissance}</span>
                     <h2 className={'titre'}>Téléphone</h2>
-                    <span className={'value'}>50 505 050</span>
+                    <span className={'value'}>{data && data.telephone}</span>
                     <h2 className={'titre'}>CIN</h2>
-                    <span className={'value'}>02020202</span>
-                    <h2 className={'titre'}>Type permis</h2>
-                    <span className={'value'}>A + B + C + H</span>
+                    <span className={'value'}>{data && data.cin}</span>
+                    <h2 className={'titre'}>Email</h2>
+                    <span className={'value'}>{data && data.email}</span>
                 </Card>
 
                 <Card>
                     <div className='header'>
                         <span className='title'>Passeport</span>
                     </div>
-                    <h2 className={'titre'}>Num°</h2>
+                    {/* <h2 className={'titre'}>Num°</h2>
                     <span className={'value'}>12CF1235</span>
                     <h2 className={'titre'}>Type</h2>
                     <span className={'value'}>/</span>
@@ -376,14 +401,14 @@ function PersonnelDetails() {
                     <h2 className={'titre'}>Date d'édition</h2>
                     <span className={'value'}>12-03-2015</span>
                     <h2 className={'titre'}>Date d'expiration</h2>
-                    <span className={'value'}>12-03-2020</span>
+                    <span className={'value'}>12-03-2020</span> */}
                 </Card>
 
                 <Card>
                     <div className='header'>
                         <span className='title'>Visites médicales</span>
                     </div>
-                    <TableCont>
+                    {/* <TableCont>
                         <table>
                             <tbody>
                             <tr>
@@ -409,7 +434,7 @@ function PersonnelDetails() {
 
                             </tbody>
                         </table>
-                    </TableCont>
+                    </TableCont> */}
                 </Card>
             </CardCont>
         </Container>

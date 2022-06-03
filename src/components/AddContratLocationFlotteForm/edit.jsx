@@ -138,8 +138,18 @@ const initialContratLocationState = {
                 <TextField value={contratlocation.marque} onChange={handleContratLocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'marque'} label={'Marque'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField value={contratlocation.modele} onChange={handleContratLocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'modele'} label={'Modèle'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField type={'number'} value={contratlocation.prix} onChange={handleContratLocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'prix'} label={'Prix'} variant={'outlined'} color={'secondary'}></TextField>
-                <Autocomplete renderInput={(params) => <TextField {...params} value={contratlocation.vehicule} onChange={handleContratLocationChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'vehicule'} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>} options={engins.map((e)=>e.immatriculation)}></Autocomplete>
                 
+                <Autocomplete
+                    value={contratlocation.vehicule}
+                    onChange={(event, newValue) => {contratlocation.vehicule=newValue}}
+                    sx={{width: '40%', margin: '10px'}}
+                    size={'small'}
+                    name={'vehicule'}
+                    renderInput={(params) => <TextField {...params} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>}
+                    options={engins.map((e)=>e.immatriculation)}>
+                </Autocomplete>
+                
+
                 <br/><Button sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'} onClick={() => {updateContratlocation(); setOpenedit(false)}}>Enregistrer</Button>
             </DialogContent>
         </Dialog>

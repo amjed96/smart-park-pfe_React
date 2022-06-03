@@ -5,6 +5,9 @@ import Encaissements from "./encaissements";
 import PaiementsFournisseur from "./paiementsFournisseur";
 import {useState} from "react";
 import {Box, Tab, Tabs} from "@mui/material";
+import Reglements from "./reglements";
+import ReglementEcheance from "./reglementEcheance";
+import DocumentsReglements from "./documentsReglement";
 
 const Title = styled.span`
     color: #000;
@@ -62,9 +65,10 @@ function FinanceNav() {
                     value={selectedTab}
                     onChange={handleChange}
                 >
-                    <Tab label="Caisse" component={Link} to={`${url}`} />
-                    <Tab label="Encaissements Client" component={Link} to={`${url}/encaiss-client`} />
-                    <Tab label="Paiement Fournisseur" component={Link} to={`${url}/paiement-fournisseur`} />
+                    <Tab label="En têtes Docs" component={Link} to={`${url}`} />
+                    <Tab label="Règlements" component={Link} to={`${url}/reglements`} />
+                    <Tab label="Règlements échéances" component={Link} to={`${url}/reg-échéance`} />
+                    <Tab label="Documents règlements" component={Link} to={`${url}/doc-règlement`} />
                 </Tabs>
             </Box>
             {/* END MUI */}
@@ -87,12 +91,15 @@ function FinanceNav() {
                     <Finance />
                 </Route>
 
-                <Route path={`${path}/encaiss-client`}>
-                    <Encaissements />
+                <Route path={`${path}/reglements`}>
+                    <Reglements />
                 </Route>
 
-                <Route path={`${path}/paiement-fournisseur`}>
-                    <PaiementsFournisseur />
+                <Route path={`${path}/reg-échéance`}>
+                    <ReglementEcheance />
+                </Route>
+                <Route path={`${path}/doc-règlement`}>
+                    <DocumentsReglements />
                 </Route>
 
                 {/*<Route exact path={`${path}/details`}>

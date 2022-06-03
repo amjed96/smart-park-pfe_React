@@ -17,7 +17,6 @@ function AjoutPersonne(props) {
 
     /* Start API */
     const initialDatasState = {
-        id: null,
         is_superuser: false,
         first_name: null,
         last_name: null,
@@ -30,6 +29,7 @@ function AjoutPersonne(props) {
         type_permis: null,
         username: null,
         password: null,
+        affecte: false,
     }
   
     const [datas, setDatas] = useState(initialDatasState)
@@ -40,11 +40,6 @@ function AjoutPersonne(props) {
         setDatas({ ...datas, [name]: value })
         console.log(datas)
     }
-  
-    /*const handleEnginChange = (e) => {
-        const { name, value } = e.target;
-        setConsommation({...consommation, [name]: value})
-    }*/
     
     const submitDatas = () => {
         let data = {
@@ -110,7 +105,6 @@ function AjoutPersonne(props) {
     /* End API */
 
     
-
     return(
         <Dialog
             open={open}
@@ -143,8 +137,8 @@ function AjoutPersonne(props) {
                 <TextField onChange={handleDataChange} type={'email'} sx={{width: '40%', margin: '10px'}} size={'small'} name={'username'} label={"Nom d'utilisateur"} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleDataChange} type={'password'} sx={{width: '40%', margin: '10px'}} size={'small'} name={'password'} label={'Mot de passe'} variant={'outlined'} color={'secondary'}></TextField>
 
-                <Autocomplete renderInput={(params) => <TextField {...params} onChange={handleDataChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'qualification'} label={'Qualification'} variant={'outlined'} color={'secondary'}></TextField>} options={['Chef de parc','Chauffeur','Chauffeur poids lourd','Mécanicien','Gardien']}></Autocomplete>
-                <Autocomplete renderInput={(params) => <TextField {...params} onChange={handleDataChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'type_permis'} label={'Type de permis'} variant={'outlined'} color={'secondary'}></TextField>} options={['A','B','C','D','E','F','G','H']}></Autocomplete>
+                <Autocomplete onChange={(event, newValue) => {datas.qualification=newValue}} sx={{width: '40%', margin: '10px'}} size={'small'} name={'qualification'} renderInput={(params) => <TextField {...params} label={'Qualification'} variant={'outlined'} color={'secondary'}></TextField>} options={['Chef de parc','Chauffeur','Chauffeur poids lourd','Mécanicien','Gardien']}></Autocomplete>
+                <Autocomplete onChange={(event, newValue) => {datas.type_permis=newValue}} sx={{width: '40%', margin: '10px'}} size={'small'} name={'type_permis'} renderInput={(params) => <TextField {...params} label={'Type de permis'} variant={'outlined'} color={'secondary'}></TextField>} options={['A','B','C','D','E','F','G','H']}></Autocomplete>
 
                 <br/><Button onClick={() => {submitDatas();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>

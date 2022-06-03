@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {useState} from "react";
+import { useState, useEffect } from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faArrowUpRightFromSquare, faPenToSquare, faTrashCan, faCircleCheck, faCircleXmark} from "@fortawesome/free-solid-svg-icons";
 import AjoutFournisseur from "../../components/AddFournisseurForm";
 import {
     Button,
@@ -14,8 +14,12 @@ import {
     TableRow,
     TextField,
     Typography
-} from "@mui/material";
-import AjoutDossierVoyage from "../../components/AddDossierVoyageForm";
+} from "@mui/material"
+import AjoutDossierVoyage from "../../components/AddDossierVoyageForm"
+import axios from "axios"
+import { baseURL, headers } from "../../services/service"
+import EditDossierVoyage from "../../components/AddDossierVoyageForm/edit";
+
 
 const Container = styled.div`
   margin: 0px;
@@ -38,14 +42,14 @@ const StyledTableCell = styled(TableCell)`
 const RowTableCell = styled(TableCell)`
   
   .etat {
-    padding: 5px 10px; !important;
-    border-radius: 15px; !important;
-    font-weight: bold; !important;
+    padding: 5px 10px !important;
+    border-radius: 15px !important;
+    font-weight: bold !important;
   }
 
   .dispo {
-    background-color: #e5fdf4; !important;
-    color: #00ed96; !important;
+    background-color: #e5fdf4 !important;
+    color: #00ed96 !important;
   }
 
   .panne {
@@ -109,45 +113,88 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-const data = [
-    {
-        code:'DV001256',
-        numero:'002135',
-        refaller:'001256',
-        datecreation:'12-05-2022',
-        chauffeur:'Mohamed Ben Ali',
-        vehicule:'128TUN4563',
-        remorque:'004568',
-        client:'Ahmed Belhaj',
-        voyage:'tunis-bizerte',
-        datechargement:'15-05-2022',
-        datedechargement:'16-05-2022',
-        montantht:'150',
-        etat:'en cours',
-    },
-    {
-        code:'DV001356',
-        numero:'002235',
-        refaller:'002256',
-        datecreation:'15-06-2022',
-        chauffeur:'Mohamed Ben Ali',
-        vehicule:'130TUN2363',
-        remorque:'005568',
-        client:'Ahmed Belhaj',
-        voyage:'tunis-sousse',
-        datechargement:'17-06-2022',
-        datedechargement:'18-06-2022',
-        montantht:'180',
-        etat:'facturé',
-    },
-];
-
 /* END MUI */
 
 function Transport() {
 
     const [ open, setOpen ] = useState(false)
+    const [ openedit, setOpenedit ] = useState(false)
+
+    /* Start API */
+    const [ data, setData ] = useState([])
+    const [ id, setId ] = useState(0)
+    /* End API */
+
     const { url } = useRouteMatch()
+
+    /* Start API */
+
+    useEffect(() => {
+      retrieveAllData()
+    },[open,openedit])
+
+    const retrieveAllData = () => {
+        axios
+            .get(`${baseURL}/dossier-voyage-get/`, {
+            /*headers: {
+                headers,
+            },*/
+            })
+            .then((response) => {
+                setData(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }
+
+    const deleteData = (id) => {
+        axios
+            .delete(`${baseURL}/dossier-voyage/${id}/`, {
+                /*headers: {
+                    headers,
+                },*/
+            })
+            .then((response) => {
+                /*setDeleted(true);*/
+                retrieveAllData();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    };
+
+    const cloturerDossier = (id) => {
+      axios
+        .post(`${baseURL}/dossier-voyage/${id}/cloturer/`, {
+          /*headers: {
+            headers,
+          },*/
+        })
+        .then((response) => {
+          retrieveAllData();
+        })
+        .catch((e) => {
+          console.error(e)
+        })
+    }
+  
+    const annulerClotureDossier = (id) => {
+      axios.
+        post(`${baseURL}/dossier-voyage/${id}/annuler/`, {
+          /*headers: {
+            headers,
+          },*/
+        })
+        .then((response) => {
+          retrieveAllData()
+        })
+        .catch((e) => {
+          console.error(e)
+        })
+    }
+
+    /* End API */
 
     return (
         <Container>
@@ -185,7 +232,7 @@ function Transport() {
 
                 </TextField>
 
-                <Table sx={{ minWidth: 400, margin: '20px' }} size={'small'}>
+                <Table sx={{ width: '96%', margin: '20px' }} size={'small'}>
                     <TableHead>
                         <TableRow>
 
@@ -203,6 +250,8 @@ function Transport() {
                             <StyledTableCell><span>Date_déchargement</span></StyledTableCell>
                             <StyledTableCell><span>Montant_HT</span></StyledTableCell>
                             <StyledTableCell><span>Etat</span></StyledTableCell>
+                            
+                            <StyledTableCell><span>Clôturer/Annuler</span></StyledTableCell>
 
                             <StyledTableCell><span>Details</span></StyledTableCell>
                             <StyledTableCell><span>Actions</span></StyledTableCell>
@@ -217,19 +266,24 @@ function Transport() {
                                 <RowTableCell><input type='checkbox' /></RowTableCell>
                                 <RowTableCell>{row.code}</RowTableCell>
                                 <RowTableCell>{row.numero}</RowTableCell>
-                                <RowTableCell>{row.refaller}</RowTableCell>
-                                <RowTableCell>{row.datecreation}</RowTableCell>
-                                <RowTableCell>{row.chauffeur}</RowTableCell>
-                                <RowTableCell><span className={'matricule'}>{row.vehicule}</span></RowTableCell>
+                                <RowTableCell>{row.ref_aller}</RowTableCell>
+                                <RowTableCell>{row.date_creation}</RowTableCell>
+                                <RowTableCell>{row.chauffeur ? row.chauffeur.first_name+' '+row.chauffeur.last_name : 'N.D'}</RowTableCell>
+                                <RowTableCell><span className={'matricule'}>{row.vehicule ? row.vehicule.immatriculation : 'N.D'}</span></RowTableCell>
                                 <RowTableCell>{row.remorque}</RowTableCell>
-                                <RowTableCell>{row.client}</RowTableCell>
+                                <RowTableCell>{row.client ? row.client.intitule : 'N.D'}</RowTableCell>
                                 <RowTableCell><span className={'matricule'}>{row.voyage}</span></RowTableCell>
-                                <RowTableCell>{row.datechargement}</RowTableCell>
-                                <RowTableCell>{row.datedechargement}</RowTableCell>
-                                <RowTableCell>{row.montantht} D.T</RowTableCell>
+                                <RowTableCell>{row.date_chargement}</RowTableCell>
+                                <RowTableCell>{row.date_dechargement}</RowTableCell>
+                                <RowTableCell>{row.montant_ht} D.T</RowTableCell>
 
-                                <RowTableCell>{row.etat === 'facturé' ? <span className={'green'}>{row.etat}</span> :
-                                    <span className={'red'}>{row.etat}</span> }
+                                <RowTableCell>{row.etat ? <span className={'red'}>en cours</span> :
+                                    <span className={'green'}>facturé</span> }
+                                </RowTableCell>
+
+                                <RowTableCell>
+                                {row.etat ? <Button sx={{ color: 'green' }} onClick={() => cloturerDossier(row.code)}><FontAwesomeIcon icon={faCircleCheck} className='btn' /></Button>
+                                    : <Button sx={{ color: 'red' }} onClick={() => annulerClotureDossier(row.code)}><FontAwesomeIcon icon={faCircleXmark} className='btn' /></Button>}
                                 </RowTableCell>
 
                                 <RowTableCell>
@@ -237,10 +291,10 @@ function Transport() {
                                 </RowTableCell>
                                 <RowTableCell>
                                     <ActionButtonEdit>
-                                        <FontAwesomeIcon onClick={() => setOpen(true)} icon={ faPenToSquare } className='btn btn-edit' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.code);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => deleteData(row.code)} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -251,6 +305,7 @@ function Transport() {
             {/* END MUI */}
 
             <AjoutDossierVoyage open={open} setOpen={setOpen} />
+            <EditDossierVoyage openedit={openedit} setOpenedit={setOpenedit} id={id} />
         </Container>
     );
   }
