@@ -43,16 +43,20 @@ function AjoutPersonne(props) {
     
     const submitDatas = () => {
         let data = {
+            is_superuser: datas.is_superuser,
             first_name: datas.first_name,
             last_name: datas.last_name,
             email: datas.email,
+            is_staff: datas.is_staff,
+            is_active: datas.is_active,
             cin: datas.cin,
             date_naissance: datas.date_naissance,
             telephone: datas.telephone,
             qualification: datas.qualification,
             type_permis: datas.type_permis,
             username: datas.username,
-            password: datas.password
+            password: datas.password,
+            affecte: datas.affecte
         };
         axios
             .post(`${baseURL}/personnel/`, data, {

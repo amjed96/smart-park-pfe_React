@@ -222,27 +222,35 @@ const ProfilePhoto = styled.img`
 
 function Header() {
 
-    const { loggedin, token, setLoggedin, setToken } = useContext(LoginContext)
+    const { loggedin, token, user, setLoggedin, setToken, setUser } = useContext(LoginContext)
     const history = useHistory()
 
     const handleLogout = () => {
-        axios
-            .post(`http://127.0.0.1:8000/sign/auth/logout/`,{
-                /*headers: {
-                    headers,
-                },*/
-            })
-            .then((response) => {
-                setToken(null)
-                setLoggedin(false)
-                console.log(response)
-            })
-            .catch((e) => {
-                console.error(e)
-            })
+
+        // setToken(null)
+        // setLoggedin(false)
+        // setUser(undefined)
+
+        localStorage.clear()
+
+        // axios
+        //     .post(`http://127.0.0.1:8000/sign/auth/logout/`,{
+        //         /*headers: {
+        //             headers,
+        //         },*/
+        //     })
+        //     .then((response) => {
+        //         setToken(null)
+        //         setLoggedin(false)
+        //         console.log(response)
+        //     })
+        //     .catch((e) => {
+        //         console.error(e)
+        //     })
     }
 
     useEffect(() => {
+        console.log('USER : '+user)
         if(!loggedin) {
             history.push('/login')
         }
@@ -281,7 +289,7 @@ function Header() {
                 </ListMenu>
                 <Profile>
                     <ProfilePhoto src={profil} />
-                    <span className="name">Admin</span>
+                    <span className="name">{user && user.username}</span>
                     <FontAwesomeIcon icon={faCaretDown} className="drop-down-icon" />
                     <DropDown>
                         <ul>
