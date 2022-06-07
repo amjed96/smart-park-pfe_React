@@ -72,7 +72,7 @@ function AjoutContratVente(props) {
   };
   const retrieveEngins = () => {
       axios
-          .get(`${baseURL}/vehicule/`, {
+          .get(`${baseURL}/vehicule/get_uncontracted/`, {
           /*headers: {
               headers,
           },*/

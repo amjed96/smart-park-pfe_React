@@ -99,7 +99,7 @@ function AjoutFlotte(props) {
         activite: null,
         genre: null,
         type_constructeur: null,
-        date_pmc: null,
+        date_pmc: defaultDate,
         carrosserie: null,
         energie: null,
         puissance_fiscale: null,

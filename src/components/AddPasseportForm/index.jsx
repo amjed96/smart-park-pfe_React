@@ -70,7 +70,7 @@ function AjoutPasseport(props) {
   };
   const retrievePersonnels = () => {
       axios
-          .get(`${baseURL}/personnel/`, {
+          .get(`${baseURL}/personnel/get_personnel_passeport/`, {
           /*headers: {
               headers,
           },*/

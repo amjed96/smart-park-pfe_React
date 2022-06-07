@@ -64,39 +64,39 @@ function AjoutAffectation(props) {
             });
     }
 
-    const affecterChauffeur = (id) => {
-        axios
-            .post(`${baseURL}/personnel/${id}/affecter/`, {
-                /*headers: {
-                    headers,
-                },*/
-            })
-            .then((response)=>{
-                console.log(response.data)
-            })
-            .catch((e) => {
-                console.error(e);
-            })
-    }
+    // const affecterChauffeur = (id) => {
+    //     axios
+    //         .post(`${baseURL}/personnel/${id}/affecter/`, {
+    //             /*headers: {
+    //                 headers,
+    //             },*/
+    //         })
+    //         .then((response)=>{
+    //             console.log(response.data)
+    //         })
+    //         .catch((e) => {
+    //             console.error(e);
+    //         })
+    // }
 
-    const affecterVehicule = (id) => {
-        axios
-            .post(`${baseURL}/vehicule/${id}/affecter/`, {
-                /*headers: {
-                    headers,
-                },*/
-            })
-            .then((response)=>{
-                console.log(response.data)
-            })
-            .catch((e) => {
-                console.error(e);
-            })
-    }
+    // const affecterVehicule = (id) => {
+    //     axios
+    //         .post(`${baseURL}/vehicule/${id}/affecter/`, {
+    //             /*headers: {
+    //                 headers,
+    //             },*/
+    //         })
+    //         .then((response)=>{
+    //             console.log(response.data)
+    //         })
+    //         .catch((e) => {
+    //             console.error(e);
+    //         })
+    // }
 
     const retrieveChauffeurs = () => {
         axios
-            .get(`${baseURL}/personnel/?qualification=Chauffeur`, {
+            .get(`${baseURL}/personnel/get_chauffeur_unaffected/`, {
             /*headers: {
                 headers,
             },*/
@@ -111,7 +111,7 @@ function AjoutAffectation(props) {
 
     const retrieveEngins = () => {
             axios
-                .get(`${baseURL}/vehicule/`, {
+                .get(`${baseURL}/vehicule/get_unaffected/`, {
                 /*headers: {
                     headers,
                 },*/
@@ -174,7 +174,7 @@ function AjoutAffectation(props) {
                 <TextField onChange={handleAffectationChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'date_debut'} label={'Date début'} type={'date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleAffectationChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'date_fin'} label={'Date fin'} type={'date'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
 
-                <br/><Button onClick={() => {submitAffectation();affecterChauffeur(affectation.chauffeur);affecterVehicule(affectation.vehicule);setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+                <br/><Button onClick={() => {submitAffectation();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>
         </Dialog>
     );
