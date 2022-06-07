@@ -340,7 +340,7 @@ function PersonnelDetails() {
 
     const retrieveData = () => {
       axios
-        .get(`${baseURL}/personnel/${personnelId}`, {
+        .get(`${baseURL}/personnel/${personnelId}/retrieve_details/`, {
           /*headers: {
             headers,
           },*/
@@ -359,85 +359,90 @@ function PersonnelDetails() {
     },[])
 
     return(
-        <Container>
-            <CardCont>
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Personnel: {data && data.username}</span>
-                    </div>
-                    <ProfileImg alt={'profil'} src={Profil} />
-                    <h2 className={'titre'}>Nom</h2>
-                    <span className={'value'}>{data && data.last_name}</span>
-                    <h2 className={'titre'}>Prénom</h2>
-                    <span className={'value'}>{data && data.first_name}</span>
-                    <h2 className={'titre'}>Date de naissance</h2>
-                    <span className={'value'}>{data && data.date_naissance}</span>
-                    <h2 className={'titre'}>Téléphone</h2>
-                    <span className={'value'}>{data && data.telephone}</span>
-                    <h2 className={'titre'}>CIN</h2>
-                    <span className={'value'}>{data && data.cin}</span>
-                    <h2 className={'titre'}>Email</h2>
-                    <span className={'value'}>{data && data.email}</span>
-                </Card>
 
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Passeport</span>
-                    </div>
-                    {/* <h2 className={'titre'}>Num°</h2>
-                    <span className={'value'}>12CF1235</span>
-                    <h2 className={'titre'}>Type</h2>
-                    <span className={'value'}>/</span>
-                    <h2 className={'titre'}>Nationalité</h2>
-                    <span className={'value'}>Tunisienne</span>
-                    <h2 className={'titre'}>Adresse de naissance</h2>
-                    <span className={'value'}>Tunis</span>
-                    <h2 className={'titre'}>Profession</h2>
-                    <span className={'value'}>Ingénieur</span>
-                    <h2 className={'titre'}>N° national</h2>
-                    <span className={'value'}>02020202</span>
-                    <h2 className={'titre'}>Sexe</h2>
-                    <span className={'value'}>Masculin</span>
-                    <h2 className={'titre'}>Date d'édition</h2>
-                    <span className={'value'}>12-03-2015</span>
-                    <h2 className={'titre'}>Date d'expiration</h2>
-                    <span className={'value'}>12-03-2020</span> */}
-                </Card>
+      <div className="container mt-6">
+        Test
+      </div>
 
-                <Card>
-                    <div className='header'>
-                        <span className='title'>Visites médicales</span>
-                    </div>
-                    {/* <TableCont>
-                        <table>
-                            <tbody>
-                            <tr>
-                                <th>#</th>
-                                <th>Date</th>
-                                <th>Diagnostique</th>
-                                <th>Ordonnance</th>
-                            </tr>
+        // <Container>
+        //     <CardCont>
+        //         <Card>
+        //             <div className='header'>
+        //                 <span className='title'>Personnel: {data && data.username}</span>
+        //             </div>
+        //             <ProfileImg alt={'profil'} src={Profil} />
+        //             <h2 className={'titre'}>Nom</h2>
+        //             <span className={'value'}>{data && data.last_name}</span>
+        //             <h2 className={'titre'}>Prénom</h2>
+        //             <span className={'value'}>{data && data.first_name}</span>
+        //             <h2 className={'titre'}>Date de naissance</h2>
+        //             <span className={'value'}>{data && data.date_naissance}</span>
+        //             <h2 className={'titre'}>Téléphone</h2>
+        //             <span className={'value'}>{data && data.telephone}</span>
+        //             <h2 className={'titre'}>CIN</h2>
+        //             <span className={'value'}>{data && data.cin}</span>
+        //             <h2 className={'titre'}>Email</h2>
+        //             <span className={'value'}>{data && data.email}</span>
+        //         </Card>
 
-                            <tr>
-                                <td>VM001253</td>
-                                <td>10/10/2021</td>
-                                <td>Grippe</td>
-                                <td>OR001253</td>
-                            </tr>
+        //         <Card>
+        //             <div className='header'>
+        //                 <span className='title'>Passeport</span>
+        //             </div>
+        //             {/* <h2 className={'titre'}>Num°</h2>
+        //             <span className={'value'}>12CF1235</span>
+        //             <h2 className={'titre'}>Type</h2>
+        //             <span className={'value'}>/</span>
+        //             <h2 className={'titre'}>Nationalité</h2>
+        //             <span className={'value'}>Tunisienne</span>
+        //             <h2 className={'titre'}>Adresse de naissance</h2>
+        //             <span className={'value'}>Tunis</span>
+        //             <h2 className={'titre'}>Profession</h2>
+        //             <span className={'value'}>Ingénieur</span>
+        //             <h2 className={'titre'}>N° national</h2>
+        //             <span className={'value'}>02020202</span>
+        //             <h2 className={'titre'}>Sexe</h2>
+        //             <span className={'value'}>Masculin</span>
+        //             <h2 className={'titre'}>Date d'édition</h2>
+        //             <span className={'value'}>12-03-2015</span>
+        //             <h2 className={'titre'}>Date d'expiration</h2>
+        //             <span className={'value'}>12-03-2020</span> */}
+        //         </Card>
 
-                            <tr>
-                                <td>VM001254</td>
-                                <td>10/12/2021</td>
-                                <td>Branchite</td>
-                                <td>OR001254</td>
-                            </tr>
+        //         <Card>
+        //             <div className='header'>
+        //                 <span className='title'>Visites médicales</span>
+        //             </div>
+        //             {/* <TableCont>
+        //                 <table>
+        //                     <tbody>
+        //                     <tr>
+        //                         <th>#</th>
+        //                         <th>Date</th>
+        //                         <th>Diagnostique</th>
+        //                         <th>Ordonnance</th>
+        //                     </tr>
 
-                            </tbody>
-                        </table>
-                    </TableCont> */}
-                </Card>
-            </CardCont>
-        </Container>
+        //                     <tr>
+        //                         <td>VM001253</td>
+        //                         <td>10/10/2021</td>
+        //                         <td>Grippe</td>
+        //                         <td>OR001253</td>
+        //                     </tr>
+
+        //                     <tr>
+        //                         <td>VM001254</td>
+        //                         <td>10/12/2021</td>
+        //                         <td>Branchite</td>
+        //                         <td>OR001254</td>
+        //                     </tr>
+
+        //                     </tbody>
+        //                 </table>
+        //             </TableCont> */}
+        //         </Card>
+        //     </CardCont>
+        // </Container>
     )
 }
 
