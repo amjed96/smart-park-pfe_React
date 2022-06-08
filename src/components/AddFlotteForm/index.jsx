@@ -86,6 +86,9 @@ const AddBtn = styled.button`
 
 function AjoutFlotte(props) {
 
+    let defaultDate = new Date().toISOString().split('T')[0]
+    const { open, setOpen } = props
+
     /* Start API */
     const initialVehiculeState = {
         immatriculation: null,
@@ -181,9 +184,6 @@ function AjoutFlotte(props) {
             });
     };
     /* End API */
-
-    let defaultDate = new Date().toISOString().split('T')[0]
-    const { open, setOpen } = props
 
     return(
         <Dialog
