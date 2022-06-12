@@ -338,9 +338,8 @@ function PersonnelDetails() {
 
     const { personnelId } = useParams()
     const [ data, setData ] = useState()
-    const [ datas, setDatas ] = useState(data)
 
-    const visites = []
+    // const visites = []
 
     const [ edit, setEdit ] = useState(false)
 
@@ -357,9 +356,9 @@ function PersonnelDetails() {
         })
         .then((response) => {
           setData(response.data)
-          if(response.data.visites_personnel) {
-            visites = response.data.visites_personnel
-          }
+          // if(response.data.visites_personnel) {
+          //   visites = response.data.visites_personnel
+          // }
           console.log('HERE: '+data)
         })
         .catch((e) => {
