@@ -5,7 +5,7 @@ import axios from 'axios'
 import { baseURL, headers } from "../../services/service"
 
 
-function AjoutDemande(props) {
+function AjoutDemandeGarage(props) {
 
     let defaultDate = new Date().toISOString().split('T')[0]
     
@@ -14,7 +14,7 @@ function AjoutDemande(props) {
         date_demande: defaultDate,
         type: null,
         description: null,
-        etat: true,
+        etat: "en cours",
         vehicule: null
       }
   
@@ -41,7 +41,7 @@ function AjoutDemande(props) {
             vehicule: datas.vehicule
         };
         axios
-            .post(`${baseURL}/demande-intervention/`, data, {
+            .post(`${baseURL}/demande-intervention-garage/`, data, {
                 /*headers: {
                     headers,
                 },*/
@@ -97,7 +97,7 @@ function AjoutDemande(props) {
                         component={'div'}
                         style={{flexGrow:1}}
                     >
-                        Ajouter une demande d'intervention
+                        Ajouter une demande d'intervention au garage
                     </Typography>
                     <Button
                         color={'secondary'}
@@ -141,4 +141,4 @@ function AjoutDemande(props) {
 
 }
 
-export default AjoutDemande
+export default AjoutDemandeGarage

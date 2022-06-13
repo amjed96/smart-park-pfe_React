@@ -5,7 +5,7 @@ import axios from 'axios'
 import { baseURL, headers } from '../../services/service'
 
 
-function AjoutPieceRechange(props) {
+function AjoutPieceRechangeGarage(props) {
 
     let defaultDate = new Date().toISOString().split('T')[0]
     
@@ -47,7 +47,7 @@ function AjoutPieceRechange(props) {
             nombre: datas.nombre
         };
         axios
-            .post(`${baseURL}/piece-rechange/`, data, {
+            .post(`${baseURL}/piece-rechange-garage/`, data, {
                 /*headers: {
                     headers,
                 },*/
@@ -106,7 +106,7 @@ function AjoutPieceRechange(props) {
                         component={'div'}
                         style={{flexGrow:1}}
                     >
-                        Ajouter une pièce de rechange
+                        Ajouter un plan d'entretien garage
                     </Typography>
                     <Button
                         color={'secondary'}
@@ -150,4 +150,4 @@ function AjoutPieceRechange(props) {
 
 }
 
-export default AjoutPieceRechange
+export default AjoutPieceRechangeGarage

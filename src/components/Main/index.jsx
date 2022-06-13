@@ -14,6 +14,7 @@ import MaintenanceNav from "../../pages/Maintenance/navigation";
 import TransportNav from "../../pages/Transport/navigation";
 import LocationNav from "../../pages/Location/navigation";
 import FinanceNav from "../../pages/Finance/navigation";
+import GarageNav from '../../pages/Garage/navigation';
 
 const MainContent = styled.div`
     flex: 1;
@@ -50,9 +51,9 @@ function Main() {
                 <Route path={'/location'}>
                     <LocationNav />
                 </Route>
-                {/*<Route path={'/garage'}>
-                    <Garage />
-                </Route>*/}
+                <Route path={'/garage'}>
+                    <GarageNav />
+                </Route>
                 <Route path={'/tiers'}>
                     <TiersNav />
                 </Route>

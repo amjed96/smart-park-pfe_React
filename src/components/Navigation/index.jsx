@@ -92,7 +92,7 @@ function Navigation() {
                 <StyledLink to={'/achat-stock'}><FontAwesomeIcon icon={faCubes} /><span class="link">Achat & stock</span></StyledLink>
                 <StyledLink to={'/finance'}><FontAwesomeIcon icon={faCoins} /><span class="link">Finance</span></StyledLink>
                 <StyledLink to={'/location'}><FontAwesomeIcon icon={faKey} /><span class="link">Location</span></StyledLink>
-                {/*<StyledLink to={'/garage'}><FontAwesomeIcon icon={faWarehouse} /><span class="link">Garage</span></StyledLink>*/}
+                <StyledLink to={'/garage'}><FontAwesomeIcon icon={faWarehouse} /><span class="link">Garage</span></StyledLink>
                 <StyledLink to={'/tiers'}><FontAwesomeIcon icon={faHandshake} /><span class="link">Tiers</span></StyledLink>
             </ul>
         </NavMenu>

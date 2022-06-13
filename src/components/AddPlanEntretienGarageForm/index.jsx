@@ -5,16 +5,16 @@ import axios from 'axios'
 import { baseURL, headers } from "../../services/service"
 
 
-function AjoutDemande(props) {
+function AjoutPlanEntretienGarage(props) {
 
     let defaultDate = new Date().toISOString().split('T')[0]
     
     /* Start API */
     const initialDatasState = {
-        date_demande: defaultDate,
+        operation: null,
         type: null,
-        description: null,
-        etat: true,
+        frequence: null,
+        unite: null,
         vehicule: null
       }
   
@@ -27,31 +27,31 @@ function AjoutDemande(props) {
           console.log(datas)
       }
   
-      /*const handleEnginChange = (e) => {
-          const { name, value } = e.target;
-          setConsommation({...consommation, [name]: value})
-      }*/
+    /*const handleEnginChange = (e) => {
+        const { name, value } = e.target;
+        setConsommation({...consommation, [name]: value})
+    }*/
     
-      const submitDatas = () => {
+    const submitDatas = () => {
         let data = {
-            date_demande: datas.date_demande,
+            operation: datas.operation,
             type: datas.type,
-            description: datas.description,
-            etat: true,
+            frequence: datas.frequence,
+            unite: datas.unite,
             vehicule: datas.vehicule
         };
         axios
-            .post(`${baseURL}/demande-intervention/`, data, {
+            .post(`${baseURL}/plan-entretien-garage/`, data, {
                 /*headers: {
                     headers,
                 },*/
             })
             .then((response) => {
                 setDatas({
-                    date_demande: response.data.date_demande,
+                    operation: response.data.operation,
                     type: response.data.type,
-                    description: response.data.description,
-                    etat: response.data.etat,
+                    frequence: response.data.frequence,
+                    unite: response.data.unite,
                     vehicule: response.data.vehicule
                 });
                 /*setSubmitted(true);*/
@@ -60,29 +60,29 @@ function AjoutDemande(props) {
             .catch((e) => {
                 console.error(e);
             });
-      };
-      const retrieveVehicules = () => {
-          axios
-              .get(`${baseURL}/vehicule/`, {
-              /*headers: {
-                  headers,
-              },*/
-              })
-              .then((response) => {
+    };
+    const retrieveVehicules = () => {
+        axios
+            .get(`${baseURL}/vehicule/`, {
+            /*headers: {
+                headers,
+            },*/
+            })
+            .then((response) => {
                 setVehicules(response.data)
-              })
-              .catch((e) => {
-                  console.error(e)
-              })
-          
-      }
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+        
+    }
   
-      const { open, setOpen } = props
+    const { open, setOpen } = props
   
-      useEffect(() => {
-          retrieveVehicules()
-      },[open])
-      /* End API */
+    useEffect(() => {
+        retrieveVehicules()
+    },[open])
+    /* End API */
 
     return(
         <Dialog
@@ -97,7 +97,7 @@ function AjoutDemande(props) {
                         component={'div'}
                         style={{flexGrow:1}}
                     >
-                        Ajouter une demande d'intervention
+                        Ajouter un plan d'entretien garage
                     </Typography>
                     <Button
                         color={'secondary'}
@@ -108,7 +108,8 @@ function AjoutDemande(props) {
             </DialogTitle>
             <DialogContent>
 
-                <TextField onChange={handleDataChange} disabled={'true'} type={'date'} sx={{width: '80%', margin: '10px'}} size={'small'} name={'date_demande'} label={'Date demande'} defaultValue={defaultDate} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField
+                    onChange={handleDataChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'operation'} label={'Opération'} variant={'outlined'} color={'secondary'}></TextField>
 
                 <Autocomplete
                     onChange={(event, newValue) => {datas.vehicule=newValue}}
@@ -118,27 +119,24 @@ function AjoutDemande(props) {
                     renderInput={(params) => <TextField {...params} label={'Immatriculation'} variant={'outlined'} color={'secondary'}></TextField>}
                     options={vehicules.map((e) => e.immatriculation)}>
                 </Autocomplete>
+
+                <TextField onChange={handleDataChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'type'} label={'Type'} variant={'outlined'} color={'secondary'}></TextField>
+                <TextField onChange={handleDataChange} sx={{width: '80%', margin: '10px'}} size={'small'} name={'frequence'} label={'Fréquence'} variant={'outlined'} color={'secondary'}></TextField>
+
                 <Autocomplete
-                    onChange={(event, newValue) => {datas.type=newValue}}
+                    onChange={(event, newValue) => {datas.unite=newValue}}
                     sx={{width: '80%', margin: '10px'}}
                     size={'small'}
-                    name={'type'}
-                    renderInput={(params) => <TextField {...params} label={'Type'} variant={'outlined'} color={'secondary'}></TextField>}
-                    options={['préventive','curative']}>
+                    name={'unite'}
+                    renderInput={(params) => <TextField {...params} label={'Unité'} variant={'outlined'} color={'secondary'}></TextField>}
+                    options={['Kilomètres','Heures','Date']}>
                 </Autocomplete>
 
-                <TextField onChange={handleDataChange}
-                    multiline
-                    rows={2}
-                    maxRows={4} sx={{width: '80%', margin: '10px'}} size={'small'} name={'description'} label={'Description'} variant={'outlined'} color={'secondary'}>
-                </TextField>
-
-
-                <br/><Button onClick={() => {submitDatas();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
+                <br/><Button onClick={() =>{submitDatas();setOpen(false)}} sx={{margin: '10px'}} variant={'contained'} color={'secondary'} type={'submit'}>Ajouter</Button>
             </DialogContent>
         </Dialog>
     );
 
 }
 
-export default AjoutDemande
+export default AjoutPlanEntretienGarage
