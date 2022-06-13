@@ -19,6 +19,8 @@ import {
 } from "@mui/material";
 import { baseURL, headers } from "../../services/service"
 import EditFlotte from '../../components/AddFlotteForm/edit'
+import DeleteDialog from '../../components/DeleteDialog'
+
 
 const Container = styled.div`
   margin: 0px;
@@ -316,6 +318,8 @@ const RowTableCell = styled(TableCell)`
 function Flotte() {
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
+
     const [ vehicules, setVehicules ] = useState([])
     const [ id, setId ] = useState(0)
     /*const [ deleted, setDeleted ] = useState(false)*/
@@ -457,7 +461,7 @@ function Flotte() {
                                       <FontAwesomeIcon onClick={() => { setId(row.immatriculation);setOpenedit(true) }} icon={ faPenToSquare } className='btn btn-edit' />
                                   </ActionButtonEdit>
                                   <ActionButtonDelete>
-                                      <FontAwesomeIcon onClick={() => deleteVehicule(row.immatriculation)} icon={ faTrashCan } className='btn btn-delete' />
+                                      <FontAwesomeIcon onClick={() => {setId(row.immatriculation);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                   </ActionButtonDelete>
                               </RowTableCell>
                           </TableRow>
@@ -468,7 +472,7 @@ function Flotte() {
           {/* END MUI */}
           <AjoutFlotte open={open} setOpen={setOpen} />
           <EditFlotte openedit={openedit} setOpenedit={setOpenedit} id={id} />
-          
+          <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteVehicule} />
       </Container>
     )
   }

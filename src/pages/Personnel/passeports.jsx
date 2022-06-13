@@ -19,6 +19,7 @@ import {
 import { baseURL, headers } from '../../services/service'
 import axios from 'axios'
 import EditPasseport from '../../components/AddPasseportForm/edit'
+import DeleteDialog from '../../components/DeleteDialog'
 
 const Container = styled.div`
   margin: 0px;
@@ -108,6 +109,7 @@ const ActionButtonDelete = styled.button`
 function Passeports() {
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ data, setData ] = useState([])
@@ -239,7 +241,7 @@ function Passeports() {
                                         <FontAwesomeIcon onClick={() => {setId(row.numero);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteData(row.numero)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.numero);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -251,6 +253,7 @@ function Passeports() {
 
             <AjoutPasseport open={open} setOpen={setOpen} />
             <EditPasseport openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} />
         </Container>
     )
 }

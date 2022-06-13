@@ -18,6 +18,8 @@ import AjoutConsommation from "../../components/AddConsommationForm";
 import { baseURL,headers } from "../../services/service"
 import axios from "axios"
 import EditConsommation from "../../components/AddConsommationForm/edit";
+import DeleteDialog from "../../components/DeleteDialog";
+
 
 const Container = styled.div`
   margin: 0px;
@@ -101,22 +103,10 @@ const ActionButtonDelete = styled.button`
 
 /* END MUI */
 
-const data = [
-    {
-        id:1,
-        mois:'04/2022',
-        vehicule:'120TUN5236',
-        type:'camion',
-        kilometrage:'145236',
-        consototal:'20536',
-        conso: '2.5'
-    },
-    {id:2, mois:'05/2022', vehicule:'135TUN1022', type:'camion', kilometrage:'145236', consototal:'245356', conso: '1.5'},
-];
-
 function ConsommationFlotte() {
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ consommation, setConsommation ] = useState([])
@@ -232,7 +222,7 @@ function ConsommationFlotte() {
                                         <FontAwesomeIcon onClick={() => { setId(row.id);setOpenedit(true) }} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteConsommation(row.id)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -243,6 +233,7 @@ function ConsommationFlotte() {
             {/* END MUI */}
             <AjoutConsommation open={open} setOpen={setOpen} />
             <EditConsommation openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteConsommation} />
         </Container>
     )
 }

@@ -20,6 +20,8 @@ import axios from "axios";
 import { baseURL,headers } from "../../services/service";
 import EditContratVente from "../../components/AddContratVente/edit";
 import EditContratLocationFlotte from "../../components/AddContratLocationFlotteForm/edit";
+import DeleteDialog from "../../components/DeleteDialog";
+
 
 const Container = styled.div`
   margin: 0px;
@@ -102,21 +104,6 @@ const ActionButtonDelete = styled.button`
 
 /* END MUI */
 
-const data = [
-    {
-        id:1,
-        date:'20/04/2022',
-        vendeur:'Mohamed Ali',
-        matricule:'120TUN5231',
-        marque:'Volvo',
-        modele:'Volvo',
-        chassis: '1254RFG523',
-        moteur:'essence',
-        prix:'120 000'
-    },
-    {id:2, date:'15/06/2022', vendeur:'Amjed Bouallegui', matricule:'135TUN8466', marque:'Volvo', modele:'Volvo', chassis: '5236CHG514', moteur:'diesel', prix:'52 000'},
-];
-
 const data1 = [
     {
         id:1,
@@ -134,6 +121,9 @@ function ContratsFlotte() {
     const [ openedit, setOpenedit ] = useState(false)
     const [ open1, setOpen1 ] = useState(false)
     const [ openedit1, setOpenedit1 ] = useState(false)
+
+    const [ opendelete1, setOpendelete1 ] = useState(false)
+    const [ opendelete2, setOpendelete2 ] = useState(false)
 
     /* Start API */
     const [ contratsvente, setContratsvente ] = useState([])
@@ -289,7 +279,7 @@ function ContratsFlotte() {
                                         <FontAwesomeIcon onClick={() => {setOpenedit(true);setId(row.id)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteContratvente(row.id)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpendelete1(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -365,7 +355,7 @@ function ContratsFlotte() {
                                         <FontAwesomeIcon onClick={() => {setId1(row.id); setOpenedit1(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteContratlocation(row.id)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpendelete2(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -380,6 +370,9 @@ function ContratsFlotte() {
 
             <EditContratVente openedit={openedit} setOpenedit={setOpenedit} id={id} />
             <EditContratLocationFlotte openedit={openedit1} setOpenedit={setOpenedit1} id={id1} />
+
+            <DeleteDialog opendelete={opendelete1} setOpendelete={setOpendelete1} id={id} deleteData={deleteContratvente} />
+            <DeleteDialog opendelete={opendelete2} setOpendelete={setOpendelete2} id={id} deleteData={deleteContratlocation} />
 
         </Container>
     )

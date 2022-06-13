@@ -18,6 +18,7 @@ import {
 import { baseURL, headers } from '../../services/service'
 import axios from 'axios'
 import EditPermis from '../../components/AddPermisForm/edit'
+import DeleteDialog from '../../components/DeleteDialog'
 
 const Container = styled.div`
   margin: 0px;
@@ -107,6 +108,7 @@ const ActionButtonDelete = styled.button`
 function Permis() {
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ data, setData ] = useState([])
@@ -219,7 +221,7 @@ const deleteData = (id) => {
                                         <FontAwesomeIcon onClick={() => {setId(row.reference);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteData(row.reference)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.reference);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -231,6 +233,7 @@ const deleteData = (id) => {
 
             <AjoutPermis open={open} setOpen={setOpen} />
             <EditPermis openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} />
         </Container>
     )
 }

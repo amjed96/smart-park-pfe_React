@@ -22,6 +22,8 @@ import AjoutAffectation from "../../components/AddAffectationForm";
 import axios from "axios"
 import { baseURL, headers } from "../../services/service";
 import CloturerDialog from "../../components/AddAffectationForm/cloturerDialog";
+import DeleteDialog from "../../components/DeleteDialog";
+
 
 const Container = styled.div`
   margin: 0px;
@@ -104,54 +106,12 @@ const ActionButtonDelete = styled.button`
 
 /* END MUI */
 
-const data = [
-    {
-        id:1,
-        matricule:'120TUN2536',
-        chauffeur:'Mohamed Mohamed',
-        datedebut:'12/05/2022',
-        datefin:'12/06/2022',
-        etat:'en cours'
-    },
-    {id:2, matricule:'125TUN2576', chauffeur:'Mohamed Ali', datedebut:'12/05/2022', datefin:'12/06/2022', etat:'clôturée'},
-
-];
-
-// function CloturerDialog(props) {
-
-//   const { opencloture, setOpencloture, id } = props
-
-//   const cloturerAffectation = (id) => {
-//     axios
-//       .post(`${baseURL}/affectation/${id}/cloturer/`, {
-//         /*headers: {
-//           headers,
-//         },*/
-//       })
-//       .then((response) => {
-//         console.log(response)
-//       })
-//       .catch((e) => {
-//         console.error(e)
-//       })
-//   }
-
-//   return (
-//     <Dialog
-//       open={opencloture}
-//       onClose={() => setOpencloture(false)}
-//       maxWidth={'md'}
-//     >
-//       <DialogTitle>Êtes-vous sûr de vouloir clôturer cette affectation ?</DialogTitle>
-//       <DialogContent><Button variant={'contained'} onClick={cloturerAffectation(id)}>Confirmer</Button><Button variant={'outlined'} onClick={setOpencloture(false)}>Annuler</Button></DialogContent>
-//     </Dialog>
-//   )
-// }
-
 function AffectationsFlotte() {
 
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
+
     const [ affectations, setAffectations ] = useState([])
     const [ chauffeur, setChauffeur ] = useState()
     const [ id, setId ] = useState(0)
@@ -351,7 +311,7 @@ function AffectationsFlotte() {
                                         <FontAwesomeIcon onClick={() => setBtnPopup(true)} icon={ faPenToSquare } className='btn btn-edit' />
                               </ActionButtonEdit>*/}
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteAffectations(row.id)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -361,7 +321,7 @@ function AffectationsFlotte() {
             </TableContainer>
 
             <AjoutAffectation open={open} setOpen={setOpen} />
-
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteAffectations} />
             {/* <CloturerDialog opencloture={opencloture} setOpencloture={setOpencloture} id={id} /> */}
             {/* END MUI */}
         </Container>

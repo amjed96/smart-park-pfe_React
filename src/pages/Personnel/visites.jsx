@@ -18,6 +18,7 @@ import {
 import axios from 'axios'
 import { baseURL, headers } from '../../services/service'
 import EditVisiteMedicale from '../../components/AddVisiteMedicaleForm/edit'
+import DeleteDialog from '../../components/DeleteDialog'
 
 
 const Container = styled.div`
@@ -118,6 +119,7 @@ const ActionButtonDelete = styled.button`
 function VisitesMedicales() {
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ data, setData ] = useState([])
@@ -233,7 +235,7 @@ function VisitesMedicales() {
                                         <FontAwesomeIcon onClick={() => {setId(row.id);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteData(row.id)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -245,6 +247,7 @@ function VisitesMedicales() {
 
             <AjoutVisiteMedicale open={open} setOpen={setOpen} />
             <EditVisiteMedicale openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} />
         </Container>
     )
 }

@@ -19,6 +19,7 @@ import {
 import axios from 'axios'
 import { baseURL, headers } from '../../services/service'
 import EditPersonnel from '../../components/AddPersonnelForm/edit'
+import DeleteDialog from '../../components/DeleteDialog'
 
 const Title = styled.span`
   color: #000;
@@ -120,6 +121,7 @@ const ActionButtonDelete = styled.button`
 function Personnel() {
   const [ open, setOpen ] = useState(false)
   const [ openedit, setOpenedit ] = useState(false)
+  const [ opendelete, setOpendelete ] = useState(false)
 
   /* Start API */
   const [ data, setData ] = useState([])
@@ -132,7 +134,7 @@ function Personnel() {
 
   useEffect(() => {
     retrieveAllData()
-  },[open,openedit])
+  },[open,openedit,opendelete])
 
   const retrieveAllData = () => {
       axios
@@ -243,8 +245,11 @@ function Personnel() {
                         <FontAwesomeIcon onClick={() => {setId(row.id);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                       </ActionButtonEdit>
                       <ActionButtonDelete>
-                        <FontAwesomeIcon onClick={() => deleteData(row.id)} icon={ faTrashCan } className='btn btn-delete' />
+                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                       </ActionButtonDelete>
+                      {/* <ActionButtonDelete onClick={() => {setId(row.id);setOpendelete(true)}}>
+                        Test Supprimer
+                      </ActionButtonDelete> */}
                     </RowTableCell>
                   </TableRow>
               ))}
@@ -257,6 +262,7 @@ function Personnel() {
       
       <AjoutPersonne open={open} setOpen={setOpen} />
       <EditPersonnel openedit={openedit} setOpenedit={setOpenedit} id={id} />
+      <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} />
     </Container>
   )
 }
