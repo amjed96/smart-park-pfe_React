@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import { 
+    Autocomplete,
     Button,
     Dialog,
     DialogContent,
@@ -11,78 +12,145 @@ import {
 import axios from 'axios'
 import { baseURL, headers } from "../../services/service"
 
-const Popup = styled.div`
-    font-family: 'Montserrat', sans-serif;
-    position: fixed;
-    z-index: 100;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.2);
-    overflow-y: auto;
+// const Popup = styled.div`
+//     font-family: 'Montserrat', sans-serif;
+//     position: fixed;
+//     z-index: 100;
+//     padding-top: 40px;
+//     padding-bottom: 40px;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100vh;
+//     background-color: rgba(0,0,0,0.2);
+//     overflow-y: auto;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// `
 
-const PopupInner = styled.div`
-    padding: 20px;
-    position: relative;
-    background-color: #FFF;
-    width: 50%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+// const PopupInner = styled.div`
+//     padding: 20px;
+//     position: relative;
+//     background-color: #FFF;
+//     width: 50%;
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: space-between;
 
-    h1 {
-        width: 100%;
-    }
+//     h1 {
+//         width: 100%;
+//     }
 
-    .close-btn {
-        border: none;
-        position: absolute;
-        top: 20px;
-        right: 10px;
-        cursor: pointer;
-        color: #C4C4C4;
-    }
+//     .close-btn {
+//         border: none;
+//         position: absolute;
+//         top: 20px;
+//         right: 10px;
+//         cursor: pointer;
+//         color: #C4C4C4;
+//     }
 
-    input {
-        border: 1px solid #C4C4C4;
-        width: 45%;
-        padding: 10px;
-        margin: 5px;
+//     input {
+//         border: 1px solid #C4C4C4;
+//         width: 45%;
+//         padding: 10px;
+//         margin: 5px;
 
-        &:focus {
-            outline: none;
-            border: 1px solid #000;
-          }
-    }
+//         &:focus {
+//             outline: none;
+//             border: 1px solid #000;
+//           }
+//     }
 
-    .submit-cont {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-`
+//     .submit-cont {
+//         width: 100%;
+//         display: flex;
+//         justify-content: center;
+//     }
+// `
 
-const AddBtn = styled.button`
-  background-color: #4BF2B5;
-  border: none;
-  color: #FFF;
-  width: 87px;
-  height: 33px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  right: 15px;
-  cursor: pointer;
-  margin: 10px;
-`
+// const AddBtn = styled.button`
+//   background-color: #4BF2B5;
+//   border: none;
+//   color: #FFF;
+//   width: 87px;
+//   height: 33px;
+//   font-family: 'Montserrat', sans-serif;
+//   font-size: 12px;
+//   font-weight: bold;
+//   right: 15px;
+//   cursor: pointer;
+//   margin: 10px;
+// `
+
+const carBrands = [
+    "Abarth",
+    "Alfa Romeo",
+    "Aston Martin",
+    "Audi",
+    "Bentley",
+    "BMW",
+    "Bugatti",
+    "Cadillac",
+    "Chevrolet",
+    "Chrysler",
+    "Citroën",
+    "Dacia",
+    "Daewoo",
+    "Daihatsu",
+    "Dodge",
+    "Donkervoort",
+    "DS",
+    "Ferrari",
+    "Fiat",
+    "Fisker",
+    "Ford",
+    "Honda",
+    "Hummer",
+    "Hyundai",
+    "Infiniti",
+    "Iveco",
+    "Jaguar",
+    "Jeep",
+    "Kia",
+    "KTM",
+    "Lada",
+    "Lamborghini",
+    "Lancia",
+    "Land Rover",
+    "Landwind",
+    "Lexus",
+    "Lotus",
+    "Maserati",
+    "Maybach",
+    "Mazda",
+    "McLaren",
+    "Mercedes-Benz",
+    "MG",
+    "Mini",
+    "Mitsubishi",
+    "Morgan",
+    "Nissan",
+    "Opel",
+    "Peugeot",
+    "Porsche",
+    "Renault",
+    "Rolls-Royce",
+    "Rover",
+    "Saab",
+    "Seat",
+    "Skoda",
+    "Smart",
+    "SsangYong",
+    "Subaru",
+    "Suzuki",
+    "Tesla",
+    "Toyota",
+    "Volkswagen",
+    "Volvo"
+  ]
 
 function AjoutFlotte(props) {
 
@@ -211,10 +279,29 @@ function AjoutFlotte(props) {
                 <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'immatriculation'} label={'Immatriculation'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'num_serie'} label={'Num° série'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'kilometrage'} label={'Kilométrage'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'engin'} label={'Engin'} variant={'outlined'} color={'secondary'}></TextField>
+                
+                {/* <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'engin'} label={'Moteur'} variant={'outlined'} color={'secondary'}></TextField> */}
+                
+                <select className='form-select mt-2' onChange={(e,newValue)=>{vehicule.engin=e.target.value}}>
+                    <option selected value={''}>--Moteur--</option>
+                    <option value={'essence'}>Essence</option>
+                    <option value={'diesel'}>Diesel</option>
+                </select>
+                                
                 <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'consommation'} label={'Consommation'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'entretien'} label={'Entretien'} variant={'outlined'} color={'secondary'}></TextField>
-                <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'constructeur'} label={'Constructeur'} variant={'outlined'} color={'secondary'}></TextField>
+                
+                {/* <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'constructeur'} label={'Constructeur'} variant={'outlined'} color={'secondary'}></TextField> */}
+                
+                <Autocomplete
+                    onChange={(event, newValue) => {vehicule.constructeur=newValue}}
+                    sx={{width: '80%', margin: '10px'}}
+                    size={'small'}
+                    name={'constructeur'}
+                    renderInput={(params) => <TextField {...params} label={'Constructeur'} variant={'outlined'} color={'secondary'}></TextField>}
+                    options={carBrands}>
+                </Autocomplete>
+
                 <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'type_commercial'} label={'Type Commercial'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'activite'} label={'Activité'} variant={'outlined'} color={'secondary'}></TextField>
                 <TextField onChange={handleVehiculeChange} sx={{width: '40%', margin: '10px'}} size={'small'} name={'genre'} label={'Genre'} variant={'outlined'} color={'secondary'}></TextField>

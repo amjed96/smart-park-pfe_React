@@ -64,36 +64,6 @@ function AjoutAffectation(props) {
             });
     }
 
-    // const affecterChauffeur = (id) => {
-    //     axios
-    //         .post(`${baseURL}/personnel/${id}/affecter/`, {
-    //             /*headers: {
-    //                 headers,
-    //             },*/
-    //         })
-    //         .then((response)=>{
-    //             console.log(response.data)
-    //         })
-    //         .catch((e) => {
-    //             console.error(e);
-    //         })
-    // }
-
-    // const affecterVehicule = (id) => {
-    //     axios
-    //         .post(`${baseURL}/vehicule/${id}/affecter/`, {
-    //             /*headers: {
-    //                 headers,
-    //             },*/
-    //         })
-    //         .then((response)=>{
-    //             console.log(response.data)
-    //         })
-    //         .catch((e) => {
-    //             console.error(e);
-    //         })
-    // }
-
     const retrieveChauffeurs = () => {
         axios
             .get(`${baseURL}/personnel/get_chauffeur_unaffected/`, {
