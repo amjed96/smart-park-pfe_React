@@ -18,6 +18,7 @@ import {
 import axios from 'axios'
 import { baseURL, headers } from '../../services/service'
 import EditFournisseur from '../../components/AddFournisseurForm/edit'
+import DeleteDialog from '../../components/DeleteDialog'
 
 
 /*const Title = styled.span`
@@ -128,6 +129,7 @@ function Fournisseurs() {
 
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ data, setData ] = useState([])
@@ -252,7 +254,7 @@ function Fournisseurs() {
                                         <FontAwesomeIcon onClick={() => {setId(row.id);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteData(row.id)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -264,6 +266,7 @@ function Fournisseurs() {
 
             <AjoutFournisseur open={open} setOpen={setOpen} />
             <EditFournisseur openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} />
         </Container>
     )
 }
