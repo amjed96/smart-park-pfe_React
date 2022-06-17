@@ -18,6 +18,8 @@ import {
 import axios from 'axios'
 import { baseURL, headers } from '../../services/service'
 import EditPieceRechange from '../../components/AddPieceRechange/edit';
+import DeleteDialog from '../../components/DeleteDialog';
+
 
 const Container = styled.div`
   margin: 0px;
@@ -110,25 +112,13 @@ const ActionButtonDelete = styled.button`
   }
 `
 
-// const data = [
-//     {
-//         code:'PR001256',
-//         nom:'filtre à huile',
-//         codecasier:'FH001254',
-//         famille:'mécanique',
-//         categorie:'filtres',
-//         unite:'pièce',
-//         prix:'100',
-//         nombre:'5',
-//     },
-// ];
-
 /* END MUI */
 
 function PiecesRechange() {
 
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ data, setData ] = useState([])
@@ -252,7 +242,7 @@ function PiecesRechange() {
                                         <FontAwesomeIcon onClick={() => {setId(row.code);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteData(row.code)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.code);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -264,6 +254,7 @@ function PiecesRechange() {
 
             <AjoutPieceRechange open={open} setOpen={setOpen} />
             <EditPieceRechange openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} />
         </Container>
     );
 }

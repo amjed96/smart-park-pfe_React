@@ -19,6 +19,7 @@ import { baseURL, headers } from '../../services/service';
 import EditIntervention from '../../components/AddInterventionForm/edit';
 import AjoutInterventionGarage from '../../components/AddInterventionGarageForm';
 import EditInterventionGarage from '../../components/AddInterventionGarageForm/edit';
+import DeleteDialog from '../../components/DeleteDialog';
 
 
 const Container = styled.div`
@@ -118,6 +119,7 @@ function InterventionsGarage() {
 
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ data, setData ] = useState([])
@@ -249,7 +251,7 @@ function InterventionsGarage() {
                                         <FontAwesomeIcon onClick={() => {setId(row.id);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteData(row.id)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.id);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -261,6 +263,7 @@ function InterventionsGarage() {
 
             <AjoutInterventionGarage open={open} setOpen={setOpen} />
             <EditInterventionGarage openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} />
         </Container>
     );
 }

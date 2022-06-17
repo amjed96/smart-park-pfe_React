@@ -19,6 +19,7 @@ import AjoutDossierVoyage from "../../components/AddDossierVoyageForm"
 import axios from "axios"
 import { baseURL, headers } from "../../services/service"
 import EditDossierVoyage from "../../components/AddDossierVoyageForm/edit";
+import DeleteDialog from "../../components/DeleteDialog";
 
 
 const Container = styled.div`
@@ -119,6 +120,7 @@ function Transport() {
 
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ data, setData ] = useState([])
@@ -294,7 +296,7 @@ function Transport() {
                                         <FontAwesomeIcon onClick={() => {setId(row.code);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteData(row.code)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.code);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -306,6 +308,7 @@ function Transport() {
 
             <AjoutDossierVoyage open={open} setOpen={setOpen} />
             <EditDossierVoyage openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} /> 
         </Container>
     );
   }

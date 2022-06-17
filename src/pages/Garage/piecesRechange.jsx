@@ -18,6 +18,8 @@ import axios from 'axios'
 import { baseURL, headers } from '../../services/service'
 import AjoutPieceRechangeGarage from '../../components/AddPieceRechangeGarageForm';
 import EditPieceRechangeGarage from '../../components/AddPieceRechangeGarageForm/edit';
+import DeleteDialog from '../../components/DeleteDialog';
+
 
 const Container = styled.div`
   margin: 0px;
@@ -117,6 +119,7 @@ function PiecesRechangeGarage() {
 
     const [ open, setOpen ] = useState(false)
     const [ openedit, setOpenedit ] = useState(false)
+    const [ opendelete, setOpendelete ] = useState(false)
 
     /* Start API */
     const [ data, setData ] = useState([])
@@ -240,7 +243,7 @@ function PiecesRechangeGarage() {
                                         <FontAwesomeIcon onClick={() => {setId(row.code);setOpenedit(true)}} icon={ faPenToSquare } className='btn btn-edit' />
                                     </ActionButtonEdit>
                                     <ActionButtonDelete>
-                                        <FontAwesomeIcon onClick={() => deleteData(row.code)} icon={ faTrashCan } className='btn btn-delete' />
+                                        <FontAwesomeIcon onClick={() => {setId(row.code);setOpendelete(true)}} icon={ faTrashCan } className='btn btn-delete' />
                                     </ActionButtonDelete>
                                 </RowTableCell>
                             </TableRow>
@@ -252,6 +255,7 @@ function PiecesRechangeGarage() {
 
             <AjoutPieceRechangeGarage open={open} setOpen={setOpen} />
             <EditPieceRechangeGarage openedit={openedit} setOpenedit={setOpenedit} id={id} />
+            <DeleteDialog opendelete={opendelete} setOpendelete={setOpendelete} id={id} deleteData={deleteData} />
         </Container>
     );
 }
